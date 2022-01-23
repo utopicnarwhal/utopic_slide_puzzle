@@ -1,0 +1,100 @@
+part of 'flutter_app_theme.dart';
+
+TextTheme _textTheme(Brightness brightness) {
+  return TextTheme(
+    headline1: TextStyle(
+      fontWeight: FontWeight.w900,
+      fontSize: 44,
+      letterSpacing: -0.6,
+      height: 1.25,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    headline2: TextStyle(
+      fontSize: 32,
+      fontWeight: FontWeight.w800,
+      letterSpacing: -0.3,
+      height: 1.25,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    headline3: TextStyle(
+      fontSize: 28,
+      fontWeight: FontWeight.w800,
+      letterSpacing: 0,
+      height: 1.25,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    headline4: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w800,
+      height: 1.25,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    headline5: TextStyle(
+      fontSize: 22,
+      fontWeight: FontWeight.w700,
+      letterSpacing: -0.26,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    headline6: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w700,
+      letterSpacing: -0.26,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    subtitle1: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 17,
+      letterSpacing: 0.15,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    subtitle2: TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 15,
+      letterSpacing: 0.1,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    bodyText1: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 17,
+      letterSpacing: -0.2,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    bodyText2: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 15,
+      letterSpacing: 0.25,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    button: TextStyle(
+      fontWeight: FontWeight.w800,
+      fontSize: 17,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    caption: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+      height: 1.35,
+      letterSpacing: 0,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+    overline: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w800,
+      letterSpacing: 1,
+      fontFamily: 'Rubik',
+      color: brightness == Brightness.light ? Colors.black87 : Colors.white,
+    ),
+  );
+}

@@ -1,0 +1,116 @@
+name: utopic_slide_puzzle
+description: A Flutter app which's created for Flutter Puzzle Hack https://flutterhack.devpost.com/
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"
+  flutter: 2.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Navigation
+  beamer: ^1.2.0
+
+  # Local storage
+  shared_preferences: ^2.0.12
+
+  # Device, package and app utils
+  flutter_dotenv: ^5.0.2
+
+  # Types annotations
+  equatable: ^2.0.3
+  json_annotation: ^4.3.0
+
+  # Data types and utils 
+  rxdart: ^0.27.3
+  intl: ^0.17.0
+
+  # State management
+  flutter_bloc: ^8.0.1
+  bloc: ^8.0.2
+
+  # Animations and image related
+  flutter_svg: ^1.0.0
+
+  # UI related
+  device_preview: ^1.0.0
+  gap: ^2.0.0
+
+  # Firebase
+  # firebase_core: "1.11.0"
+  
+  # For tests
+  fake_async: ^1.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+
+  bloc_test: ^9.0.2
+  mocktail: ^0.2.0
+  very_good_analysis: ^2.4.0
+
+# https://marketplace.visualstudio.com/items?itemName=localizely.flutter-intl
+flutter_intl:
+  enabled: true
+  class_name: Dictums
+  arb_dir: lib/l10n
+  output_dir: lib/l10n/generated
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - .env
+    - assets/images/shuffle_icon.png
+
+  fonts:
+    - family: Rubik
+      fonts:
+        - asset: assets/fonts/Rubik/Rubik-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Rubik/Rubik-LightItalic.ttf
+          weight: 300
+          style: italic
+
+        - asset: assets/fonts/Rubik/Rubik-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Rubik/Rubik-Italic.ttf
+          weight: 400
+          style: italic
+
+        - asset: assets/fonts/Rubik/Rubik-Medium.ttf
+          weight: 400
+        - asset: assets/fonts/Rubik/Rubik-MediumItalic.ttf
+          weight: 400
+          style: italic
+
+        - asset: assets/fonts/Rubik/Rubik-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Rubik/Rubik-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+
+        - asset: assets/fonts/Rubik/Rubik-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Rubik/Rubik-BoldItalic.ttf
+          weight: 700
+          style: italic
+
+        - asset: assets/fonts/Rubik/Rubik-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Rubik/Rubik-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+
+        - asset: assets/fonts/Rubik/Rubik-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Rubik/Rubik-BlackItalic.ttf
+          weight: 900
+          style: italic
