@@ -1,13 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:utopic_slide_puzzle/src/layout/layout.dart';
-import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme/flutter_app_theme.dart';
+part of '../puzzle_page.dart';
 
 /// {@template puzzle_title}
 /// Displays the title of the puzzle in the given color.
 /// {@endtemplate}
-class PuzzleTitle extends StatelessWidget {
+class _PuzzleTitle extends StatelessWidget {
   /// {@macro puzzle_title}
-  const PuzzleTitle({
+  const _PuzzleTitle({
     Key? key,
     required this.title,
     this.color = UtopicPalette.utopicPrimary,
@@ -42,7 +40,7 @@ class PuzzleTitle extends StatelessWidget {
               ),
         ),
       ),
-      large: (context, child) => SizedBox(
+      extraLarge: (context, child) => SizedBox(
         width: 300,
         child: Text(
           title,

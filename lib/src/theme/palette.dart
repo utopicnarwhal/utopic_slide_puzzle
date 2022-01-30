@@ -1,3 +1,6 @@
+// TODO(sergei): Add api docs
+// ignore_for_file: public_member_api_docs
+
 part of 'flutter_app_theme.dart';
 
 class UtopicPalette {
@@ -17,7 +20,7 @@ class UtopicPalette {
   });
 
   /// Color to use as primary with the dark theme
-  static const MaterialColor utopicPrimaryLight = MaterialColor(0xFFBB1855, {
+  static const MaterialColor utopicPrimaryDark = MaterialColor(0xFFBB1855, {
     50: Color(0xFFFFE5EB),
     100: Color(0xFFFFBCCE),
     200: Color(0xFFFF91AF),

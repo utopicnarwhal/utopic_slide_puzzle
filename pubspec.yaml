@@ -68,7 +68,6 @@ flutter:
 
   assets:
     - .env
-    - assets/images/shuffle_icon.png
 
   fonts:
     - family: Rubik

@@ -29,10 +29,13 @@ class _PageNotFoundPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        Dictums.of(context).pageNotFound,
-        style: Theme.of(context).textTheme.headline1,
+    return Scaffold(
+      body: Center(
+        child: Text(
+          Dictums.of(context).pageNotFound,
+          style: Theme.of(context).textTheme.headline1,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

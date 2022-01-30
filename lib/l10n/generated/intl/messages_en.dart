@@ -22,6 +22,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "pageNotFound": MessageLookupByLibrary.simpleMessage("Page not found")
+        "pageNotFound": MessageLookupByLibrary.simpleMessage("Page not found"),
+        "puzzleChallengeTitle":
+            MessageLookupByLibrary.simpleMessage("Utopic Slide Puzzle"),
+        "puzzleNumberOfMoves": MessageLookupByLibrary.simpleMessage("Moves"),
+        "puzzleNumberOfTilesLeft":
+            MessageLookupByLibrary.simpleMessage("Tiles left"),
+        "puzzleSolved": MessageLookupByLibrary.simpleMessage("Puzzle Solved"),
+        "shuffleButtonText": MessageLookupByLibrary.simpleMessage("Shuffle")
       };
 }

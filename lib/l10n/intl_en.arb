@@ -1,3 +1,8 @@
 {
-  "pageNotFound": "Page not found"
+  "pageNotFound": "Page not found",
+  "shuffleButtonText": "Shuffle",
+  "puzzleSolved": "Puzzle Solved",
+  "puzzleChallengeTitle": "Utopic Slide Puzzle",
+  "puzzleNumberOfMoves": "Moves",
+  "puzzleNumberOfTilesLeft": "Tiles left"
 }

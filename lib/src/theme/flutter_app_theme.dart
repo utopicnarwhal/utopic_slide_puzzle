@@ -103,7 +103,7 @@ MaterialColor _getPrimaryColor(Brightness brightness) {
     case Brightness.light:
       return UtopicPalette.utopicPrimary;
     case Brightness.dark:
-      return UtopicPalette.utopicPrimaryLight;
+      return UtopicPalette.utopicPrimaryDark;
   }
 }
 

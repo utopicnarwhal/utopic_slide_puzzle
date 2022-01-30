@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:utopic_slide_puzzle/src/layout/layout.dart';
 
 extension PuzzleWidgetTester on WidgetTester {
   void setDisplaySize(Size size) {
@@ -12,15 +11,27 @@ extension PuzzleWidgetTester on WidgetTester {
     });
   }
 
-  void setLargeDisplaySize() {
-    setDisplaySize(const Size(PuzzleBreakpoints.large, 1000));
+  void setTinyDisplaySize() {
+    setDisplaySize(const Size(320, 1000));
   }
 
-  void setMediumDisplaySize() {
-    setDisplaySize(const Size(PuzzleBreakpoints.medium, 1000));
+  void setExtraSmallDisplaySize() {
+    setDisplaySize(const Size(480, 1000));
   }
 
   void setSmallDisplaySize() {
-    setDisplaySize(const Size(PuzzleBreakpoints.small, 1000));
+    setDisplaySize(const Size(620, 1000));
+  }
+
+  void setMediumDisplaySize() {
+    setDisplaySize(const Size(1124, 1000));
+  }
+
+  void setLargeDisplaySize() {
+    setDisplaySize(const Size(1540, 1000));
+  }
+
+  void setExtraLargeDisplaySize() {
+    setDisplaySize(const Size(2560, 1000));
   }
 }

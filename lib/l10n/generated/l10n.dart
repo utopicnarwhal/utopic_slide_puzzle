@@ -59,6 +59,56 @@ class Dictums {
       args: [],
     );
   }
+
+  /// `Shuffle`
+  String get shuffleButtonText {
+    return Intl.message(
+      'Shuffle',
+      name: 'shuffleButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Puzzle Solved`
+  String get puzzleSolved {
+    return Intl.message(
+      'Puzzle Solved',
+      name: 'puzzleSolved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Utopic Slide Puzzle`
+  String get puzzleChallengeTitle {
+    return Intl.message(
+      'Utopic Slide Puzzle',
+      name: 'puzzleChallengeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Moves`
+  String get puzzleNumberOfMoves {
+    return Intl.message(
+      'Moves',
+      name: 'puzzleNumberOfMoves',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tiles left`
+  String get puzzleNumberOfTilesLeft {
+    return Intl.message(
+      'Tiles left',
+      name: 'puzzleNumberOfTilesLeft',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Dictums> {

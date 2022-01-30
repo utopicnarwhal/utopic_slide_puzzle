@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:utopic_slide_puzzle/src/layout/layout.dart';
+part of '../puzzle_page.dart';
 
 /// {@template number_of_moves_and_tiles_left}
 /// Displays how many moves have been made on the current puzzle
 /// and how many puzzle tiles are not in their correct position.
 /// {@endtemplate}
-class NumberOfMovesAndTilesLeft extends StatelessWidget {
+class _NumberOfMovesAndTilesLeft extends StatelessWidget {
   /// {@macro number_of_moves_and_tiles_left}
-  const NumberOfMovesAndTilesLeft({
+  const _NumberOfMovesAndTilesLeft({
     Key? key,
     required this.numberOfMoves,
     required this.numberOfTilesLeft,
@@ -30,9 +29,9 @@ class NumberOfMovesAndTilesLeft extends StatelessWidget {
     return ResponsiveLayoutBuilder(
       small: (context, child) => Center(child: child),
       medium: (context, child) => Center(child: child),
-      large: (context, child) => child!,
+      extraLarge: (context, child) => child!,
       child: (currentSize) {
-        final bodyTextStyle = currentSize == ResponsiveLayoutSize.small
+        final bodyTextStyle = currentSize.index <= Breakpoint.sm.index
             ? Theme.of(context).textTheme.bodyText2
             : Theme.of(context).textTheme.bodyText1;
 
@@ -46,7 +45,7 @@ class NumberOfMovesAndTilesLeft extends StatelessWidget {
                 ),
             children: [
               TextSpan(
-                text: ' l10n.puzzleNumberOfMoves | ',
+                text: ' ${Dictums.of(context).puzzleNumberOfMoves} | ',
                 style: bodyTextStyle?.copyWith(
                   color: textColor,
                 ),
@@ -54,11 +53,11 @@ class NumberOfMovesAndTilesLeft extends StatelessWidget {
               TextSpan(
                 text: numberOfTilesLeft.toString(),
                 style: Theme.of(context).textTheme.headline4?.copyWith(
-                  color: textColor,
-                ),
+                      color: textColor,
+                    ),
               ),
               TextSpan(
-                text: ' l10n.puzzleNumberOfTilesLeft',
+                text: ' ${Dictums.of(context).puzzleNumberOfTilesLeft}',
                 style: bodyTextStyle?.copyWith(
                   color: textColor,
                 ),
