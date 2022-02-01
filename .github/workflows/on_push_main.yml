@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Dart
+name: On push main
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   lint_and_test:
-    name: lint_check_and_test_run
+    name: Run code analyzer and tests
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +29,7 @@ jobs:
 
   build_web:
     name: Build Flutter (Web)
+    needs: lint_and_test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -61,7 +62,7 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@v2.0.0
         with:
-          args: deploy --only hosting:utopic-slide-puzzle  --public web-build
+          args: deploy --only hosting:utopic-slide-puzzle
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: default
