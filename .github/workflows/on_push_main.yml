@@ -9,7 +9,7 @@ on:
   push:
     branches: [ main ]
 
-jobs:
+jobs: 
   lint_and_test:
     name: Run code analyzer and tests
     runs-on: ubuntu-latest
@@ -17,6 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2.2.1
+      - name: Add .env file
+        uses: SpicyPizza/create-envfile@v1.2
+        with:
+          envkey_TEST: ""
+      - name: Import google-services.json from GitHub secrets
+        run: echo ${{ secrets.FIREBASE_ANDROID_BASE64 }} | base64 --decode > "android/app/google-services.json"
 
       - name: Install dependencies
         run: flutter pub get
@@ -34,6 +40,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2.2.1
+      - name: Add .env file
+        uses: SpicyPizza/create-envfile@v1.2
+        with:
+          envkey_TEST: ""
 
       - name: Install dependencies
         run: flutter pub get
