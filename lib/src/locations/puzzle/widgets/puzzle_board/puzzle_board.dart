@@ -69,15 +69,15 @@ class PuzzleBoard extends StatelessWidget {
         );
       },
       child: (_) {
-        return Stack(
-          children: [
-            for (var puzzleTile in puzzleTiles)
-              AnimatedPositioned(
-                duration: const Duration(milliseconds: 500),
-                child: puzzleTile,
-              ),
-          ],
-        );
+        // return Stack(
+        //   children: [
+        //     for (var puzzleTile in puzzleTiles)
+        //       AnimatedPositioned(
+        //         duration: const Duration(milliseconds: 500),
+        //         child: puzzleTile,
+        //       ),
+        //   ],
+        // );
         return GridView.count(
           clipBehavior: Clip.none,
           padding: const EdgeInsets.all(16),

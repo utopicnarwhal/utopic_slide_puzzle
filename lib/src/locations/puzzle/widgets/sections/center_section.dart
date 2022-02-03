@@ -11,11 +11,10 @@ class CenterSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        print(constraints.minHeight);
         return const PuzzleBoard(
           key: Key('puzzle_board'),
         );
-      }
+      },
     );
   }
 }
