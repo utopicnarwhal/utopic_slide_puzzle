@@ -57,10 +57,8 @@ class UtopicButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textWidget = Text(
-      text,
-      style: Theme.of(context).textTheme.button,
-    );
+    final textStyle = Theme.of(context).textTheme.button?.copyWith(fontSize: _getFontSize());
+    final textWidget = Text(text, style: textStyle);
 
     late Widget result;
     result = textWidget;
@@ -92,6 +90,17 @@ class UtopicButton extends StatelessWidget {
         return 40;
       case UtopicButtonSize.small:
         return 24;
+    }
+  }
+
+  double _getFontSize() {
+    switch (size) {
+      case UtopicButtonSize.large:
+        return 22;
+      case UtopicButtonSize.regular:
+        return 16;
+      case UtopicButtonSize.small:
+        return 14;
     }
   }
 

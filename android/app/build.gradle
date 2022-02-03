@@ -49,8 +49,8 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "ru.utopicdev.slidepuzzle"
-        minSdkVersion 16
+        applicationId "ru.utopic.slidepuzzle"
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

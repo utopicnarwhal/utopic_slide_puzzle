@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
-import 'package:utopic_slide_puzzle/src/common/widgets/buttons.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/puzzle.dart';
 import 'package:utopic_slide_puzzle/src/models/models.dart';
@@ -13,7 +12,6 @@ import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 part 'widgets/number_of_moves_and_tiles_left.dart';
 part 'widgets/puzzle_name.dart';
 part 'widgets/puzzle_title.dart';
-part 'widgets/shuffle_button.dart';
 
 /// {@template puzzle_page}
 /// The root location of the puzzle UI.
@@ -56,12 +54,8 @@ class PuzzlePage extends StatelessWidget {
                 constraints: BoxConstraints(
                   minHeight: constraints.maxHeight,
                 ),
-                child: Column(
-                  children: const [
-                    _PuzzleSections(
-                      key: Key('puzzle_sections'),
-                    ),
-                  ],
+                child: const _PuzzleSections(
+                  key: Key('puzzle_sections'),
                 ),
               ),
             );
@@ -92,35 +86,25 @@ class _PuzzleSections extends StatelessWidget {
     final endSection = Padding(
       padding: const EdgeInsets.symmetric(vertical: 32),
       child: ResponsiveLayoutBuilder(
-        small: (_, child) => const SimplePuzzleShuffleButton(),
-        medium: (_, child) => const SimplePuzzleShuffleButton(),
+        medium: (_, __) => const _ToTheNextLevelButton(),
         extraLarge: (_, __) => const SizedBox(),
       ),
     );
 
     return ResponsiveLayoutBuilder(
-      small: (context, child) => Column(
+      medium: (_, __) => Column(
         children: [
           startSection,
           const PuzzleBoard(),
           endSection,
         ],
       ),
-      medium: (context, child) => Column(
-        children: [
-          startSection,
-          const PuzzleBoard(),
-          endSection,
-        ],
-      ),
-      extraLarge: (context, child) => Row(
+      extraLarge: (_, __) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(child: startSection),
           const PuzzleBoard(),
-          Expanded(
-            child: endSection,
-          ),
+          Expanded(child: endSection),
         ],
       ),
     );
@@ -286,7 +270,7 @@ class SimpleStartSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Gap(20),
+        const Gap(40),
         const _PuzzleName(),
         const Gap(20),
         _PuzzleTitle(
@@ -301,11 +285,24 @@ class SimpleStartSection extends StatelessWidget {
         ),
         const Gap(20),
         ResponsiveLayoutBuilder(
-          small: (_, __) => const SizedBox(),
           medium: (_, __) => const SizedBox(),
-          extraLarge: (_, __) => const SimplePuzzleShuffleButton(),
+          extraLarge: (_, __) => const _ToTheNextLevelButton(),
         ),
       ],
+    );
+  }
+}
+
+class _ToTheNextLevelButton extends StatelessWidget {
+  const _ToTheNextLevelButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton.extended(
+      label: const Text('Next level'), // TODO(sergei): add to dictums
+      backgroundColor: Theme.of(context).primaryColor,
+      icon: const Icon(Icons.arrow_forward_rounded),
+      onPressed: () {},
     );
   }
 }
