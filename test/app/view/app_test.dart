@@ -1,7 +1,6 @@
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:utopic_slide_puzzle/src/app.dart';
-import 'package:utopic_slide_puzzle/src/locations/puzzle/puzzle.dart';
+import 'package:utopic_slide_puzzle/src/locations/puzzle/puzzle_page.dart';
 
 void main() {
   group('App', () {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 /// Represents the layout size by its width
@@ -25,8 +27,13 @@ enum Breakpoint {
   xl,
 }
 
+/// Signature for the individual actions (`small`, `medium`, `large`, etc.).
+typedef ResponsiveLayoutActionFunction = FutureOr<void> Function(BuildContext context, Breakpoint breakpoint);
+
+/// {@template screen_size}
 /// An util that used to get a screen size [Breakpoint]
-class ScreenSize {
+/// {@endtemplate}
+abstract class ScreenSize {
   static const _tn = 360;
   static const _xs = 600;
   static const _sm = 1024;
@@ -55,10 +62,41 @@ class ScreenSize {
 
     return Breakpoint.xl;
   }
+
+  /// Runs a sync/async function depends on screen size
+  static FutureOr<void> responsiveLayoutAction(
+    BuildContext context, {
+    ResponsiveLayoutActionFunction? tiny,
+    ResponsiveLayoutActionFunction? extraSmall,
+    ResponsiveLayoutActionFunction? small,
+    ResponsiveLayoutActionFunction? medium,
+    ResponsiveLayoutActionFunction? large,
+    required ResponsiveLayoutActionFunction extraLarge,
+  }) async {
+    final breakpoint = getBreakpoint(context);
+
+    ResponsiveLayoutActionFunction function;
+
+    if (breakpoint.index <= Breakpoint.tn.index && tiny != null) {
+      function = tiny;
+    } else if (breakpoint.index <= Breakpoint.xs.index && extraSmall != null) {
+      function = extraSmall;
+    } else if (breakpoint.index <= Breakpoint.sm.index && small != null) {
+      function = small;
+    } else if (breakpoint.index <= Breakpoint.md.index && medium != null) {
+      function = medium;
+    } else if (breakpoint.index <= Breakpoint.lg.index && large != null) {
+      function = large;
+    } else {
+      function = extraLarge;
+    }
+
+    await function(context, breakpoint);
+  }
 }
 
 /// Signature for the individual builders (`small`, `medium`, `large`, etc.).
-typedef ResponsiveLayoutWidgetBuilder = Widget Function(BuildContext, Widget?);
+typedef ResponsiveLayoutWidgetBuilder = Widget Function(BuildContext context, Widget? child);
 
 /// {@template responsive_layout_builder}
 /// A wrapper around [LayoutBuilder] which exposes builders for

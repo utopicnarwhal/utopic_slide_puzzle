@@ -109,6 +109,16 @@ class Dictums {
       args: [],
     );
   }
+
+  /// `Next level`
+  String get nextLevelButtonLabel {
+    return Intl.message(
+      'Next level',
+      name: 'nextLevelButtonLabel',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Dictums> {

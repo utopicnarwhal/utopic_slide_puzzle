@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "nextLevelButtonLabel":
+            MessageLookupByLibrary.simpleMessage("Next level"),
         "pageNotFound": MessageLookupByLibrary.simpleMessage("Page not found"),
         "puzzleChallengeTitle":
             MessageLookupByLibrary.simpleMessage("Utopic Slide Puzzle"),

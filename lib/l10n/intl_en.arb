@@ -4,5 +4,6 @@
   "puzzleSolved": "Puzzle Solved",
   "puzzleChallengeTitle": "Utopic Slide Puzzle",
   "puzzleNumberOfMoves": "Moves",
-  "puzzleNumberOfTilesLeft": "Tiles left"
+  "puzzleNumberOfTilesLeft": "Tiles left",
+  "nextLevelButtonLabel": "Next level"
 }
