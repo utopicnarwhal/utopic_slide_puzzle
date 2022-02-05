@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_bloc.dart';
@@ -19,7 +20,6 @@ class PuzzleBoard extends StatelessWidget {
     final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
 
     final dimension = puzzle.getDimension();
-    if (dimension == 0) return const LoadingIndicator();
 
     final puzzleTiles = puzzle.tiles
         .map(
@@ -41,30 +41,27 @@ class PuzzleBoard extends StatelessWidget {
       },
       extraSmall: (context, breakpoint) {
         spacing = 5;
-        boardSize = 340;
+        boardSize = 344;
       },
       small: (context, breakpoint) {
         spacing = 5;
-        boardSize = 400;
+        boardSize = 424;
       },
       large: (context, breakpoint) {
-        boardSize = 500;
+        boardSize = 640;
       },
       extraLarge: (context, breakpoint) {
-        boardSize = 600;
+        boardSize = 864;
       },
     );
 
     return ResponsiveLayoutBuilder(
-      medium: (context, child) => SizedBox.fromSize(
-        size: Size.square(boardSize),
-        child: child,
-      ),
+      medium: (context, child) => child!,
       extraLarge: (context, child) {
-        return SizedBox.fromSize(
-          size: Size(
-            boardSize,
-            MediaQuery.of(context).size.height,
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 32),
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height,
           ),
           child: Center(
             child: child,
@@ -74,26 +71,46 @@ class PuzzleBoard extends StatelessWidget {
       child: (_) {
         final aspect = boardSize / dimension;
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              for (var puzzleTile in puzzleTiles)
-                AnimatedPositioned(
-                  key: ValueKey(puzzleTile.tile.correctPosition),
-                  duration: const Duration(milliseconds: 700),
-                  left: (puzzleTile.tile.currentPosition.x - 1) * aspect,
-                  top: (puzzleTile.tile.currentPosition.y - 1) * aspect,
-                  height: aspect,
-                  width: aspect,
-                  curve: Curves.bounceOut,
-                  child: Padding(
-                    padding: EdgeInsets.all(spacing),
-                    child: puzzleTile,
-                  ),
+        return SizedBox.fromSize(
+          size: Size.square(boardSize),
+          child: Builder(
+            builder: (context) {
+              if (dimension == 0) return const LoadingIndicator();
+
+              return AnimationLimiter(
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    for (int index = 0; index < puzzleTiles.length; ++index)
+                      AnimatedPositioned(
+                        key: ValueKey(puzzleTiles[index].tile.correctPosition),
+                        duration: BlocProvider.of<PuzzleBloc>(context).state.lastTappedTile == null
+                            ? Duration.zero
+                            : const Duration(milliseconds: 700),
+                        left: (puzzleTiles[index].tile.currentPosition.x - 1) * aspect,
+                        top: (puzzleTiles[index].tile.currentPosition.y - 1) * aspect,
+                        height: aspect,
+                        width: aspect,
+                        curve: Curves.bounceOut,
+                        child: Padding(
+                          padding: EdgeInsets.all(spacing),
+                          child: AnimationConfiguration.staggeredGrid(
+                            columnCount: puzzle.getDimension(),
+                            position: index,
+                            delay: const Duration(milliseconds: 100),
+                            duration: const Duration(milliseconds: 500),
+                            child: ScaleAnimation(
+                              child: FadeInAnimation(
+                                child: puzzleTiles[index],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
-            ],
+              );
+            },
           ),
         );
       },

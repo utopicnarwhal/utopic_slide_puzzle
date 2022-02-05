@@ -11,13 +11,15 @@ part 'puzzle_event.dart';
 part 'puzzle_state.dart';
 
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
-  PuzzleBloc(this._size, {this.random}) : super(const PuzzleState()) {
+  PuzzleBloc({this.level = 0, this.size = 4, this.random}) : super(const PuzzleState()) {
     on<_PuzzleInitialized>(_onPuzzleInitialized);
     on<_TileTapped>(_onTileTapped);
     on<_PuzzleReset>(_onPuzzleReset);
   }
 
-  final int _size;
+  final int level;
+
+  final int size;
 
   final Random? random;
 
@@ -37,7 +39,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     _PuzzleInitialized event,
     Emitter<PuzzleState> emit,
   ) {
-    final puzzle = _generatePuzzle(_size, shuffle: event.shufflePuzzle);
+    final puzzle = _generatePuzzle(size, shuffle: event.shufflePuzzle);
     emit(
       PuzzleState(
         puzzle: puzzle.sort(),
@@ -87,7 +89,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   }
 
   void _onPuzzleReset(_PuzzleReset event, Emitter<PuzzleState> emit) {
-    final puzzle = _generatePuzzle(_size);
+    final puzzle = _generatePuzzle(size);
     emit(
       PuzzleState(
         puzzle: puzzle.sort(),

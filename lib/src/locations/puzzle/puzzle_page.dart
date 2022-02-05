@@ -1,7 +1,9 @@
 import 'package:beamer/beamer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_bloc.dart';
@@ -9,6 +11,9 @@ import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/pu
 import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 
 part 'widgets/number_of_moves_and_tiles_left.dart';
+part 'widgets/puzzle_actions_section/puzzle_actions_sections.dart';
+part 'widgets/puzzle_actions_section/widgets/shuffle_button.dart';
+part 'widgets/puzzle_actions_section/widgets/to_the_next_level_button.dart';
 part 'widgets/puzzle_name.dart';
 part 'widgets/puzzle_title.dart';
 part 'widgets/sections/center_section.dart';
@@ -40,62 +45,77 @@ class PuzzleLocation extends BeamLocation<BeamState> {
 /// The root page of the puzzle UI.
 /// {@endtemplate}
 @visibleForTesting
-class PuzzlePage extends StatelessWidget {
+class PuzzlePage extends StatefulWidget {
   /// {@macro puzzle_page}
   const PuzzlePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
-        create: (context) => PuzzleBloc(4)..initialize(shufflePuzzle: false),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final state = context.select((PuzzleBloc bloc) => bloc.state);
-
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
-                child: ResponsiveLayoutBuilder(
-                  medium: (_, __) => Column(
-                    children: [
-                      _StartSection(state: state),
-                      const CenterSection(),
-                      const _EndSection(),
-                    ],
-                  ),
-                  extraLarge: (_, __) => Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(child: _StartSection(state: state)),
-                      const CenterSection(),
-                      const Expanded(child: _EndSection()),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
+  State<PuzzlePage> createState() => _PuzzlePageState();
 }
 
-class _ToTheNextLevelButton extends StatelessWidget {
-  const _ToTheNextLevelButton({Key? key}) : super(key: key);
+class _PuzzlePageState extends State<PuzzlePage> {
+  late List<PuzzleBloc> _puzzleBlocs;
+  late BehaviorSubject<int> _levelNumberController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _levelNumberController = BehaviorSubject.seeded(0);
+    _puzzleBlocs = [
+      PuzzleBloc()..initialize(shufflePuzzle: !kDebugMode),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _levelNumberController.close();
+    for (final puzzleBloc in _puzzleBlocs) {
+      puzzleBloc.close();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
-      label: Text(Dictums.of(context).nextLevelButtonLabel),
-      backgroundColor: Theme.of(context).primaryColor,
-      icon: const Icon(Icons.arrow_forward_rounded),
-      onPressed: () {
-        BlocProvider.of<PuzzleBloc>(context).reset();
-      },
+    return Scaffold(
+      body: StreamBuilder<int>(
+        stream: _levelNumberController,
+        initialData: 0,
+        builder: (context, levelNumberSnapshot) {
+          return BlocProvider.value(
+            value: _puzzleBlocs.elementAt(levelNumberSnapshot.data ?? 0),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: ResponsiveLayoutBuilder(
+                      medium: (_, __) => Column(
+                        children: const [
+                          _StartSection(),
+                          CenterSection(),
+                          _EndSection(),
+                        ],
+                      ),
+                      extraLarge: (_, __) => Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Expanded(child: _StartSection()),
+                          CenterSection(),
+                          Expanded(child: _EndSection()),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

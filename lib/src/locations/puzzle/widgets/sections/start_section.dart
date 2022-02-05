@@ -1,20 +1,16 @@
 part of '../../puzzle_page.dart';
 
 /// {@template simple_start_section}
-/// Displays the start section of the puzzle based on [state].
+/// Displays the start section of the puzzle based on [BlocProvider]'s bloc state.
 /// {@endtemplate}
 class _StartSection extends StatelessWidget {
   /// {@macro simple_start_section}
-  const _StartSection({
-    Key? key,
-    required this.state,
-  }) : super(key: key);
-
-  /// The state of the puzzle.
-  final PuzzleState state;
+  const _StartSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final state = context.select((PuzzleBloc bloc) => bloc.state);
+
     final result = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,7 +30,7 @@ class _StartSection extends StatelessWidget {
         const Gap(20),
         ResponsiveLayoutBuilder(
           medium: (_, __) => const SizedBox(),
-          extraLarge: (_, __) => const _ToTheNextLevelButton(),
+          extraLarge: (_, __) => const _PuzzleActionsSection(),
         ),
       ],
     );

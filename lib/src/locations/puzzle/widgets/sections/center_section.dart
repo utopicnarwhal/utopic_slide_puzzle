@@ -9,8 +9,8 @@ class CenterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
+    return ResponsiveLayoutBuilder(
+      extraLarge: (BuildContext context, Widget? child) {
         return const PuzzleBoard(
           key: Key('puzzle_board'),
         );

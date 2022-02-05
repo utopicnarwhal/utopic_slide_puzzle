@@ -20,22 +20,27 @@ class _PuzzleTile extends StatelessWidget {
       builder: (context, constraints) {
         final textStyle = Theme.of(context).textTheme.headline2?.copyWith(
               fontWeight: FontWeight.w600,
-              fontSize: constraints.maxHeight / 2,
+              fontSize: constraints.maxHeight / 2.2,
             );
 
         return ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: Theme.of(context).primaryColor,
             textStyle: textStyle,
-            shape: const RoundedRectangleBorder(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(14),
+                Radius.circular(constraints.maxHeight / 6),
               ),
             ),
           ),
           onPressed:
               state.puzzleStatus == PuzzleStatus.incomplete ? () => context.read<PuzzleBloc>().tileTapped(tile) : null,
-          child: Text(tile.value.toString()),
+          child: Text(
+            tile.value.toString(),
+            overflow: TextOverflow.visible,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+          ),
         );
       },
     );

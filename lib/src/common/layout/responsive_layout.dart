@@ -8,22 +8,34 @@ import 'package:flutter/material.dart';
 ///
 /// Call [ScreenSize.getBreakpoint] to get it for the current [BuildContext]
 enum Breakpoint {
+  /// {@template tiny_breakpoint}
   /// Tiny < 360
+  /// {@endtemplate}
   tn,
 
+  /// {@template extra_small_breakpoint}
   /// Extra small >= 360, < 600
+  /// {@endtemplate}
   xs,
 
+  /// {@template small_breakpoint}
   /// Small >= 600, < 1024
+  /// {@endtemplate}
   sm,
 
+  /// {@template medium_breakpoint}
   /// Medium >= 1024, < 1440
+  /// {@endtemplate}
   md,
 
+  /// {@template large_breakpoint}
   /// Large >= 1440, < 1920
+  /// {@endtemplate}
   lg,
 
+  /// {@template extra_large_breakpoint}
   /// Extra large >= 1920
+  /// {@endtemplate}
   xl,
 }
 
@@ -63,7 +75,20 @@ abstract class ScreenSize {
     return Breakpoint.xl;
   }
 
-  /// Runs a sync/async function depends on screen size
+  /// Runs a sync/async function depends on screen size.  
+  /// If there is no exact breakpoint function will call the first larger one.
+  /// 
+  /// {@macro tiny_breakpoint}
+  /// 
+  /// {@macro extra_small_breakpoint}
+  /// 
+  /// {@macro small_breakpoint}
+  /// 
+  /// {@macro medium_breakpoint}
+  /// 
+  /// {@macro large_breakpoint}
+  /// 
+  /// {@macro extra_large_breakpoint}
   static FutureOr<void> responsiveLayoutAction(
     BuildContext context, {
     ResponsiveLayoutActionFunction? tiny,

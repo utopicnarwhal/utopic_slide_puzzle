@@ -8,7 +8,7 @@ class _EndSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 32),
       child: ResponsiveLayoutBuilder(
-        medium: (_, __) => const _ToTheNextLevelButton(),
+        medium: (_, __) => const _PuzzleActionsSection(),
         extraLarge: (_, __) => const SizedBox(),
       ),
     );

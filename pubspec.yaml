@@ -36,6 +36,7 @@ dependencies:
 
   # Animations and image related
   flutter_svg: ^1.0.0
+  flutter_staggered_animations: ^1.0.0
 
   # UI related
   device_preview: ^1.0.0
