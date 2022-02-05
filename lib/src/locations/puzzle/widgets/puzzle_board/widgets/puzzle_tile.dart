@@ -29,13 +29,12 @@ class _PuzzleTile extends StatelessWidget {
             textStyle: textStyle,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(12),
+                Radius.circular(14),
               ),
             ),
           ),
-          onPressed: state.puzzleStatus == PuzzleStatus.incomplete
-              ? () => context.read<PuzzleBloc>().add(TileTapped(tile))
-              : null,
+          onPressed:
+              state.puzzleStatus == PuzzleStatus.incomplete ? () => context.read<PuzzleBloc>().tileTapped(tile) : null,
           child: Text(tile.value.toString()),
         );
       },

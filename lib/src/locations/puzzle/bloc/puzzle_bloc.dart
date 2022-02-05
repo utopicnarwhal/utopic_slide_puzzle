@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:utopic_slide_puzzle/src/models/models.dart';
 
 part 'puzzle_event.dart';
@@ -11,17 +12,29 @@ part 'puzzle_state.dart';
 
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   PuzzleBloc(this._size, {this.random}) : super(const PuzzleState()) {
-    on<PuzzleInitialized>(_onPuzzleInitialized);
-    on<TileTapped>(_onTileTapped);
-    on<PuzzleReset>(_onPuzzleReset);
+    on<_PuzzleInitialized>(_onPuzzleInitialized);
+    on<_TileTapped>(_onTileTapped);
+    on<_PuzzleReset>(_onPuzzleReset);
   }
 
   final int _size;
 
   final Random? random;
 
+  void initialize({bool shufflePuzzle = true}) {
+    add(_PuzzleInitialized(shufflePuzzle: shufflePuzzle));
+  }
+
+  void tileTapped(Tile tile) {
+    add(_TileTapped(tile));
+  }
+
+  void reset() {
+    add(const _PuzzleReset());
+  }
+
   void _onPuzzleInitialized(
-    PuzzleInitialized event,
+    _PuzzleInitialized event,
     Emitter<PuzzleState> emit,
   ) {
     final puzzle = _generatePuzzle(_size, shuffle: event.shufflePuzzle);
@@ -33,7 +46,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     );
   }
 
-  void _onTileTapped(TileTapped event, Emitter<PuzzleState> emit) {
+  void _onTileTapped(_TileTapped event, Emitter<PuzzleState> emit) {
     final tappedTile = event.tile;
     if (state.puzzleStatus == PuzzleStatus.incomplete) {
       if (state.puzzle.isTileMovable(tappedTile)) {
@@ -73,7 +86,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     }
   }
 
-  void _onPuzzleReset(PuzzleReset event, Emitter<PuzzleState> emit) {
+  void _onPuzzleReset(_PuzzleReset event, Emitter<PuzzleState> emit) {
     final puzzle = _generatePuzzle(_size);
     emit(
       PuzzleState(

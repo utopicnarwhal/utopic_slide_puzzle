@@ -48,7 +48,7 @@ class PuzzlePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => PuzzleBloc(4)..add(const PuzzleInitialized(shufflePuzzle: false)),
+        create: (context) => PuzzleBloc(4)..initialize(shufflePuzzle: false),
         child: LayoutBuilder(
           builder: (context, constraints) {
             final state = context.select((PuzzleBloc bloc) => bloc.state);
@@ -93,7 +93,9 @@ class _ToTheNextLevelButton extends StatelessWidget {
       label: Text(Dictums.of(context).nextLevelButtonLabel),
       backgroundColor: Theme.of(context).primaryColor,
       icon: const Icon(Icons.arrow_forward_rounded),
-      onPressed: () {},
+      onPressed: () {
+        BlocProvider.of<PuzzleBloc>(context).reset();
+      },
     );
   }
 }

@@ -2,6 +2,7 @@
 
 part of 'puzzle_bloc.dart';
 
+@visibleForTesting
 abstract class PuzzleEvent extends Equatable {
   const PuzzleEvent();
 
@@ -9,8 +10,8 @@ abstract class PuzzleEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class PuzzleInitialized extends PuzzleEvent {
-  const PuzzleInitialized({required this.shufflePuzzle});
+class _PuzzleInitialized extends PuzzleEvent {
+  const _PuzzleInitialized({required this.shufflePuzzle});
 
   final bool shufflePuzzle;
 
@@ -18,8 +19,8 @@ class PuzzleInitialized extends PuzzleEvent {
   List<Object> get props => [shufflePuzzle];
 }
 
-class TileTapped extends PuzzleEvent {
-  const TileTapped(this.tile);
+class _TileTapped extends PuzzleEvent {
+  const _TileTapped(this.tile);
 
   final Tile tile;
 
@@ -27,6 +28,6 @@ class TileTapped extends PuzzleEvent {
   List<Object> get props => [tile];
 }
 
-class PuzzleReset extends PuzzleEvent {
-  const PuzzleReset();
+class _PuzzleReset extends PuzzleEvent {
+  const _PuzzleReset();
 }

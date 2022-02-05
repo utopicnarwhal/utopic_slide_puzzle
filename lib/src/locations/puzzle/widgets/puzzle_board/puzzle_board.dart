@@ -18,8 +18,8 @@ class PuzzleBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
 
-    final size = puzzle.getDimension();
-    if (size == 0) return const LoadingIndicator();
+    final dimension = puzzle.getDimension();
+    if (dimension == 0) return const LoadingIndicator();
 
     final puzzleTiles = puzzle.tiles
         .map(
@@ -56,7 +56,10 @@ class PuzzleBoard extends StatelessWidget {
     );
 
     return ResponsiveLayoutBuilder(
-      medium: (context, child) => child!,
+      medium: (context, child) => SizedBox.fromSize(
+        size: Size.square(boardSize),
+        child: child,
+      ),
       extraLarge: (context, child) {
         return SizedBox.fromSize(
           size: Size(
@@ -69,24 +72,29 @@ class PuzzleBoard extends StatelessWidget {
         );
       },
       child: (_) {
-        // return Stack(
-        //   children: [
-        //     for (var puzzleTile in puzzleTiles)
-        //       AnimatedPositioned(
-        //         duration: const Duration(milliseconds: 500),
-        //         child: puzzleTile,
-        //       ),
-        //   ],
-        // );
-        return GridView.count(
-          clipBehavior: Clip.none,
-          padding: const EdgeInsets.all(16),
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: size,
-          mainAxisSpacing: spacing,
-          crossAxisSpacing: spacing,
-          children: puzzleTiles,
+        final aspect = boardSize / dimension;
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              for (var puzzleTile in puzzleTiles)
+                AnimatedPositioned(
+                  key: ValueKey(puzzleTile.tile.correctPosition),
+                  duration: const Duration(milliseconds: 700),
+                  left: (puzzleTile.tile.currentPosition.x - 1) * aspect,
+                  top: (puzzleTile.tile.currentPosition.y - 1) * aspect,
+                  height: aspect,
+                  width: aspect,
+                  curve: Curves.bounceOut,
+                  child: Padding(
+                    padding: EdgeInsets.all(spacing),
+                    child: puzzleTile,
+                  ),
+                ),
+            ],
+          ),
         );
       },
     );

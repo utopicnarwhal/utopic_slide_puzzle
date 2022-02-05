@@ -99,7 +99,7 @@ void main() {
         'emits solvable 3x3 puzzle, [incomplete], 0 correct tiles, and 0 moves '
         'when initialized with size 3 and shuffle equal to true',
         build: () => PuzzleBloc(3, random: random),
-        act: (bloc) => bloc.add(PuzzleInitialized(shufflePuzzle: true)),
+        act: (bloc) => bloc.initialize(),
         expect: () => [PuzzleState(puzzle: puzzleSize3)],
         verify: (bloc) => expect(bloc.state.puzzle.isSolvable(), isTrue),
       );
@@ -108,7 +108,7 @@ void main() {
         'emits unshuffled 3x3 puzzle, 8 correct tiles, and 0 moves '
         'when initialized with size 3 and shuffle equal to false',
         build: () => PuzzleBloc(3, random: random),
-        act: (bloc) => bloc.add(PuzzleInitialized(shufflePuzzle: false)),
+        act: (bloc) => bloc.initialize(shufflePuzzle: false),
         expect: () => [
           PuzzleState(
             puzzle: puzzleSize3Unshuffled,
@@ -198,7 +198,7 @@ void main() {
           puzzle: puzzle,
           numberOfCorrectTiles: 7,
         ),
-        act: (bloc) => bloc.add(TileTapped(middleCenterTile)),
+        act: (bloc) => bloc.tileTapped(middleCenterTile),
         expect: () => <PuzzleState>[
           PuzzleState(
             puzzle: Puzzle(
@@ -238,7 +238,7 @@ void main() {
           puzzle: puzzle,
           numberOfCorrectTiles: 7,
         ),
-        act: (bloc) => bloc.add(TileTapped(topCenterTile)),
+        act: (bloc) => bloc.tileTapped(topCenterTile),
         expect: () => <PuzzleState>[
           PuzzleState(
             puzzle: Puzzle(
@@ -282,7 +282,7 @@ void main() {
           puzzle: puzzle,
           numberOfCorrectTiles: 7,
         ),
-        act: (bloc) => bloc.add(TileTapped(topLeftTile)),
+        act: (bloc) => bloc.tileTapped(topLeftTile),
         expect: () => [
           isA<PuzzleState>().having(
             (state) => state.tileMovementStatus,
@@ -300,7 +300,7 @@ void main() {
           puzzleStatus: PuzzleStatus.complete,
           numberOfCorrectTiles: 7,
         ),
-        act: (bloc) => bloc.add(TileTapped(topLeftTile)),
+        act: (bloc) => bloc.tileTapped(topLeftTile),
         expect: () => [
           isA<PuzzleState>().having(
             (state) => state.tileMovementStatus,
@@ -317,7 +317,7 @@ void main() {
           puzzle: puzzle,
           numberOfCorrectTiles: 7,
         ),
-        act: (bloc) => bloc.add(TileTapped(bottomRightTile)),
+        act: (bloc) => bloc.tileTapped(bottomRightTile),
         expect: () => [
           PuzzleState(
             puzzle: Puzzle(
@@ -385,7 +385,7 @@ void main() {
           numberOfCorrectTiles: 1,
           numberOfMoves: 10,
         ),
-        act: (bloc) => bloc.add(PuzzleReset()),
+        act: (bloc) => bloc.reset(),
         expect: () => [PuzzleState(puzzle: puzzleSize3)],
         verify: (bloc) => expect(bloc.state.puzzle.isSolvable(), isTrue),
       );
