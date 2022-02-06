@@ -9,8 +9,8 @@ class _PuzzleActionsSection extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: const [
-        _ToTheNextLevelButton(),
         _ShuffleButton(),
+        _ToTheNextLevelButton(),
       ],
     );
   }

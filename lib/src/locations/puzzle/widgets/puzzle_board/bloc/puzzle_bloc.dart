@@ -10,14 +10,27 @@ import 'package:utopic_slide_puzzle/src/models/models.dart';
 part 'puzzle_event.dart';
 part 'puzzle_state.dart';
 
+Widget _defaultTileContentBuilder(BuildContext context, Tile tile) {
+  return Text(
+    tile.value.toString(),
+    overflow: TextOverflow.visible,
+    textAlign: TextAlign.center,
+    maxLines: 1,
+  );
+}
+
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
-  PuzzleBloc({this.level = 0, this.size = 4, this.random}) : super(const PuzzleState()) {
+  PuzzleBloc({
+    this.tileContentBuilder = _defaultTileContentBuilder,
+    this.size = 4,
+    this.random,
+  }) : super(const PuzzleState()) {
     on<_PuzzleInitialized>(_onPuzzleInitialized);
     on<_TileTapped>(_onTileTapped);
     on<_PuzzleReset>(_onPuzzleReset);
   }
 
-  final int level;
+  final Widget Function(BuildContext context, Tile tile) tileContentBuilder;
 
   final int size;
 

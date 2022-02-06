@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_bloc.dart';
+import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 import 'package:utopic_slide_puzzle/src/models/models.dart';
 
 void main() {

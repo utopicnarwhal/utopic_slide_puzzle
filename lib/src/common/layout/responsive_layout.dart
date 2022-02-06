@@ -74,50 +74,6 @@ abstract class ScreenSize {
 
     return Breakpoint.xl;
   }
-
-  /// Runs a sync/async function depends on screen size.  
-  /// If there is no exact breakpoint function will call the first larger one.
-  /// 
-  /// {@macro tiny_breakpoint}
-  /// 
-  /// {@macro extra_small_breakpoint}
-  /// 
-  /// {@macro small_breakpoint}
-  /// 
-  /// {@macro medium_breakpoint}
-  /// 
-  /// {@macro large_breakpoint}
-  /// 
-  /// {@macro extra_large_breakpoint}
-  static FutureOr<void> responsiveLayoutAction(
-    BuildContext context, {
-    ResponsiveLayoutActionFunction? tiny,
-    ResponsiveLayoutActionFunction? extraSmall,
-    ResponsiveLayoutActionFunction? small,
-    ResponsiveLayoutActionFunction? medium,
-    ResponsiveLayoutActionFunction? large,
-    required ResponsiveLayoutActionFunction extraLarge,
-  }) async {
-    final breakpoint = getBreakpoint(context);
-
-    ResponsiveLayoutActionFunction function;
-
-    if (breakpoint.index <= Breakpoint.tn.index && tiny != null) {
-      function = tiny;
-    } else if (breakpoint.index <= Breakpoint.xs.index && extraSmall != null) {
-      function = extraSmall;
-    } else if (breakpoint.index <= Breakpoint.sm.index && small != null) {
-      function = small;
-    } else if (breakpoint.index <= Breakpoint.md.index && medium != null) {
-      function = medium;
-    } else if (breakpoint.index <= Breakpoint.lg.index && large != null) {
-      function = large;
-    } else {
-      function = extraLarge;
-    }
-
-    await function(context, breakpoint);
-  }
 }
 
 /// Signature for the individual builders (`small`, `medium`, `large`, etc.).
@@ -126,6 +82,8 @@ typedef ResponsiveLayoutWidgetBuilder = Widget Function(BuildContext context, Wi
 /// {@template responsive_layout_builder}
 /// A wrapper around [LayoutBuilder] which exposes builders for
 /// various responsive breakpoints.
+/// 
+/// If there is no exact breakpoint build function - will call the first larger one.
 /// {@endtemplate}
 class ResponsiveLayoutBuilder extends StatelessWidget {
   /// {@macro responsive_layout_builder}
@@ -141,21 +99,33 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
   }) : super(key: key);
 
   /// [ResponsiveLayoutWidgetBuilder] for tiny layout.
+  ///
+  /// {@macro tiny_breakpoint}
   final ResponsiveLayoutWidgetBuilder? tiny;
 
   /// [ResponsiveLayoutWidgetBuilder] for extra small layout.
+  ///
+  /// {@macro extra_small_breakpoint}
   final ResponsiveLayoutWidgetBuilder? extraSmall;
 
   /// [ResponsiveLayoutWidgetBuilder] for small layout.
+  ///
+  /// {@macro small_breakpoint}
   final ResponsiveLayoutWidgetBuilder? small;
 
   /// [ResponsiveLayoutWidgetBuilder] for medium layout.
+  ///
+  /// {@macro medium_breakpoint}
   final ResponsiveLayoutWidgetBuilder? medium;
 
   /// [ResponsiveLayoutWidgetBuilder] for large layout.
+  ///
+  /// {@macro large_breakpoint}
   final ResponsiveLayoutWidgetBuilder? large;
 
   /// [ResponsiveLayoutWidgetBuilder] for extra large layout.
+  ///
+  /// {@macro extra_large_breakpoint}
   final ResponsiveLayoutWidgetBuilder extraLarge;
 
   /// Optional child widget builder based on the current layout size

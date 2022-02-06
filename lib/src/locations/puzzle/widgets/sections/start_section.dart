@@ -9,30 +9,44 @@ class _StartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.select((PuzzleBloc bloc) => bloc.state);
+    final result = BlocBuilder<PuzzlePageBloc, PuzzlePageBlocState>(
+      builder: (context, puzzlePageBlocState) {
+        var levelNumber = 1;
+        if (puzzlePageBlocState is! PuzzlePageBlocLevelState) {
+          return const SizedBox();
+        }
 
-    final result = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Gap(40),
-        const _PuzzleName(),
-        const Gap(20),
-        _PuzzleTitle(
-          title: state.puzzleStatus == PuzzleStatus.complete
-              ? Dictums.of(context).puzzleSolved
-              : 'Level 1', // TODO(sergei): add level name here
-        ),
-        const Gap(20),
-        _NumberOfMovesAndTilesLeft(
-          numberOfMoves: state.numberOfMoves,
-          numberOfTilesLeft: state.numberOfTilesLeft,
-        ),
-        const Gap(20),
-        ResponsiveLayoutBuilder(
-          medium: (_, __) => const SizedBox(),
-          extraLarge: (_, __) => const _PuzzleActionsSection(),
-        ),
-      ],
+        levelNumber = puzzlePageBlocState.level + 1;
+
+        return BlocBuilder<PuzzleBloc, PuzzleState>(
+          bloc: puzzlePageBlocState.puzzleBloc,
+          builder: (context, puzzleState) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Gap(40),
+                const _PuzzleName(),
+                const Gap(20),
+                _PuzzleTitle(
+                  title: puzzleState.puzzleStatus == PuzzleStatus.complete
+                      ? Dictums.of(context).puzzleSolved
+                      : 'Level $levelNumber',
+                ),
+                const Gap(20),
+                _NumberOfMovesAndTilesLeft(
+                  numberOfMoves: puzzleState.numberOfMoves,
+                  numberOfTilesLeft: puzzleState.numberOfTilesLeft,
+                ),
+                const Gap(20),
+                ResponsiveLayoutBuilder(
+                  medium: (_, __) => const SizedBox(),
+                  extraLarge: (_, __) => const _PuzzleActionsSection(),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
 
     return ResponsiveLayoutBuilder(

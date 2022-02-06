@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_bloc.dart';
+import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 import 'package:utopic_slide_puzzle/src/models/models.dart';
 
 class MockPuzzleBloc extends MockBloc<PuzzleEvent, PuzzleState> implements PuzzleBloc {}

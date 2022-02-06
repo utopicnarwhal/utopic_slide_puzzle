@@ -1,12 +1,11 @@
 import 'package:beamer/beamer.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
-import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_bloc.dart';
+import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_page_bloc.dart';
+import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/puzzle_board.dart';
 import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 
@@ -54,67 +53,65 @@ class PuzzlePage extends StatefulWidget {
 }
 
 class _PuzzlePageState extends State<PuzzlePage> {
-  late List<PuzzleBloc> _puzzleBlocs;
-  late BehaviorSubject<int> _levelNumberController;
+  late PuzzlePageBloc _puzzlePageBloc;
+  late PageController _levelScrollPageController;
 
   @override
   void initState() {
     super.initState();
 
-    _levelNumberController = BehaviorSubject.seeded(0);
-    _puzzleBlocs = [
-      PuzzleBloc()..initialize(shufflePuzzle: !kDebugMode),
-    ];
+    _levelScrollPageController = PageController();
+    _puzzlePageBloc = PuzzlePageBloc(initialLevel: 0)..changeLevelTo(0);
+    _puzzlePageBloc.stream.listen((state) {
+      if (state is PuzzlePageBlocLevelState && _levelScrollPageController.hasClients) {
+        _levelScrollPageController.animateToPage(
+          state.level,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOutCubic,
+        );
+      }
+    });
   }
 
   @override
   void dispose() {
-    _levelNumberController.close();
-    for (final puzzleBloc in _puzzleBlocs) {
-      puzzleBloc.close();
-    }
+    _puzzlePageBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<int>(
-        stream: _levelNumberController,
-        initialData: 0,
-        builder: (context, levelNumberSnapshot) {
-          return BlocProvider.value(
-            value: _puzzleBlocs.elementAt(levelNumberSnapshot.data ?? 0),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                    ),
-                    child: ResponsiveLayoutBuilder(
-                      medium: (_, __) => Column(
-                        children: const [
-                          _StartSection(),
-                          CenterSection(),
-                          _EndSection(),
-                        ],
-                      ),
-                      extraLarge: (_, __) => Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Expanded(child: _StartSection()),
-                          CenterSection(),
-                          Expanded(child: _EndSection()),
-                        ],
-                      ),
-                    ),
+      body: BlocProvider.value(
+        value: _puzzlePageBloc,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: ResponsiveLayoutBuilder(
+                  medium: (_, __) => Column(
+                    children: [
+                      const _StartSection(),
+                      CenterSection(levelScrollPageController: _levelScrollPageController),
+                      const _EndSection(),
+                    ],
                   ),
-                );
-              },
-            ),
-          );
-        },
+                  extraLarge: (_, __) => Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Expanded(child: _StartSection()),
+                      CenterSection(levelScrollPageController: _levelScrollPageController),
+                      const Expanded(child: _EndSection()),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

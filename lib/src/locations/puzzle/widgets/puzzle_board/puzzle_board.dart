@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
-import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_bloc.dart';
+import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 import 'package:utopic_slide_puzzle/src/models/tile.dart';
 
 part 'widgets/puzzle_tile.dart';
@@ -17,47 +17,50 @@ class PuzzleBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
+    final puzzleState = context.select<PuzzleBloc, PuzzleState>((bloc) => bloc.state);
 
-    final dimension = puzzle.getDimension();
-
-    final puzzleTiles = puzzle.tiles
-        .map(
-          (tile) => _PuzzleTile(
-            key: Key('puzzle_tile_${tile.value.toString()}'),
-            tile: tile,
-          ),
-        )
-        .toList();
+    final dimension = puzzleState.puzzle.getDimension();
 
     var spacing = 8.0;
     var boardSize = 450.0;
 
-    ScreenSize.responsiveLayoutAction(
-      context,
-      tiny: (context, breakpoint) {
-        spacing = 5;
-        boardSize = 312;
-      },
-      extraSmall: (context, breakpoint) {
-        spacing = 5;
-        boardSize = 344;
-      },
-      small: (context, breakpoint) {
-        spacing = 5;
-        boardSize = 424;
-      },
-      large: (context, breakpoint) {
-        boardSize = 640;
-      },
-      extraLarge: (context, breakpoint) {
-        boardSize = 864;
-      },
-    );
+    final puzzleTiles = <_PuzzleTile>[];
+    for (final tile in puzzleState.puzzle.tiles) {
+      puzzleTiles.add(
+        _PuzzleTile(
+          key: Key('puzzle_tile_${tile.value.toString()}'),
+          tile: tile,
+          padding: spacing,
+        ),
+      );
+    }
 
     return ResponsiveLayoutBuilder(
-      medium: (context, child) => child!,
+      tiny: (context, child) {
+        spacing = 4;
+        boardSize = 312;
+        return child!;
+      },
+      extraSmall: (context, child) {
+        spacing = 4;
+        boardSize = 344;
+        return child!;
+      },
+      small: (context, child) {
+        spacing = 6;
+        boardSize = 424;
+        return child!;
+      },
+      large: (context, child) {
+        boardSize = 640;
+        return child!;
+      },
+      medium: (context, child) {
+        return child!;
+      },
       extraLarge: (context, child) {
+        spacing = 12;
+        boardSize = 864;
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 32),
           constraints: BoxConstraints(
@@ -84,25 +87,21 @@ class PuzzleBoard extends StatelessWidget {
                     for (int index = 0; index < puzzleTiles.length; ++index)
                       AnimatedPositioned(
                         key: ValueKey(puzzleTiles[index].tile.correctPosition),
-                        duration: BlocProvider.of<PuzzleBloc>(context).state.lastTappedTile == null
-                            ? Duration.zero
-                            : const Duration(milliseconds: 700),
+                        duration:
+                            puzzleState.lastTappedTile == null ? Duration.zero : const Duration(milliseconds: 700),
                         left: (puzzleTiles[index].tile.currentPosition.x - 1) * aspect,
                         top: (puzzleTiles[index].tile.currentPosition.y - 1) * aspect,
                         height: aspect,
                         width: aspect,
                         curve: Curves.bounceOut,
-                        child: Padding(
-                          padding: EdgeInsets.all(spacing),
-                          child: AnimationConfiguration.staggeredGrid(
-                            columnCount: puzzle.getDimension(),
-                            position: index,
-                            delay: const Duration(milliseconds: 100),
-                            duration: const Duration(milliseconds: 500),
-                            child: ScaleAnimation(
-                              child: FadeInAnimation(
-                                child: puzzleTiles[index],
-                              ),
+                        child: AnimationConfiguration.staggeredGrid(
+                          columnCount: puzzleState.puzzle.getDimension(),
+                          position: index,
+                          delay: const Duration(milliseconds: 100),
+                          duration: const Duration(milliseconds: 500),
+                          child: ScaleAnimation(
+                            child: FadeInAnimation(
+                              child: puzzleTiles[index],
                             ),
                           ),
                         ),
