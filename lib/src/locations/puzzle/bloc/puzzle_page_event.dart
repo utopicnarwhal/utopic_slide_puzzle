@@ -18,3 +18,12 @@ class _ChangeLevelPuzzlePageEvent extends PuzzlePageEvent {
   @override
   List<Object> get props => [];
 }
+
+class _AddImageToPuzzleWithImageBlocEvent extends PuzzlePageEvent {
+  const _AddImageToPuzzleWithImageBlocEvent({required this.imageData});
+
+  final Uint8List imageData;
+
+  @override
+  List<Object> get props => [];
+}

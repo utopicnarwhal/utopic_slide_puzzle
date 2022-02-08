@@ -16,10 +16,10 @@ dependencies:
   # Navigation
   beamer: ^1.2.0
 
-  # Local storage
+  # Storages
   shared_preferences: ^2.0.12
 
-  # Device, package and app utils
+  # Get device, package and secrets info
   flutter_dotenv: ^5.0.2
 
   # Types annotations

@@ -1,5 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
@@ -62,11 +63,17 @@ class _PuzzlePageState extends State<PuzzlePage> {
 
     _levelScrollPageController = PageController();
     _puzzlePageBloc = PuzzlePageBloc(initialLevel: 0)..changeLevelTo(0);
+    _puzzlePageBloc.stream.listen((state) async {
+      if (state is PuzzlePageBlocLevelState && state.level == 1) {
+        final byteData = await rootBundle.load('assets/images/utopic_narwhal.png');
+        _puzzlePageBloc.addImageToPuzzleWithImageBloc(byteData.buffer.asUint8List());
+      }
+    });
     _puzzlePageBloc.stream.listen((state) {
       if (state is PuzzlePageBlocLevelState && _levelScrollPageController.hasClients) {
         _levelScrollPageController.animateToPage(
           state.level,
-          duration: const Duration(milliseconds: 400),
+          duration: const Duration(milliseconds: 1000),
           curve: Curves.easeInOutCubic,
         );
       }
@@ -103,7 +110,10 @@ class _PuzzlePageState extends State<PuzzlePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Expanded(child: _StartSection()),
-                      CenterSection(levelScrollPageController: _levelScrollPageController),
+                      Flexible(
+                        flex: 2,
+                        child: CenterSection(levelScrollPageController: _levelScrollPageController),
+                      ),
                       const Expanded(child: _EndSection()),
                     ],
                   ),

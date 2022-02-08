@@ -7,16 +7,21 @@ abstract class PuzzleEvent extends Equatable {
   const PuzzleEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class _PuzzleInitialized extends PuzzleEvent {
-  const _PuzzleInitialized({required this.shufflePuzzle});
+  const _PuzzleInitialized({required this.shufflePuzzle, this.imageData});
 
   final bool shufflePuzzle;
 
+  final Uint8List? imageData;
+
   @override
-  List<Object> get props => [shufflePuzzle];
+  List<Object?> get props => [
+        shufflePuzzle,
+        imageData,
+      ];
 }
 
 class _TileTapped extends PuzzleEvent {

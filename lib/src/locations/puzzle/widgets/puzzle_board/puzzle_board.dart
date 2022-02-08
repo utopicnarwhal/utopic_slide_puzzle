@@ -1,19 +1,34 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
+import 'package:utopic_slide_puzzle/src/models/position.dart';
 import 'package:utopic_slide_puzzle/src/models/tile.dart';
 
 part 'widgets/puzzle_tile.dart';
+part 'widgets/tile_content/tile_content_0.dart';
+part 'widgets/tile_content/tile_content_1.dart';
 
 /// {@template simple_puzzle_board}
 /// Display the board of the puzzle
 /// {@endtemplate}
 class PuzzleBoard extends StatelessWidget {
   /// {@macro simple_puzzle_board}
-  const PuzzleBoard({Key? key}) : super(key: key);
+  const PuzzleBoard({
+    Key? key,
+    required this.boardSize,
+    required this.tilePadding,
+  }) : super(key: key);
+
+  /// Size of the puzzle board
+  final double boardSize;
+
+  /// Padding of every puzzle tile
+  final double tilePadding;
 
   @override
   Widget build(BuildContext context) {
@@ -21,55 +36,20 @@ class PuzzleBoard extends StatelessWidget {
 
     final dimension = puzzleState.puzzle.getDimension();
 
-    var spacing = 8.0;
-    var boardSize = 450.0;
-
     final puzzleTiles = <_PuzzleTile>[];
     for (final tile in puzzleState.puzzle.tiles) {
       puzzleTiles.add(
         _PuzzleTile(
           key: Key('puzzle_tile_${tile.value.toString()}'),
           tile: tile,
-          padding: spacing,
+          padding: tilePadding,
         ),
       );
     }
 
     return ResponsiveLayoutBuilder(
-      tiny: (context, child) {
-        spacing = 4;
-        boardSize = 312;
-        return child!;
-      },
-      extraSmall: (context, child) {
-        spacing = 4;
-        boardSize = 344;
-        return child!;
-      },
-      small: (context, child) {
-        spacing = 6;
-        boardSize = 424;
-        return child!;
-      },
-      large: (context, child) {
-        boardSize = 640;
-        return child!;
-      },
-      medium: (context, child) {
-        return child!;
-      },
       extraLarge: (context, child) {
-        spacing = 12;
-        boardSize = 864;
-        return Container(
-          padding: const EdgeInsets.symmetric(vertical: 32),
-          constraints: BoxConstraints(
-            minHeight: MediaQuery.of(context).size.height,
-          ),
-          child: Center(
-            child: child,
-          ),
-        );
+        return child!;
       },
       child: (_) {
         final aspect = boardSize / dimension;

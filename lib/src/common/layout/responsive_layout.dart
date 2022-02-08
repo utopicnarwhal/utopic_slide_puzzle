@@ -82,7 +82,7 @@ typedef ResponsiveLayoutWidgetBuilder = Widget Function(BuildContext context, Wi
 /// {@template responsive_layout_builder}
 /// A wrapper around [LayoutBuilder] which exposes builders for
 /// various responsive breakpoints.
-/// 
+///
 /// If there is no exact breakpoint build function - will call the first larger one.
 /// {@endtemplate}
 class ResponsiveLayoutBuilder extends StatelessWidget {
@@ -155,7 +155,14 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
           builder = extraLarge;
         }
 
-        return builder(context, child?.call(breakpoint));
+        return builder(
+          context,
+          Builder(
+            builder: (context) {
+              return child?.call(breakpoint) ?? const SizedBox();
+            },
+          ),
+        );
       },
     );
   }

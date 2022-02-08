@@ -10,7 +10,10 @@ class _ShuffleButton extends StatelessWidget {
       backgroundColor: Theme.of(context).primaryColor,
       icon: const Icon(Icons.refresh),
       onPressed: () {
-        BlocProvider.of<PuzzleBloc>(context).reset();
+        final puzzlePageBlocState =  BlocProvider.of<PuzzlePageBloc>(context).state;
+        if (puzzlePageBlocState is PuzzlePageBlocLevelState) {
+          puzzlePageBlocState.puzzleBloc.reset();
+        }
       },
     );
   }

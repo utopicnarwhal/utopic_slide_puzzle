@@ -7,14 +7,11 @@ class _PuzzleTile extends StatelessWidget {
     this.padding = 0,
   }) : super(key: key);
 
-  /// The tile to be displayed.
   final Tile tile;
   final double padding;
 
   @override
   Widget build(BuildContext context) {
-    final state = context.select((PuzzleBloc bloc) => bloc.state);
-
     if (tile.isWhitespace) {
       return const SizedBox();
     }
@@ -29,21 +26,45 @@ class _PuzzleTile extends StatelessWidget {
 
           final puzzleBloc = context.read<PuzzleBloc>();
 
-          return ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).primaryColor,
-              textStyle: textStyle,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(constraints.maxHeight / 6),
+          return BlocBuilder<PuzzleBloc, PuzzleState>(
+            bloc: puzzleBloc,
+            builder: (context, puzzleState) {
+              return ElevatedButton(
+                clipBehavior: Clip.antiAlias,
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  primary: Theme.of(context).primaryColor,
+                  textStyle: textStyle,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(constraints.maxHeight / 6),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            onPressed: state.puzzleStatus == PuzzleStatus.incomplete ? () => puzzleBloc.tileTapped(tile) : null,
-            child: Builder(
-              // [Builder] needed to pass the correct context to the [puzzleBloc.tileContentBuilder]
-              builder: (context) => puzzleBloc.tileContentBuilder(context, tile),
-            ),
+                onPressed:
+                    puzzleState.puzzleStatus == PuzzleStatus.incomplete ? () => puzzleBloc.tileTapped(tile) : () {},
+                child: Builder(
+                  builder: (context) {
+                    late Widget tileContentWidget;
+                    switch (puzzleBloc.level) {
+                      case 0:
+                        tileContentWidget = _TileContent0(tile: tile);
+                        break;
+                      case 1:
+                        tileContentWidget = _TileContent1(
+                          tile: tile,
+                          constraints: constraints,
+                          tilePadding: padding,
+                        );
+                        break;
+                      default:
+                        tileContentWidget = _TileContent0(tile: tile);
+                    }
+                    return tileContentWidget;
+                  },
+                ),
+              );
+            },
           );
         },
       ),

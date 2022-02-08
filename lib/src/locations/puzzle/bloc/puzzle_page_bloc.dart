@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:typed_data';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -8,13 +10,27 @@ import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bl
 part 'puzzle_page_event.dart';
 part 'puzzle_page_state.dart';
 
+const _indexOfPuzzleWithImageBloc = 1;
+
 class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
   PuzzlePageBloc({required this.initialLevel}) : super(PuzzlePageBlocInitState()) {
     on<_ChangeLevelPuzzlePageEvent>((event, emit) {
       emit(
         PuzzlePageBlocLevelState(
           level: event.levelNumber,
-          puzzleBloc: _getPuzzleBloc(event.levelNumber),
+          puzzleBloc: getPuzzleBlocForLevel(event.levelNumber)..initialize(shufflePuzzle: !kDebugMode),
+        ),
+      );
+    });
+    on<_AddImageToPuzzleWithImageBlocEvent>((event, emit) async {
+      emit(
+        PuzzlePageBlocLevelState(
+          level: _indexOfPuzzleWithImageBloc,
+          puzzleBloc: getPuzzleBlocForLevel(_indexOfPuzzleWithImageBloc)
+            ..initialize(
+              imageData: event.imageData,
+              shufflePuzzle: !kDebugMode,
+            ),
         ),
       );
     });
@@ -23,15 +39,19 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
   final int initialLevel;
   final Map<int, PuzzleBloc> puzzleBlocsMap = {};
 
-  PuzzleBloc _getPuzzleBloc(int level) {
+  PuzzleBloc getPuzzleBlocForLevel(int level) {
     if (puzzleBlocsMap[level] == null) {
-      puzzleBlocsMap[level] = PuzzleBloc()..initialize(shufflePuzzle: !kDebugMode);
+      puzzleBlocsMap[level] = PuzzleBloc(level: level);
     }
     return puzzleBlocsMap[level]!;
   }
 
   void changeLevelTo(int levelNumber) {
     add(_ChangeLevelPuzzlePageEvent(levelNumber: levelNumber));
+  }
+
+  void addImageToPuzzleWithImageBloc(Uint8List imageData) {
+    add(_AddImageToPuzzleWithImageBlocEvent(imageData: imageData));
   }
 
   @override

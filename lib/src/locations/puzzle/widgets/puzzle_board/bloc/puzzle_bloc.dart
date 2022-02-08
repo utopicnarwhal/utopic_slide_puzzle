@@ -1,43 +1,42 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:math';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:utopic_slide_puzzle/src/models/models.dart';
+import 'package:utopic_slide_puzzle/src/services/image_file_utils.dart';
 
 part 'puzzle_event.dart';
 part 'puzzle_state.dart';
 
-Widget _defaultTileContentBuilder(BuildContext context, Tile tile) {
-  return Text(
-    tile.value.toString(),
-    overflow: TextOverflow.visible,
-    textAlign: TextAlign.center,
-    maxLines: 1,
-  );
-}
-
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   PuzzleBloc({
-    this.tileContentBuilder = _defaultTileContentBuilder,
     this.size = 4,
     this.random,
+    this.level = 0,
   }) : super(const PuzzleState()) {
     on<_PuzzleInitialized>(_onPuzzleInitialized);
     on<_TileTapped>(_onTileTapped);
     on<_PuzzleReset>(_onPuzzleReset);
   }
 
-  final Widget Function(BuildContext context, Tile tile) tileContentBuilder;
-
   final int size;
 
   final Random? random;
 
-  void initialize({bool shufflePuzzle = true}) {
-    add(_PuzzleInitialized(shufflePuzzle: shufflePuzzle));
+  final int level;
+
+  void initialize({bool shufflePuzzle = true, Uint8List? imageData}) {
+    add(
+      _PuzzleInitialized(
+        shufflePuzzle: shufflePuzzle,
+        imageData: imageData,
+      ),
+    );
   }
 
   void tileTapped(Tile tile) {
@@ -48,15 +47,22 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     add(const _PuzzleReset());
   }
 
-  void _onPuzzleInitialized(
+  Future _onPuzzleInitialized(
     _PuzzleInitialized event,
     Emitter<PuzzleState> emit,
-  ) {
+  ) async {
     final puzzle = _generatePuzzle(size, shuffle: event.shufflePuzzle);
+
+    ui.Image? resizedImage;
+    if (event.imageData != null) {
+      resizedImage = await ImageFileUtils.resizeImage(event.imageData);
+    }
+
     emit(
       PuzzleState(
         puzzle: puzzle.sort(),
         numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+        resizedImage: resizedImage,
       ),
     );
   }
@@ -107,6 +113,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       PuzzleState(
         puzzle: puzzle.sort(),
         numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+        resizedImage: state.resizedImage,
       ),
     );
   }
