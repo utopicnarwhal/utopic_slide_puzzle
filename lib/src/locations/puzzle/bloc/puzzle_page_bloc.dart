@@ -10,7 +10,11 @@ import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bl
 part 'puzzle_page_event.dart';
 part 'puzzle_page_state.dart';
 
-const _indexOfPuzzleWithImageBloc = 1;
+enum PuzzleLevels {
+  number,
+  image,
+  other,
+}
 
 class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
   PuzzlePageBloc({required this.initialLevel}) : super(PuzzlePageBlocInitState()) {
@@ -25,8 +29,8 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
     on<_AddImageToPuzzleWithImageBlocEvent>((event, emit) async {
       emit(
         PuzzlePageBlocLevelState(
-          level: _indexOfPuzzleWithImageBloc,
-          puzzleBloc: getPuzzleBlocForLevel(_indexOfPuzzleWithImageBloc)
+          level: PuzzleLevels.image.index,
+          puzzleBloc: getPuzzleBlocForLevel(PuzzleLevels.image.index)
             ..initialize(
               imageData: event.imageData,
               shufflePuzzle: !kDebugMode,

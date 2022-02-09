@@ -3,11 +3,13 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 import 'package:utopic_slide_puzzle/src/models/position.dart';
 import 'package:utopic_slide_puzzle/src/models/tile.dart';
+import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 
 part 'widgets/puzzle_tile.dart';
 part 'widgets/tile_content/tile_content_0.dart';

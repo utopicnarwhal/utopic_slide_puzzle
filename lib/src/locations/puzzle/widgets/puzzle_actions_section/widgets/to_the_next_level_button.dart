@@ -12,6 +12,7 @@ class _ToTheNextLevelButton extends StatelessWidget {
 
     return BlocBuilder<PuzzleBloc, PuzzleState>(
       bloc: puzzlePageBlocState.puzzleBloc,
+      buildWhen: (oldState, newState) => oldState.puzzleStatus != newState.puzzleStatus,
       builder: (context, puzzleBlocState) {
         if (puzzleBlocState.puzzleStatus != PuzzleStatus.complete) {
           return const SizedBox();

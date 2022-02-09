@@ -14,25 +14,28 @@ class _TileContent1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxHeight = constraints.maxHeight + tilePadding;
-    final maxWidth = constraints.maxWidth + tilePadding;
+    final maxHeight = constraints.maxHeight + (tilePadding * 2);
+    final maxWidth = constraints.maxWidth + (tilePadding * 2);
+
+    final resizedImage = context.select<PuzzleBloc, ui.Image?>((bloc) => bloc.state.resizedImage);
+
+    if (resizedImage == null) {
+      return Shimmer.fromColors(
+        baseColor: UtopicPalette.shimmerBaseColor,
+        highlightColor: UtopicPalette.shimmerHighlightColor,
+        child: Container(color: Colors.white),
+      );
+    }
 
     return OverflowBox(
       maxHeight: maxHeight,
       maxWidth: maxWidth,
-      child: BlocBuilder<PuzzleBloc, PuzzleState>(
-        builder: (context, puzzleState) {
-          if (puzzleState.resizedImage == null) {
-            return const SizedBox();
-          }
-          return CustomPaint(
-            size: Size(maxWidth, maxHeight),
-            painter: _ImageDrawer(
-              image: puzzleState.resizedImage!,
-              position: tile.correctPosition,
-            ),
-          );
-        },
+      child: CustomPaint(
+        size: Size(maxWidth, maxHeight),
+        painter: _ImageDrawer(
+          image: resizedImage,
+          position: tile.correctPosition,
+        ),
       ),
     );
   }
@@ -61,7 +64,7 @@ class _ImageDrawer extends CustomPainter {
         yLength,
       ),
       Rect.fromLTWH(0, 0, size.width, size.height),
-      Paint(),
+      Paint()..filterQuality = ui.FilterQuality.high,
     );
   }
 

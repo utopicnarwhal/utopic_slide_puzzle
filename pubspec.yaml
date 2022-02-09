@@ -38,10 +38,14 @@ dependencies:
   flutter_svg: ^1.0.0
   image: ^3.1.1
   flutter_staggered_animations: ^1.0.0
+  shimmer: ^2.0.0
 
   # UI related
   device_preview: ^1.0.0
   gap: ^2.0.0
+
+  # Native intents
+  file_picker: ^4.3.3
 
   # Firebase
   # firebase_core: "1.11.0"

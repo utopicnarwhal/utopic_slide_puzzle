@@ -5,12 +5,16 @@ class _PuzzleActionsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final puzzleState = context.select<PuzzlePageBloc, PuzzlePageBlocState>((puzzlePageBloc) => puzzlePageBloc.state);
+
     return Wrap(
       spacing: 8,
       runSpacing: 8,
-      children: const [
-        _ShuffleButton(),
-        _ToTheNextLevelButton(),
+      children: [
+        const _ShuffleButton(),
+        const _ToTheNextLevelButton(),
+        if (puzzleState is PuzzlePageBlocLevelState && puzzleState.level == PuzzleLevels.image.index)
+          const _UploadCustomImageButton(),
       ],
     );
   }

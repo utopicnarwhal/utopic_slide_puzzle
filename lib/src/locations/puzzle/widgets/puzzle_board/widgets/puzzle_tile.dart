@@ -28,10 +28,17 @@ class _PuzzleTile extends StatelessWidget {
 
           return BlocBuilder<PuzzleBloc, PuzzleState>(
             bloc: puzzleBloc,
+            buildWhen: (oldState, newState) => oldState.puzzleStatus != newState.puzzleStatus,
             builder: (context, puzzleState) {
+              var clipBehavior = Clip.hardEdge;
+              if (puzzleBloc.level == 1) {
+                clipBehavior = Clip.antiAliasWithSaveLayer;
+              }
+
               return ElevatedButton(
-                clipBehavior: Clip.antiAlias,
+                clipBehavior: clipBehavior,
                 style: ElevatedButton.styleFrom(
+                  elevation: 0,
                   padding: EdgeInsets.zero,
                   primary: Theme.of(context).primaryColor,
                   textStyle: textStyle,

@@ -5,10 +5,16 @@ part of '../../puzzle_page.dart';
 /// {@endtemplate}
 class CenterSection extends StatelessWidget {
   /// {@macro centerSection}
-  const CenterSection({required this.levelScrollPageController, Key? key}) : super(key: key);
+  const CenterSection({
+    required this.levelScrollPageController,
+    required this.levelScrollGlobalKey,
+    Key? key,
+  }) : super(key: key);
 
   /// [PageController] to manage current shown puzzle level
   final PageController levelScrollPageController;
+  /// [GlobalKey] to say Flutter that it's the same widget when the layout changes
+  final GlobalKey? levelScrollGlobalKey;
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +61,11 @@ class CenterSection extends StatelessWidget {
         centerSectionHeight = MediaQuery.of(context).size.height;
         return child!;
       },
-      child: (_) {
+      child: (breakpoint) {
         return SizedBox(
           height: centerSectionHeight,
           child: PageView.builder(
-            restorationId: 'CenterSectionPageViewRestorationId',
+            key: levelScrollGlobalKey,
             clipBehavior: Clip.none,
             controller: levelScrollPageController,
             scrollDirection: scrollDirection,

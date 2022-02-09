@@ -11,40 +11,48 @@ class _StartSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final result = BlocBuilder<PuzzlePageBloc, PuzzlePageBlocState>(
       builder: (context, puzzlePageBlocState) {
-        var levelNumber = 1;
         if (puzzlePageBlocState is! PuzzlePageBlocLevelState) {
           return const SizedBox();
         }
 
-        levelNumber = puzzlePageBlocState.level + 1;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Gap(40),
+            const _PuzzleName(),
+            const Gap(20),
+            BlocBuilder<PuzzleBloc, PuzzleState>(
+              bloc: puzzlePageBlocState.puzzleBloc,
+              buildWhen: (previous, current) => previous.puzzleStatus != current.puzzleStatus,
+              builder: (context, puzzleState) {
+                final levelNumber = puzzlePageBlocState.level + 1;
 
-        return BlocBuilder<PuzzleBloc, PuzzleState>(
-          bloc: puzzlePageBlocState.puzzleBloc,
-          builder: (context, puzzleState) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Gap(40),
-                const _PuzzleName(),
-                const Gap(20),
-                _PuzzleTitle(
+                return _PuzzleTitle(
                   title: puzzleState.puzzleStatus == PuzzleStatus.complete
                       ? Dictums.of(context).puzzleSolved
                       : 'Level $levelNumber',
-                ),
-                const Gap(20),
-                _NumberOfMovesAndTilesLeft(
+                );
+              },
+            ),
+            const Gap(20),
+            BlocBuilder<PuzzleBloc, PuzzleState>(
+              bloc: puzzlePageBlocState.puzzleBloc,
+              buildWhen: (previous, current) =>
+                  previous.numberOfMoves != current.numberOfMoves ||
+                  previous.numberOfCorrectTiles != current.numberOfCorrectTiles,
+              builder: (context, puzzleState) {
+                return _NumberOfMovesAndTilesLeft(
                   numberOfMoves: puzzleState.numberOfMoves,
                   numberOfTilesLeft: puzzleState.numberOfTilesLeft,
-                ),
-                const Gap(20),
-                ResponsiveLayoutBuilder(
-                  medium: (_, __) => const SizedBox(),
-                  extraLarge: (_, __) => const _PuzzleActionsSection(),
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+            const Gap(20),
+            ResponsiveLayoutBuilder(
+              medium: (_, __) => const SizedBox(),
+              extraLarge: (_, __) => const _PuzzleActionsSection(),
+            ),
+          ],
         );
       },
     );

@@ -1,10 +1,13 @@
 import 'package:beamer/beamer.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
+import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_page_bloc.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/puzzle_board.dart';
@@ -14,6 +17,7 @@ part 'widgets/number_of_moves_and_tiles_left.dart';
 part 'widgets/puzzle_actions_section/puzzle_actions_sections.dart';
 part 'widgets/puzzle_actions_section/widgets/shuffle_button.dart';
 part 'widgets/puzzle_actions_section/widgets/to_the_next_level_button.dart';
+part 'widgets/puzzle_actions_section/widgets/upload_custom_image_button.dart';
 part 'widgets/puzzle_name.dart';
 part 'widgets/puzzle_title.dart';
 part 'widgets/sections/center_section.dart';
@@ -56,26 +60,30 @@ class PuzzlePage extends StatefulWidget {
 class _PuzzlePageState extends State<PuzzlePage> {
   late PuzzlePageBloc _puzzlePageBloc;
   late PageController _levelScrollPageController;
+  late GlobalKey _levelScrollGlobalKey;
 
   @override
   void initState() {
     super.initState();
 
     _levelScrollPageController = PageController();
+    _levelScrollGlobalKey = GlobalKey();
     _puzzlePageBloc = PuzzlePageBloc(initialLevel: 0)..changeLevelTo(0);
-    _puzzlePageBloc.stream.listen((state) async {
-      if (state is PuzzlePageBlocLevelState && state.level == 1) {
-        final byteData = await rootBundle.load('assets/images/utopic_narwhal.png');
-        _puzzlePageBloc.addImageToPuzzleWithImageBloc(byteData.buffer.asUint8List());
-      }
-    });
     _puzzlePageBloc.stream.listen((state) {
-      if (state is PuzzlePageBlocLevelState && _levelScrollPageController.hasClients) {
-        _levelScrollPageController.animateToPage(
-          state.level,
-          duration: const Duration(milliseconds: 1000),
-          curve: Curves.easeInOutCubic,
-        );
+      if (state is PuzzlePageBlocLevelState) {
+        if (state.level == 1) {
+          rootBundle.load('assets/images/utopic_narwhal.png').then((byteData) {
+            _puzzlePageBloc.addImageToPuzzleWithImageBloc(byteData.buffer.asUint8List());
+          });
+        }
+
+        if (_levelScrollPageController.hasClients) {
+          _levelScrollPageController.animateToPage(
+            state.level,
+            duration: const Duration(milliseconds: 1000),
+            curve: Curves.easeInOutCubic,
+          );
+        }
       }
     });
   }
@@ -83,6 +91,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
   @override
   void dispose() {
     _puzzlePageBloc.close();
+    _levelScrollPageController.dispose();
     super.dispose();
   }
 
@@ -102,7 +111,10 @@ class _PuzzlePageState extends State<PuzzlePage> {
                   medium: (_, __) => Column(
                     children: [
                       const _StartSection(),
-                      CenterSection(levelScrollPageController: _levelScrollPageController),
+                      CenterSection(
+                        levelScrollPageController: _levelScrollPageController,
+                        levelScrollGlobalKey: _levelScrollGlobalKey,
+                      ),
                       const _EndSection(),
                     ],
                   ),
@@ -112,7 +124,10 @@ class _PuzzlePageState extends State<PuzzlePage> {
                       const Expanded(child: _StartSection()),
                       Flexible(
                         flex: 2,
-                        child: CenterSection(levelScrollPageController: _levelScrollPageController),
+                        child: CenterSection(
+                          levelScrollPageController: _levelScrollPageController,
+                          levelScrollGlobalKey: _levelScrollGlobalKey,
+                        ),
                       ),
                       const Expanded(child: _EndSection()),
                     ],

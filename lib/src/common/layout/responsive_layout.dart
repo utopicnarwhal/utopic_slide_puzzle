@@ -157,6 +157,7 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
 
         return builder(
           context,
+          // Use [Builder] here to pass context to from `builder` to child
           Builder(
             builder: (context) {
               return child?.call(breakpoint) ?? const SizedBox();
