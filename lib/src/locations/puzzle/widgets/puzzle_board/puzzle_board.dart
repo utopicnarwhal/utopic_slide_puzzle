@@ -3,8 +3,10 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:gap/gap.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
+import 'package:utopic_slide_puzzle/src/common/widgets/buttons.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 import 'package:utopic_slide_puzzle/src/models/position.dart';
@@ -14,6 +16,7 @@ import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 part 'widgets/puzzle_tile.dart';
 part 'widgets/tile_content/tile_content_0.dart';
 part 'widgets/tile_content/tile_content_1.dart';
+part 'widgets/tile_content/tile_content_2.dart';
 
 /// {@template simple_puzzle_board}
 /// Display the board of the puzzle
@@ -34,65 +37,115 @@ class PuzzleBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final puzzleState = context.select<PuzzleBloc, PuzzleState>((bloc) => bloc.state);
-
-    final dimension = puzzleState.puzzle.getDimension();
-
-    final puzzleTiles = <_PuzzleTile>[];
-    for (final tile in puzzleState.puzzle.tiles) {
-      puzzleTiles.add(
-        _PuzzleTile(
-          key: Key('puzzle_tile_${tile.value.toString()}'),
-          tile: tile,
-          padding: tilePadding,
-        ),
-      );
-    }
-
     return ResponsiveLayoutBuilder(
       extraLarge: (context, child) {
         return child!;
       },
       child: (_) {
-        final aspect = boardSize / dimension;
-
-        return SizedBox.fromSize(
-          size: Size.square(boardSize),
-          child: Builder(
-            builder: (context) {
-              if (dimension == 0) return const LoadingIndicator();
-
-              return AnimationLimiter(
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    for (int index = 0; index < puzzleTiles.length; ++index)
-                      AnimatedPositioned(
-                        key: ValueKey(puzzleTiles[index].tile.correctPosition),
-                        duration:
-                            puzzleState.lastTappedTile == null ? Duration.zero : const Duration(milliseconds: 700),
-                        left: (puzzleTiles[index].tile.currentPosition.x - 1) * aspect,
-                        top: (puzzleTiles[index].tile.currentPosition.y - 1) * aspect,
-                        height: aspect,
-                        width: aspect,
-                        curve: Curves.bounceOut,
-                        child: AnimationConfiguration.staggeredGrid(
-                          columnCount: puzzleState.puzzle.getDimension(),
-                          position: index,
-                          delay: const Duration(milliseconds: 100),
-                          duration: const Duration(milliseconds: 500),
-                          child: ScaleAnimation(
-                            child: FadeInAnimation(
-                              child: puzzleTiles[index],
+        final puzzleBloc = BlocProvider.of<PuzzleBloc>(context);
+        return BlocConsumer<PuzzleBloc, PuzzleState>(
+          bloc: puzzleBloc,
+          listenWhen: (previous, current) => previous.proposeToSolve == false && current.proposeToSolve == true,
+          listener: (context, state) async {
+            if (state.proposeToSolve) {
+              final result = await showDialog<bool>(
+                context: context,
+                builder: (context) {
+                  return SimpleDialog(
+                    title: const Text('Hm...'), // TODO(sergei): add to dictums
+                    children: [
+                      Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 24),
+                            child: Text(
+                              "Seems like you are in rage. Do you want I'll solve this puzzle for you?", // TODO(sergei): add to dictums
                             ),
                           ),
-                        ),
+                          const Gap(16),
+                          Wrap(
+                            children: [
+                              UtopicButton(
+                                type: UtopicButtonType.text,
+                                onPressed: () {
+                                  Navigator.of(context).pop(true);
+                                },
+                                text: 'No', // TODO(sergei): add to dictums
+                              ),
+                              UtopicButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(true);
+                                },
+                                text: 'Yes', // TODO(sergei): add to dictums
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                  ],
+                    ],
+                  );
+                },
+              );
+              if (result == true) {
+                puzzleBloc.solve();
+              }
+            }
+          },
+          builder: (context, puzzleState) {
+            final dimension = puzzleState.puzzle.getDimension();
+
+            final puzzleTiles = <_PuzzleTile>[];
+            for (final tile in puzzleState.puzzle.tiles) {
+              puzzleTiles.add(
+                _PuzzleTile(
+                  key: Key('puzzle_tile_${tile.value.toString()}'),
+                  tile: tile,
+                  padding: tilePadding,
                 ),
               );
-            },
-          ),
+            }
+
+            final aspect = boardSize / dimension;
+
+            return SizedBox.fromSize(
+              size: Size.square(boardSize),
+              child: Builder(
+                builder: (context) {
+                  if (dimension == 0) return const LoadingIndicator();
+
+                  return AnimationLimiter(
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        for (int index = 0; index < puzzleTiles.length; ++index)
+                          AnimatedPositioned(
+                            key: ValueKey(puzzleTiles[index].tile.correctPosition),
+                            duration: const Duration(milliseconds: 700),
+                            left: (puzzleTiles[index].tile.currentPosition.x - 1) * aspect,
+                            top: (puzzleTiles[index].tile.currentPosition.y - 1) * aspect,
+                            height: aspect,
+                            width: aspect,
+                            // Change movement animation on shuffle
+                            curve: puzzleState.lastTappedTile == null ? Curves.easeInOutBack : Curves.bounceOut,
+                            child: AnimationConfiguration.staggeredGrid(
+                              columnCount: puzzleState.puzzle.getDimension(),
+                              position: index,
+                              delay: const Duration(milliseconds: 100),
+                              duration: const Duration(milliseconds: 500),
+                              child: ScaleAnimation(
+                                child: FadeInAnimation(
+                                  child: puzzleTiles[index],
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            );
+          },
         );
       },
     );

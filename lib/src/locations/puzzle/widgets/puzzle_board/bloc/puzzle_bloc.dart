@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs
+// TODO(sergei): add docs
 
 import 'dart:math';
 import 'dart:typed_data';
@@ -8,10 +9,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:utopic_slide_puzzle/src/models/models.dart';
-import 'package:utopic_slide_puzzle/src/services/image_file_utils.dart';
+import 'package:utopic_slide_puzzle/src/utils/image_file_utils.dart';
 
 part 'puzzle_event.dart';
 part 'puzzle_state.dart';
+
+int _kRageClicksLimit = 5;
 
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   PuzzleBloc({
@@ -19,9 +22,11 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     this.random,
     this.level = 0,
   }) : super(const PuzzleState()) {
-    on<_PuzzleInitialized>(_onPuzzleInitialized);
-    on<_TileTapped>(_onTileTapped);
-    on<_PuzzleReset>(_onPuzzleReset);
+    on<_PuzzleInitializedEvent>(_onPuzzleInitialized);
+    on<_PuzzleTileTappedEvent>(_onTileTapped);
+    on<_PuzzleResetEvent>(_onPuzzleReset);
+    on<_PuzzleSolveEvent>(_onPuzzleSolve);
+    on<_PuzzleAddImageEvent>(_onAddImage);
   }
 
   final int size;
@@ -30,9 +35,11 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   final int level;
 
+  int _theSameTileTapCounter = 0;
+
   void initialize({bool shufflePuzzle = true, Uint8List? imageData}) {
     add(
-      _PuzzleInitialized(
+      _PuzzleInitializedEvent(
         shufflePuzzle: shufflePuzzle,
         imageData: imageData,
       ),
@@ -40,15 +47,23 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   }
 
   void tileTapped(Tile tile) {
-    add(_TileTapped(tile));
+    add(_PuzzleTileTappedEvent(tile));
+  }
+
+  void addImage(Uint8List imageData) {
+    add(_PuzzleAddImageEvent(imageData));
   }
 
   void reset() {
-    add(const _PuzzleReset());
+    add(const _PuzzleResetEvent());
+  }
+
+  void solve() {
+    add(const _PuzzleSolveEvent());
   }
 
   Future _onPuzzleInitialized(
-    _PuzzleInitialized event,
+    _PuzzleInitializedEvent event,
     Emitter<PuzzleState> emit,
   ) async {
     final puzzle = _generatePuzzle(size, shuffle: event.shufflePuzzle);
@@ -67,7 +82,16 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     );
   }
 
-  void _onTileTapped(_TileTapped event, Emitter<PuzzleState> emit) {
+  Future _onAddImage(
+    _PuzzleAddImageEvent event,
+    Emitter<PuzzleState> emit,
+  ) async {
+    final resizedImage = await ImageFileUtils.resizeImage(event.imageData);
+
+    emit(state.copyWith(resizedImage: resizedImage));
+  }
+
+  void _onTileTapped(_PuzzleTileTappedEvent event, Emitter<PuzzleState> emit) {
     final tappedTile = event.tile;
     if (state.puzzleStatus == PuzzleStatus.incomplete) {
       if (state.puzzle.isTileMovable(tappedTile)) {
@@ -85,6 +109,16 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
             ),
           );
         } else {
+          bool? proposeToSolve;
+          if (tappedTile.correctPosition == state.lastTappedTile?.correctPosition) {
+            _theSameTileTapCounter += 1;
+          } else {
+            _theSameTileTapCounter = 0;
+          }
+          if (_theSameTileTapCounter == _kRageClicksLimit) {
+            proposeToSolve = true;
+            _theSameTileTapCounter = 0;
+          }
           emit(
             state.copyWith(
               puzzle: puzzle.sort(),
@@ -92,6 +126,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
               numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
               numberOfMoves: state.numberOfMoves + 1,
               lastTappedTile: tappedTile,
+              proposeToSolve: proposeToSolve,
             ),
           );
         }
@@ -107,13 +142,26 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     }
   }
 
-  void _onPuzzleReset(_PuzzleReset event, Emitter<PuzzleState> emit) {
+  void _onPuzzleReset(_PuzzleResetEvent event, Emitter<PuzzleState> emit) {
     final puzzle = _generatePuzzle(size);
     emit(
       PuzzleState(
         puzzle: puzzle.sort(),
         numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
         resizedImage: state.resizedImage,
+      ),
+    );
+  }
+
+  void _onPuzzleSolve(_PuzzleSolveEvent event, Emitter<PuzzleState> emit) {
+    final puzzle = _generatePuzzle(size, shuffle: false);
+    emit(
+      PuzzleState(
+        puzzle: puzzle.sort(),
+        numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+        resizedImage: state.resizedImage,
+        puzzleStatus: PuzzleStatus.complete,
+        numberOfMoves: state.numberOfMoves,
       ),
     );
   }

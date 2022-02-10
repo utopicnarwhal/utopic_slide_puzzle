@@ -13,6 +13,7 @@ class CenterSection extends StatelessWidget {
 
   /// [PageController] to manage current shown puzzle level
   final PageController levelScrollPageController;
+
   /// [GlobalKey] to say Flutter that it's the same widget when the layout changes
   final GlobalKey? levelScrollGlobalKey;
 
@@ -69,7 +70,7 @@ class CenterSection extends StatelessWidget {
             clipBehavior: Clip.none,
             controller: levelScrollPageController,
             scrollDirection: scrollDirection,
-            itemCount: 16,
+            itemCount: PuzzleLevels.values.length,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return Center(

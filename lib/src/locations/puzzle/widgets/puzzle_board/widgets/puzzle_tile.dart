@@ -32,6 +32,7 @@ class _PuzzleTile extends StatelessWidget {
             builder: (context, puzzleState) {
               var clipBehavior = Clip.hardEdge;
               if (puzzleBloc.level == 1) {
+                // Make image clipping by the tile border radius as smooth as poss
                 clipBehavior = Clip.antiAliasWithSaveLayer;
               }
 
@@ -62,6 +63,12 @@ class _PuzzleTile extends StatelessWidget {
                           tile: tile,
                           constraints: constraints,
                           tilePadding: padding,
+                        );
+                        break;
+                      case 2:
+                        tileContentWidget = _TileContent2(
+                          tile: tile,
+                          numberOfMoves: puzzleState.numberOfMoves,
                         );
                         break;
                       default:

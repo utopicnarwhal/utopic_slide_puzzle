@@ -10,8 +10,8 @@ abstract class PuzzleEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class _PuzzleInitialized extends PuzzleEvent {
-  const _PuzzleInitialized({required this.shufflePuzzle, this.imageData});
+class _PuzzleInitializedEvent extends PuzzleEvent {
+  const _PuzzleInitializedEvent({required this.shufflePuzzle, this.imageData});
 
   final bool shufflePuzzle;
 
@@ -24,8 +24,8 @@ class _PuzzleInitialized extends PuzzleEvent {
       ];
 }
 
-class _TileTapped extends PuzzleEvent {
-  const _TileTapped(this.tile);
+class _PuzzleTileTappedEvent extends PuzzleEvent {
+  const _PuzzleTileTappedEvent(this.tile);
 
   final Tile tile;
 
@@ -33,6 +33,16 @@ class _TileTapped extends PuzzleEvent {
   List<Object> get props => [tile];
 }
 
-class _PuzzleReset extends PuzzleEvent {
-  const _PuzzleReset();
+class _PuzzleAddImageEvent extends PuzzleEvent {
+  const _PuzzleAddImageEvent(this.imageData);
+
+  final Uint8List imageData;
+}
+
+class _PuzzleResetEvent extends PuzzleEvent {
+  const _PuzzleResetEvent();
+}
+
+class _PuzzleSolveEvent extends PuzzleEvent {
+  const _PuzzleSolveEvent();
 }

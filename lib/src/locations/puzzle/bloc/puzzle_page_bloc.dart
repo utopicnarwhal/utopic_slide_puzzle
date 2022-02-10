@@ -13,7 +13,11 @@ part 'puzzle_page_state.dart';
 enum PuzzleLevels {
   number,
   image,
-  other,
+  swaps,
+  remember,
+  pianoNotes,
+  trafficLight,
+  rythm,
 }
 
 class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
@@ -27,16 +31,18 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
       );
     });
     on<_AddImageToPuzzleWithImageBlocEvent>((event, emit) async {
-      emit(
-        PuzzlePageBlocLevelState(
-          level: PuzzleLevels.image.index,
-          puzzleBloc: getPuzzleBlocForLevel(PuzzleLevels.image.index)
-            ..initialize(
-              imageData: event.imageData,
-              shufflePuzzle: !kDebugMode,
-            ),
-        ),
-      );
+      if (state is! PuzzlePageBlocLevelState) {
+        return;
+      }
+      final puzzlePageBlocLevelState = state as PuzzlePageBlocLevelState;
+      if (puzzlePageBlocLevelState.level == PuzzleLevels.image.index) {
+        emit(
+          PuzzlePageBlocLevelState(
+            level: PuzzleLevels.image.index,
+            puzzleBloc: getPuzzleBlocForLevel(PuzzleLevels.image.index)..addImage(event.imageData),
+          ),
+        );
+      }
     });
   }
 

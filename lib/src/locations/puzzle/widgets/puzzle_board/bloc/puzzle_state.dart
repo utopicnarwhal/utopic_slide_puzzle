@@ -15,6 +15,7 @@ class PuzzleState extends Equatable {
     this.numberOfMoves = 0,
     this.lastTappedTile,
     this.resizedImage,
+    this.proposeToSolve = false,
   });
 
   /// [Puzzle] containing the current tile arrangement.
@@ -49,6 +50,9 @@ class PuzzleState extends Equatable {
   /// Only in use in puzzle with image
   final ui.Image? resizedImage;
 
+  /// It turns true in case a user tapped on the same movable tile too many times
+  final bool proposeToSolve;
+
   PuzzleState copyWith({
     Puzzle? puzzle,
     PuzzleStatus? puzzleStatus,
@@ -57,6 +61,7 @@ class PuzzleState extends Equatable {
     int? numberOfMoves,
     Tile? lastTappedTile,
     ui.Image? resizedImage,
+    bool? proposeToSolve,
   }) {
     return PuzzleState(
       puzzle: puzzle ?? this.puzzle,
@@ -66,6 +71,7 @@ class PuzzleState extends Equatable {
       numberOfMoves: numberOfMoves ?? this.numberOfMoves,
       lastTappedTile: lastTappedTile ?? this.lastTappedTile,
       resizedImage: resizedImage ?? this.resizedImage,
+      proposeToSolve: proposeToSolve ?? false,
     );
   }
 
@@ -78,5 +84,6 @@ class PuzzleState extends Equatable {
         numberOfMoves,
         lastTappedTile,
         resizedImage,
+        proposeToSolve,
       ];
 }

@@ -43,7 +43,7 @@ class _UploadCustomImageButtonState extends State<_UploadCustomImageButton> {
                   _loadingController.add(true);
                   try {
                     final result = await FilePicker.platform.pickFiles(
-                      type: FileType.image,
+                      type: FileType.custom,
                       allowedExtensions: [
                         'png',
                         'jpg',
