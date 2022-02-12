@@ -107,30 +107,32 @@ class _PuzzlePageState extends State<PuzzlePage> {
                 constraints: BoxConstraints(
                   minHeight: constraints.maxHeight,
                 ),
-                child: ResponsiveLayoutBuilder(
-                  medium: (_, __) => Column(
-                    children: [
-                      const _StartSection(),
-                      CenterSection(
-                        levelScrollPageController: _levelScrollPageController,
-                        levelScrollGlobalKey: _levelScrollGlobalKey,
-                      ),
-                      const _EndSection(),
-                    ],
-                  ),
-                  extraLarge: (_, __) => Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Expanded(child: _StartSection()),
-                      Flexible(
-                        flex: 2,
-                        child: CenterSection(
+                child: SafeArea(
+                  child: ResponsiveLayoutBuilder(
+                    medium: (_, __) => Column(
+                      children: [
+                        const _StartSection(),
+                        CenterSection(
                           levelScrollPageController: _levelScrollPageController,
                           levelScrollGlobalKey: _levelScrollGlobalKey,
                         ),
-                      ),
-                      const Expanded(child: _EndSection()),
-                    ],
+                        const _EndSection(),
+                      ],
+                    ),
+                    extraLarge: (_, __) => Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Expanded(child: _StartSection()),
+                        Flexible(
+                          flex: 2,
+                          child: CenterSection(
+                            levelScrollPageController: _levelScrollPageController,
+                            levelScrollGlobalKey: _levelScrollGlobalKey,
+                          ),
+                        ),
+                        const Expanded(child: _EndSection()),
+                      ],
+                    ),
                   ),
                 ),
               ),

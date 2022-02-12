@@ -27,11 +27,14 @@ enum UtopicButtonColor {
   card,
 }
 
+const _buttonSwitchingAnimationDuration = Duration(milliseconds: 150);
+
 class UtopicButton extends StatelessWidget {
   const UtopicButton({
     required this.onPressed,
     required this.text,
     this.leading,
+    this.trailing,
     this.color = UtopicButtonColor.primary,
     this.isLoading = false,
     this.type = UtopicButtonType.contained,
@@ -45,6 +48,7 @@ class UtopicButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final Widget? leading;
+  final Widget? trailing;
   final UtopicButtonColor color;
   final bool isLoading;
   final UtopicButtonType type;
@@ -58,7 +62,11 @@ class UtopicButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.button?.copyWith(fontSize: _getFontSize());
-    final textWidget = Text(text, style: textStyle);
+    final textWidget = Text(
+      text,
+      style: textStyle,
+      textAlign: TextAlign.center,
+    );
 
     late Widget result;
     result = textWidget;
@@ -165,33 +173,74 @@ class UtopicButton extends StatelessWidget {
     final buttonPrimaryColor = _buttonPrimaryColor(context, type);
     final buttonOnPressed = isLoading ? () {} : onPressed;
     Widget? buttonLeading;
+    Widget? buttonTrailing;
 
-    final buttonChild = Stack(
-      alignment: Alignment.center,
-      children: [
-        if (leading == null) _buildLoadingWidget(),
-        // Button should save the size even when the button label is replaced with loading indicator
-        AnimatedOpacity(
-          opacity: isLoading && leading == null ? 0 : 1,
-          duration: const Duration(milliseconds: 150),
-          child: child,
-        ),
-      ],
-    );
     if (leading != null) {
-      buttonLeading = Stack(
-        alignment: Alignment.center,
-        children: [
-          _buildLoadingWidget(),
-          // Button should save the size even when the button label is replaced with loading indicator
-          AnimatedOpacity(
-            opacity: isLoading ? 0 : 1,
-            duration: const Duration(milliseconds: 150),
-            child: leading,
-          ),
-        ],
+      buttonLeading = Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            _buildLoadingWidget(),
+            // Button should save the size even when the button label is replaced with loading indicator
+            AnimatedOpacity(
+              opacity: isLoading ? 0 : 1,
+              duration: _buttonSwitchingAnimationDuration,
+              child: leading,
+            ),
+          ],
+        ),
       );
     }
+    if (trailing != null) {
+      buttonTrailing = Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (leading == null) _buildLoadingWidget(),
+            // Button should save the size even when the button label is replaced with loading indicator
+            AnimatedOpacity(
+              opacity: (isLoading && leading == null) ? 0 : 1,
+              duration: _buttonSwitchingAnimationDuration,
+              child: trailing,
+            ),
+          ],
+        ),
+      );
+    }
+    final buttonChild = Builder(
+      // We need the Builder widget to get the corrent IconTheme.of(context)
+      builder: (context) {
+        return IconTheme(
+          data: IconTheme.of(context).copyWith(size: _loadingWidgetSize()),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (buttonLeading != null) buttonLeading,
+              // Button should save the size even when the button label is replaced with loading indicator
+              Flexible(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // Show loading widget in the center in case if there are no trailing and leading widgets
+                    if (leading == null && trailing == null) _buildLoadingWidget(),
+                    // Hide the label text in case if there are no trailing and leading widgets
+                    AnimatedOpacity(
+                      opacity: isLoading && leading == null && trailing == null ? 0 : 1,
+                      duration: _buttonSwitchingAnimationDuration,
+                      child: child,
+                    ),
+                  ],
+                ),
+              ),
+              if (buttonTrailing != null) buttonTrailing,
+            ],
+          ),
+        );
+      },
+    );
 
     switch (type) {
       case UtopicButtonType.contained:

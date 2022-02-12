@@ -18,7 +18,6 @@ class _StartSection extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Gap(40),
             const _PuzzleName(),
             const Gap(20),
             BlocBuilder<PuzzleBloc, PuzzleState>(

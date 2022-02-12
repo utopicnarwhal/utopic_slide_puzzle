@@ -13,11 +13,14 @@ class _PuzzleName extends StatelessWidget {
     return ResponsiveLayoutBuilder(
       small: (context, child) => const SizedBox(),
       medium: (context, child) => const SizedBox(),
-      extraLarge: (context, child) => Text(
-        Dictums.of(context).puzzleChallengeTitle,
-        style: Theme.of(context).textTheme.headline5?.copyWith(
-              color: Theme.of(context).hintColor,
-            ),
+      extraLarge: (context, child) => Padding(
+        padding: const EdgeInsets.fromLTRB(8, 40, 8, 0),
+        child: Text(
+          Dictums.of(context).puzzleChallengeTitle,
+          style: Theme.of(context).textTheme.headline5?.copyWith(
+                color: Theme.of(context).hintColor,
+              ),
+        ),
       ),
     );
   }

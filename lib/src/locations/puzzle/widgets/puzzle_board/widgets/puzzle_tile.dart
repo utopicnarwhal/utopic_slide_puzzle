@@ -26,16 +26,15 @@ class _PuzzleTile extends StatelessWidget {
 
           final puzzleBloc = context.read<PuzzleBloc>();
 
+          var clipBehavior = Clip.hardEdge;
+          if (puzzleBloc.level == 1) {
+            // Make image clipping by the tile border radius as smooth as poss
+            clipBehavior = Clip.antiAliasWithSaveLayer;
+          }
+
           return BlocBuilder<PuzzleBloc, PuzzleState>(
             bloc: puzzleBloc,
-            buildWhen: (oldState, newState) => oldState.puzzleStatus != newState.puzzleStatus,
             builder: (context, puzzleState) {
-              var clipBehavior = Clip.hardEdge;
-              if (puzzleBloc.level == 1) {
-                // Make image clipping by the tile border radius as smooth as poss
-                clipBehavior = Clip.antiAliasWithSaveLayer;
-              }
-
               return ElevatedButton(
                 clipBehavior: clipBehavior,
                 style: ElevatedButton.styleFrom(

@@ -8,17 +8,15 @@ class _PuzzleTitle extends StatelessWidget {
   const _PuzzleTitle({
     Key? key,
     required this.title,
-    this.color = UtopicPalette.utopicPrimary,
   }) : super(key: key);
 
   /// The title to be displayed.
   final String title;
 
-  /// The color of the [title], defaults to [UtopicPalette.utopicPrimary].
-  final Color? color;
-
   @override
   Widget build(BuildContext context) {
+    const primaryColor = UtopicPalette.utopicPrimary;
+
     return ResponsiveLayoutBuilder(
       small: (context, child) => Center(
         child: SizedBox(
@@ -27,7 +25,7 @@ class _PuzzleTitle extends StatelessWidget {
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline3?.copyWith(color: color),
+              style: Theme.of(context).textTheme.headline3?.copyWith(color: primaryColor),
             ),
           ),
         ),
@@ -35,18 +33,14 @@ class _PuzzleTitle extends StatelessWidget {
       medium: (context, child) => Center(
         child: Text(
           title,
-          style: Theme.of(context).textTheme.headline3?.copyWith(
-                color: color,
-              ),
+          style: Theme.of(context).textTheme.headline3?.copyWith(color: primaryColor),
         ),
       ),
       extraLarge: (context, child) => SizedBox(
         width: 300,
         child: Text(
           title,
-          style: Theme.of(context).textTheme.headline2?.copyWith(
-                color: color,
-              ),
+          style: Theme.of(context).textTheme.headline2?.copyWith(color: primaryColor),
         ),
       ),
     );
