@@ -51,6 +51,46 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     add(_PuzzleTileTappedEvent(tile));
   }
 
+  void moveLeft() {
+    final whitespaceTilePosition = state.puzzle.getWhitespaceTile().currentPosition;
+    if (whitespaceTilePosition.x >= state.puzzle.getDimension()) {
+      return;
+    }
+    final positionOfTileToMove = Position(x: whitespaceTilePosition.x + 1, y: whitespaceTilePosition.y);
+    final tileToMove = state.puzzle.tiles.firstWhere((tile) => tile.currentPosition == positionOfTileToMove);
+    add(_PuzzleTileTappedEvent(tileToMove));
+  }
+
+  void moveUp() {
+    final whitespaceTilePosition = state.puzzle.getWhitespaceTile().currentPosition;
+    if (whitespaceTilePosition.y >= state.puzzle.getDimension()) {
+      return;
+    }
+    final positionOfTileToMove = Position(x: whitespaceTilePosition.x, y: whitespaceTilePosition.y + 1);
+    final tileToMove = state.puzzle.tiles.firstWhere((tile) => tile.currentPosition == positionOfTileToMove);
+    add(_PuzzleTileTappedEvent(tileToMove));
+  }
+
+  void moveRight() {
+    final whitespaceTilePosition = state.puzzle.getWhitespaceTile().currentPosition;
+    if (whitespaceTilePosition.x <= 1) {
+      return;
+    }
+    final positionOfTileToMove = Position(x: whitespaceTilePosition.x - 1, y: whitespaceTilePosition.y);
+    final tileToMove = state.puzzle.tiles.firstWhere((tile) => tile.currentPosition == positionOfTileToMove);
+    add(_PuzzleTileTappedEvent(tileToMove));
+  }
+
+  void moveDown() {
+    final whitespaceTilePosition = state.puzzle.getWhitespaceTile().currentPosition;
+    if (whitespaceTilePosition.y <= 1) {
+      return;
+    }
+    final positionOfTileToMove = Position(x: whitespaceTilePosition.x, y: whitespaceTilePosition.y - 1);
+    final tileToMove = state.puzzle.tiles.firstWhere((tile) => tile.currentPosition == positionOfTileToMove);
+    add(_PuzzleTileTappedEvent(tileToMove));
+  }
+
   void addImage(Uint8List imageData) {
     add(_PuzzleAddImageEvent(imageData));
   }

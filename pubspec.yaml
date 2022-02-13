@@ -57,6 +57,9 @@ dependencies:
   # For tests
   fake_async: ^1.2.0
 
+  # Unsorted
+  flutter_swipe_detector: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
