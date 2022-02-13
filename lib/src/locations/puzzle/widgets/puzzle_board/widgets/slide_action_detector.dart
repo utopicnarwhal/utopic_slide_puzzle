@@ -17,7 +17,6 @@ class _SlideActionDetector extends StatelessWidget {
     if (event.repeat != false || event is! RawKeyDownEvent) {
       return;
     }
-    print(event);
     if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
       puzzleBloc.moveLeft();
     } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
