@@ -22,7 +22,9 @@ class _ToTheNextLevelButton extends StatelessWidget {
           backgroundColor: Theme.of(context).primaryColor,
           icon: const Icon(Icons.arrow_forward_rounded),
           onPressed: () {
-            BlocProvider.of<PuzzlePageBloc>(context).changeLevelTo(puzzlePageBlocState.level + 1);
+            BlocProvider.of<PuzzlePageBloc>(context).changeLevelTo(
+              PuzzleLevels.values[puzzlePageBlocState.level.index + 1],
+            );
           },
         );
       },

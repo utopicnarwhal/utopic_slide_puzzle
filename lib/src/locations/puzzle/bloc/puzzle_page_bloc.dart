@@ -25,8 +25,8 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
     on<_ChangeLevelPuzzlePageEvent>((event, emit) {
       emit(
         PuzzlePageBlocLevelState(
-          level: event.levelNumber,
-          puzzleBloc: getPuzzleBlocForLevel(event.levelNumber)..initialize(shufflePuzzle: !kDebugMode),
+          level: event.level,
+          puzzleBloc: getPuzzleBlocForLevel(event.level)..initialize(shufflePuzzle: !kDebugMode),
         ),
       );
     });
@@ -35,11 +35,11 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
         return;
       }
       final puzzlePageBlocLevelState = state as PuzzlePageBlocLevelState;
-      if (puzzlePageBlocLevelState.level == PuzzleLevels.image.index) {
+      if (puzzlePageBlocLevelState.level == PuzzleLevels.image) {
         emit(
           PuzzlePageBlocLevelState(
-            level: PuzzleLevels.image.index,
-            puzzleBloc: getPuzzleBlocForLevel(PuzzleLevels.image.index)..addImage(event.imageData),
+            level: PuzzleLevels.image,
+            puzzleBloc: getPuzzleBlocForLevel(PuzzleLevels.image)..addImage(event.imageData),
           ),
         );
       }
@@ -47,17 +47,17 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
   }
 
   final int initialLevel;
-  final Map<int, PuzzleBloc> puzzleBlocsMap = {};
+  final Map<PuzzleLevels, PuzzleBloc> puzzleBlocsMap = {};
 
-  PuzzleBloc getPuzzleBlocForLevel(int level) {
+  PuzzleBloc getPuzzleBlocForLevel(PuzzleLevels level) {
     if (puzzleBlocsMap[level] == null) {
       puzzleBlocsMap[level] = PuzzleBloc(level: level);
     }
     return puzzleBlocsMap[level]!;
   }
 
-  void changeLevelTo(int levelNumber) {
-    add(_ChangeLevelPuzzlePageEvent(levelNumber: levelNumber));
+  void changeLevelTo(PuzzleLevels level) {
+    add(_ChangeLevelPuzzlePageEvent(level: level));
   }
 
   void addImageToPuzzleWithImageBloc(Uint8List imageData) {

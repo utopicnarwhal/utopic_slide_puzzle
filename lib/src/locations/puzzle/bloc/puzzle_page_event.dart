@@ -11,9 +11,9 @@ abstract class PuzzlePageEvent extends Equatable {
 }
 
 class _ChangeLevelPuzzlePageEvent extends PuzzlePageEvent {
-  const _ChangeLevelPuzzlePageEvent({required this.levelNumber});
+  const _ChangeLevelPuzzlePageEvent({required this.level});
 
-  final int levelNumber;
+  final PuzzleLevels level;
 
   @override
   List<Object> get props => [];

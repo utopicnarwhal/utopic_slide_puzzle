@@ -75,7 +75,7 @@ class CenterSection extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return Center(
                 child: BlocProvider.value(
-                  value: BlocProvider.of<PuzzlePageBloc>(context).getPuzzleBlocForLevel(index),
+                  value: BlocProvider.of<PuzzlePageBloc>(context).getPuzzleBlocForLevel(PuzzleLevels.values[index]),
                   child: PuzzleBoard(
                     key: Key('puzzle_board_level_$index'),
                     tilePadding: tilePadding,

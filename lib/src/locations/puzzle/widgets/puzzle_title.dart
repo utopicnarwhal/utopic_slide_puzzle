@@ -16,33 +16,52 @@ class _PuzzleTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const primaryColor = UtopicPalette.utopicPrimary;
+    TextStyle? textStyle;
 
     return ResponsiveLayoutBuilder(
-      small: (context, child) => Center(
-        child: SizedBox(
-          width: 300,
-          child: Center(
+      medium: (context, child) {
+        textStyle = Theme.of(context).textTheme.headline3;
+
+        return Center(
+          child: SizedBox(
+            height: 60,
+            child: child,
+          ),
+        );
+      },
+      extraLarge: (context, child) {
+        textStyle = Theme.of(context).textTheme.headline2;
+        return SizedBox(
+          height: 80,
+          child: child,
+        );
+      },
+      child: (_) {
+        return FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.bottomLeft,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            switchInCurve: Curves.easeInCubic,
+            switchOutCurve: Curves.easeOutCubic,
+            transitionBuilder: (child, animation) {
+              return SlideTransition(
+                position: Tween<Offset>(begin: const Offset(0, -0.5), end: Offset.zero).animate(animation),
+                child: FadeTransition(
+                  opacity: animation,
+                  child: child,
+                ),
+              );
+            },
             child: Text(
               title,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline3?.copyWith(color: primaryColor),
+              key: Key(title),
+              maxLines: 1,
+              style: textStyle?.copyWith(color: primaryColor),
             ),
           ),
-        ),
-      ),
-      medium: (context, child) => Center(
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.headline3?.copyWith(color: primaryColor),
-        ),
-      ),
-      extraLarge: (context, child) => SizedBox(
-        width: 300,
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.headline2?.copyWith(color: primaryColor),
-        ),
-      ),
+        );
+      },
     );
   }
 }

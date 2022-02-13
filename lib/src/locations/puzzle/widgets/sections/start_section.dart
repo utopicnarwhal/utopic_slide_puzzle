@@ -24,7 +24,7 @@ class _StartSection extends StatelessWidget {
               bloc: puzzlePageBlocState.puzzleBloc,
               buildWhen: (previous, current) => previous.puzzleStatus != current.puzzleStatus,
               builder: (context, puzzleState) {
-                final levelNumber = puzzlePageBlocState.level + 1;
+                final levelNumber = puzzlePageBlocState.level.index + 1;
 
                 return _PuzzleTitle(
                   title: puzzleState.puzzleStatus == PuzzleStatus.complete

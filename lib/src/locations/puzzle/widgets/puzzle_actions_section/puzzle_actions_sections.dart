@@ -13,7 +13,7 @@ class _PuzzleActionsSection extends StatelessWidget {
       children: [
         const _ShuffleButton(),
         const _ToTheNextLevelButton(),
-        if (puzzleState is PuzzlePageBlocLevelState && puzzleState.level == PuzzleLevels.image.index)
+        if (puzzleState is PuzzlePageBlocLevelState && puzzleState.level == PuzzleLevels.image)
           const _UploadCustomImageButton(),
       ],
     );

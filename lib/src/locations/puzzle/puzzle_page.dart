@@ -1,9 +1,11 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:beamer/beamer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
@@ -65,13 +67,12 @@ class _PuzzlePageState extends State<PuzzlePage> {
   @override
   void initState() {
     super.initState();
-
     _levelScrollPageController = PageController();
     _levelScrollGlobalKey = GlobalKey();
-    _puzzlePageBloc = PuzzlePageBloc(initialLevel: 0)..changeLevelTo(0);
+    _puzzlePageBloc = PuzzlePageBloc(initialLevel: 0)..changeLevelTo(PuzzleLevels.number);
     _puzzlePageBloc.stream.listen((state) {
       if (state is PuzzlePageBlocLevelState) {
-        if (state.level == 1) {
+        if (state.level == PuzzleLevels.image) {
           rootBundle.load('assets/images/utopic_narwhal.png').then((byteData) {
             _puzzlePageBloc.addImageToPuzzleWithImageBloc(byteData.buffer.asUint8List());
           });
@@ -79,7 +80,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
 
         if (_levelScrollPageController.hasClients) {
           _levelScrollPageController.animateToPage(
-            state.level,
+            state.level.index,
             duration: const Duration(milliseconds: 1000),
             curve: Curves.easeInOutCubic,
           );
@@ -97,47 +98,51 @@ class _PuzzlePageState extends State<PuzzlePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider.value(
-        value: _puzzlePageBloc,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
-                child: SafeArea(
-                  child: ResponsiveLayoutBuilder(
-                    medium: (_, __) => Column(
-                      children: [
-                        const _StartSection(),
-                        CenterSection(
-                          levelScrollPageController: _levelScrollPageController,
-                          levelScrollGlobalKey: _levelScrollGlobalKey,
-                        ),
-                        const _EndSection(),
-                      ],
-                    ),
-                    extraLarge: (_, __) => Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Expanded(child: _StartSection()),
-                        Flexible(
-                          flex: 2,
-                          child: CenterSection(
+    return Provider<AssetsAudioPlayer>(
+      create: (context) => AssetsAudioPlayer(),
+      dispose: (context, pageSoundPlayer) => pageSoundPlayer.dispose(),
+      child: Scaffold(
+        body: BlocProvider.value(
+          value: _puzzlePageBloc,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: SafeArea(
+                    child: ResponsiveLayoutBuilder(
+                      medium: (_, __) => Column(
+                        children: [
+                          const _StartSection(),
+                          CenterSection(
                             levelScrollPageController: _levelScrollPageController,
                             levelScrollGlobalKey: _levelScrollGlobalKey,
                           ),
-                        ),
-                        const Expanded(child: _EndSection()),
-                      ],
+                          const _EndSection(),
+                        ],
+                      ),
+                      extraLarge: (_, __) => Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Expanded(child: _StartSection()),
+                          Flexible(
+                            flex: 2,
+                            child: CenterSection(
+                              levelScrollPageController: _levelScrollPageController,
+                              levelScrollGlobalKey: _levelScrollGlobalKey,
+                            ),
+                          ),
+                          const Expanded(child: _EndSection()),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

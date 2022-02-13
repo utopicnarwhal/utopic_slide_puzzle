@@ -10,7 +10,7 @@ class _TileContent2 extends StatelessWidget {
   final Tile tile;
   final int numberOfMoves;
 
-  final _japaneseNumbersMap = {
+  final _kanjiNumbersMap = {
     1: '一',
     2: '二',
     3: '三',
@@ -26,6 +26,7 @@ class _TileContent2 extends StatelessWidget {
     13: '十三',
     14: '十四',
     15: '十五',
+    16: '十六',
   };
 
   final _romanNumbersMap = {
@@ -44,6 +45,7 @@ class _TileContent2 extends StatelessWidget {
     13: 'XIII',
     14: 'XIV',
     15: 'XV',
+    16: 'XVI',
   };
 
   final _englishAlphabetMap = {
@@ -62,6 +64,7 @@ class _TileContent2 extends StatelessWidget {
     13: 'M',
     14: 'N',
     15: 'O',
+    16: 'P',
   };
 
   @override
@@ -87,8 +90,8 @@ class _TileContent2 extends StatelessWidget {
           break;
         case 1:
           child = Text(
-            _japaneseNumbersMap[tile.value] ?? '',
-            key: Key(_japaneseNumbersMap[tile.value] ?? ''),
+            _kanjiNumbersMap[tile.value] ?? '',
+            key: Key(_kanjiNumbersMap[tile.value] ?? ''),
             overflow: TextOverflow.visible,
             textAlign: TextAlign.center,
             maxLines: 1,

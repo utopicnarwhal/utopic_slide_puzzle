@@ -15,11 +15,11 @@ class PuzzlePageBlocLevelState extends PuzzlePageBlocState {
     required this.puzzleBloc,
   });
 
-  final int level;
+  final PuzzleLevels level;
   final PuzzleBloc puzzleBloc;
 
   PuzzlePageBlocState copyWith({
-    int? level,
+    PuzzleLevels? level,
     PuzzleBloc? puzzleBloc,
   }) {
     return PuzzlePageBlocLevelState(

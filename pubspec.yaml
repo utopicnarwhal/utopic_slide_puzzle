@@ -33,12 +33,16 @@ dependencies:
   # State management
   flutter_bloc: ^8.0.1
   bloc: ^8.0.2
+  provider: ^6.0.2
 
   # Animations and image related
   flutter_svg: ^1.0.3
-  image: ^3.1.1
   flutter_staggered_animations: ^1.0.0
   shimmer: ^2.0.0
+  lottie: ^1.2.1
+
+  # Audio
+  assets_audio_player: ^3.0.4+1
 
   # UI related
   device_preview: ^1.0.0
@@ -76,11 +80,13 @@ flutter:
   assets:
     - .env
     - assets/images/utopic_narwhal.png
+    - assets/animations/confetti.json
+    - assets/sound_fx/rattle-magnet.mp3
 
   fonts:
     - family: YujiSyuku
       fonts:
-        - asset: assets/fonts/YujiSyuku/YujiSyuku-regular.ttf
+        - asset: assets/fonts/YujiSyuku/YujiSyuku-Regular.ttf
     - family: Rubik
       fonts:
         - asset: assets/fonts/Rubik/Rubik-Light.ttf

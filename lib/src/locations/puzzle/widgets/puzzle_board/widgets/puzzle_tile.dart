@@ -27,7 +27,7 @@ class _PuzzleTile extends StatelessWidget {
           final puzzleBloc = context.read<PuzzleBloc>();
 
           var clipBehavior = Clip.hardEdge;
-          if (puzzleBloc.level == 1) {
+          if (puzzleBloc.level == PuzzleLevels.image) {
             // Make image clipping by the tile border radius as smooth as poss
             clipBehavior = Clip.antiAliasWithSaveLayer;
           }
@@ -48,30 +48,42 @@ class _PuzzleTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed:
-                    puzzleState.puzzleStatus == PuzzleStatus.incomplete ? () => puzzleBloc.tileTapped(tile) : () {},
+                onPressed: () {
+                  if (puzzleState.puzzleStatus == PuzzleStatus.incomplete) {
+                    puzzleBloc.tileTapped(tile);
+                  }
+                },
                 child: Builder(
                   builder: (context) {
                     late Widget tileContentWidget;
                     switch (puzzleBloc.level) {
-                      case 0:
+                      case PuzzleLevels.number:
                         tileContentWidget = _TileContent0(tile: tile);
                         break;
-                      case 1:
+                      case PuzzleLevels.image:
                         tileContentWidget = _TileContent1(
                           tile: tile,
                           constraints: constraints,
                           tilePadding: padding,
                         );
                         break;
-                      case 2:
+                      case PuzzleLevels.swaps:
                         tileContentWidget = _TileContent2(
                           tile: tile,
                           numberOfMoves: puzzleState.numberOfMoves,
                         );
                         break;
-                      default:
-                        tileContentWidget = _TileContent0(tile: tile);
+                      case PuzzleLevels.remember:
+                        tileContentWidget = _TileContent3(
+                          tile: tile,
+                        );
+                        break;
+                      case PuzzleLevels.pianoNotes:
+                        break;
+                      case PuzzleLevels.trafficLight:
+                        break;
+                      case PuzzleLevels.rythm:
+                        break;
                     }
                     return tileContentWidget;
                   },

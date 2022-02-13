@@ -8,6 +8,7 @@ import 'dart:ui' as ui;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_page_bloc.dart';
 import 'package:utopic_slide_puzzle/src/models/models.dart';
 import 'package:utopic_slide_puzzle/src/utils/image_file_utils.dart';
 
@@ -20,7 +21,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   PuzzleBloc({
     this.size = 4,
     this.random,
-    this.level = 0,
+    this.level = PuzzleLevels.number,
   }) : super(const PuzzleState()) {
     on<_PuzzleInitializedEvent>(_onPuzzleInitialized);
     on<_PuzzleTileTappedEvent>(_onTileTapped);
@@ -33,7 +34,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   final Random? random;
 
-  final int level;
+  final PuzzleLevels level;
 
   int _theSameTileTapCounter = 0;
 
