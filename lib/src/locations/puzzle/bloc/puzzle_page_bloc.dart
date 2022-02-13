@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 
@@ -21,7 +22,10 @@ enum PuzzleLevels {
 }
 
 class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
-  PuzzlePageBloc({required this.initialLevel}) : super(PuzzlePageBlocInitState()) {
+  PuzzlePageBloc({
+    required this.initialLevel,
+    required this.confettiAnimationController,
+  }) : super(PuzzlePageBlocInitState()) {
     on<_ChangeLevelPuzzlePageEvent>((event, emit) {
       emit(
         PuzzlePageBlocLevelState(
@@ -48,6 +52,7 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
 
   final int initialLevel;
   final Map<PuzzleLevels, PuzzleBloc> puzzleBlocsMap = {};
+  final AnimationController confettiAnimationController;
 
   PuzzleBloc getPuzzleBlocForLevel(PuzzleLevels level) {
     if (puzzleBlocsMap[level] == null) {
@@ -62,6 +67,12 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
 
   void addImageToPuzzleWithImageBloc(Uint8List imageData) {
     add(_AddImageToPuzzleWithImageBlocEvent(imageData: imageData));
+  }
+
+  void puzzleSolved() {
+    confettiAnimationController
+      ..reset()
+      ..forward();
   }
 
   @override

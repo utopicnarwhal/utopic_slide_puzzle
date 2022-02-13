@@ -39,6 +39,26 @@ enum Breakpoint {
   xl,
 }
 
+/// Represents
+///
+/// Call [ScreenSize.getOrientationType] to get it for the current [BuildContext]
+enum OrientationType {
+  /// {@template portrait}
+  /// screenSize.width / screenSize.height <= 0.75
+  /// {@endtemplate}
+  portrait,
+
+  /// {@template square}
+  /// Screen's aspect ratio > 0.75 and < 1.25
+  /// {@endtemplate}
+  square,
+
+  /// {@template landscape}
+  /// screenSize.width / screenSize.height >= 1.25
+  /// {@endtemplate}
+  landscape,
+}
+
 /// Signature for the individual actions (`small`, `medium`, `large`, etc.).
 typedef ResponsiveLayoutActionFunction = FutureOr<void> Function(BuildContext context, Breakpoint breakpoint);
 
@@ -57,6 +77,18 @@ abstract class ScreenSize {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return _getBreakpointFromWidth(screenWidth);
+  }
+
+  /// Returns current screen's [OrientationType]
+  static OrientationType getOrientationType(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
+    if (screenSize.width / screenSize.height >= 1.25) {
+      return OrientationType.landscape;
+    } else if (screenSize.width / screenSize.height <= 0.75) {
+      return OrientationType.portrait;
+    }
+    return OrientationType.square;
   }
 
   static Breakpoint _getBreakpointFromWidth(double availableWidth) {

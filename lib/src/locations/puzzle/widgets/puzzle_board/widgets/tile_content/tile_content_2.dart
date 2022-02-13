@@ -86,6 +86,7 @@ class _TileContent2 extends StatelessWidget {
             overflow: TextOverflow.visible,
             textAlign: TextAlign.center,
             maxLines: 1,
+            textScaleFactor: 1,
           );
           break;
         case 1:
@@ -96,6 +97,7 @@ class _TileContent2 extends StatelessWidget {
             textAlign: TextAlign.center,
             maxLines: 1,
             style: const TextStyle(fontFamily: 'YujiSyuku'),
+            textScaleFactor: 1,
           );
           break;
         case 2:
@@ -105,6 +107,7 @@ class _TileContent2 extends StatelessWidget {
             overflow: TextOverflow.visible,
             textAlign: TextAlign.center,
             maxLines: 1,
+            textScaleFactor: 1,
           );
           break;
         default:

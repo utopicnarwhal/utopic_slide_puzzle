@@ -15,6 +15,7 @@ class _TileContent3 extends StatelessWidget {
       overflow: TextOverflow.visible,
       textAlign: TextAlign.center,
       maxLines: 1,
+      textScaleFactor: 1,
     );
   }
 }

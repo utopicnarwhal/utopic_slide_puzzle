@@ -1,10 +1,10 @@
 import 'dart:ui' as ui;
 
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:gap/gap.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/buttons.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
@@ -20,6 +20,8 @@ part 'widgets/tile_content/tile_content_0.dart';
 part 'widgets/tile_content/tile_content_1.dart';
 part 'widgets/tile_content/tile_content_2.dart';
 part 'widgets/tile_content/tile_content_3.dart';
+
+const _kSlideTileDuration = Duration(milliseconds: 700);
 
 /// {@template simple_puzzle_board}
 /// Display the board of the puzzle
@@ -39,12 +41,18 @@ class PuzzleBoard extends StatelessWidget {
   final double tilePadding;
 
   void _puzzleBlocListener(BuildContext context, PuzzleBloc puzzleBloc, PuzzleState puzzleState) {
+    if (puzzleState.puzzleStatus == PuzzleStatus.complete) {
+      context.read<PuzzlePageBloc>().puzzleSolved();
+    }
     if (puzzleState.tileMovementStatus == TileMovementStatus.moved) {
-      final assetsAudioPlayer = context.read<AssetsAudioPlayer>();
+      final assetsAudioPlayer = context.read<AudioPlayer>();
       try {
-        assetsAudioPlayer
-          ..open(Audio('assets/sound_fx/rattle-magnet.mp3'))
-          ..play();
+        Future.delayed(_kSlideTileDuration * 0.38, () {
+          assetsAudioPlayer
+            ..pause()
+            ..seek(Duration.zero)
+            ..play();
+        });
       } catch (e) {
         debugPrint(e.toString());
       }
@@ -97,7 +105,7 @@ class PuzzleBoard extends StatelessWidget {
                     for (int index = 0; index < puzzleTiles.length; ++index)
                       AnimatedPositioned(
                         key: ValueKey(puzzleTiles[index].tile.correctPosition),
-                        duration: const Duration(milliseconds: 700),
+                        duration: _kSlideTileDuration,
                         left: (puzzleTiles[index].tile.currentPosition.x - 1) * aspect,
                         top: (puzzleTiles[index].tile.currentPosition.y - 1) * aspect,
                         height: aspect,

@@ -17,20 +17,21 @@ class _PuzzleTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     const primaryColor = UtopicPalette.utopicPrimary;
     TextStyle? textStyle;
+    var alignment = Alignment.center;
 
     return ResponsiveLayoutBuilder(
       medium: (context, child) {
         textStyle = Theme.of(context).textTheme.headline3;
 
-        return Center(
-          child: SizedBox(
-            height: 60,
-            child: child,
-          ),
+        return SizedBox(
+          height: 60,
+          child: Center(child: child),
         );
       },
       extraLarge: (context, child) {
         textStyle = Theme.of(context).textTheme.headline2;
+        alignment = Alignment.bottomLeft;
+
         return SizedBox(
           height: 80,
           child: child,
@@ -39,7 +40,7 @@ class _PuzzleTitle extends StatelessWidget {
       child: (_) {
         return FittedBox(
           fit: BoxFit.scaleDown,
-          alignment: Alignment.bottomLeft,
+          alignment: alignment,
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             switchInCurve: Curves.easeInCubic,
@@ -53,11 +54,21 @@ class _PuzzleTitle extends StatelessWidget {
                 ),
               );
             },
+            layoutBuilder: (currentChild, previousChildren) {
+              return Stack(
+                alignment: alignment,
+                children: [
+                  ...previousChildren,
+                  if (currentChild != null) currentChild,
+                ],
+              );
+            },
             child: Text(
               title,
               key: Key(title),
               maxLines: 1,
               style: textStyle?.copyWith(color: primaryColor),
+              textAlign: TextAlign.center,
             ),
           ),
         );
