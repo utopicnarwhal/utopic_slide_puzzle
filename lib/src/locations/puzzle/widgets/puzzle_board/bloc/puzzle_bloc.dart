@@ -112,6 +112,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     ui.Image? resizedImage;
     if (event.imageData != null) {
       resizedImage = await ImageFileUtils.resizeImage(event.imageData);
+      state.resizedImage?.dispose();
     }
 
     emit(

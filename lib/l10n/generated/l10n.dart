@@ -119,6 +119,76 @@ class Dictums {
       args: [],
     );
   }
+
+  /// `Image reference`
+  String get imageReference {
+    return Intl.message(
+      'Image reference',
+      name: 'imageReference',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can use also:`
+  String get additionalControlOptionsTitle {
+    return Intl.message(
+      'You can use also:',
+      name: 'additionalControlOptionsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Or`
+  String get or {
+    return Intl.message(
+      'Or',
+      name: 'or',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hm...`
+  String get proposeToSolveDialogTitle {
+    return Intl.message(
+      'Hm...',
+      name: 'proposeToSolveDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Seems like you are in rage. Do you want I'll solve this puzzle for you?`
+  String get proposeToSolveDialogBody {
+    return Intl.message(
+      'Seems like you are in rage. Do you want I\'ll solve this puzzle for you?',
+      name: 'proposeToSolveDialogBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get no {
+    return Intl.message(
+      'No',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message(
+      'Yes',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Dictums> {

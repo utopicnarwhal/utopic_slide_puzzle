@@ -5,15 +5,22 @@ class _EndSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 32),
-      child: ResponsiveLayoutBuilder(
-        medium: (_, __) => const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: _PuzzleActionsSection(),
+    return ResponsiveLayoutBuilder(
+      medium: (_, child) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+        child: Column(
+          children: [
+            const _PuzzleActionsSection(),
+            const Gap(16),
+            child!,
+          ],
         ),
-        extraLarge: (_, __) => const SizedBox(),
       ),
+      extraLarge: (_, child) => SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Center(child: child),
+      ),
+      child: (_) => const _LevelHintsArea(),
     );
   }
 }

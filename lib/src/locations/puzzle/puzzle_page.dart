@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
@@ -17,11 +18,13 @@ import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/pu
 import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 
 part 'widgets/fullscreen_confetti.dart';
+part 'widgets/level_hints_area/level_hints_area.dart';
 part 'widgets/number_of_moves_and_tiles_left.dart';
 part 'widgets/puzzle_actions_section/puzzle_actions_sections.dart';
 part 'widgets/puzzle_actions_section/widgets/shuffle_button.dart';
 part 'widgets/puzzle_actions_section/widgets/to_the_next_level_button.dart';
 part 'widgets/puzzle_actions_section/widgets/upload_custom_image_button.dart';
+part 'widgets/puzzle_info_area/puzzle_info_area.dart';
 part 'widgets/puzzle_name.dart';
 part 'widgets/puzzle_title.dart';
 part 'widgets/sections/center_section.dart';
@@ -148,7 +151,7 @@ class _PuzzlePageState extends State<PuzzlePage> with SingleTickerProviderStateM
                                   levelScrollGlobalKey: _levelScrollGlobalKey,
                                 ),
                               ),
-                              const Expanded(child: _EndSection()),
+                              const Flexible(child: _EndSection()),
                             ],
                           ),
                         ),

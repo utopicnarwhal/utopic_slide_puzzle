@@ -3,12 +3,12 @@
 import 'package:beamer/beamer.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/dynamic_theme_mode.dart';
-import 'package:utopic_slide_puzzle/src/consts.dart';
 import 'package:utopic_slide_puzzle/src/locations/page_not_found/page_not_found.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/puzzle_page.dart';
 import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
@@ -45,6 +45,8 @@ class _UtopicSlidePuzzleAppState extends State<UtopicSlidePuzzleApp> {
   @override
   Widget build(BuildContext context) {
     return DevicePreview(
+      // ignore: avoid_redundant_argument_values
+      enabled: kDebugMode,
       builder: (context) => DynamicThemeMode(
         builder: (context, themeMode) {
           return MaterialApp.router(
@@ -70,7 +72,6 @@ class _UtopicSlidePuzzleAppState extends State<UtopicSlidePuzzleApp> {
             darkTheme: UtopicTheme.getAppTheme(Brightness.dark),
             themeMode: themeMode,
             scrollBehavior: const CupertinoScrollBehavior().copyWith(
-              physics: kUtopicScrollPhysics,
               androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
               scrollbars: false,
             ),

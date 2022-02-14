@@ -52,16 +52,24 @@ class _ImageDrawer extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final xLength = image.width / 4;
-    final yLength = image.height / 4;
+    var xStart = 0;
+    var yStart = 0;
+    late double stepLength;
+    if (image.width > image.height) {
+      xStart = ((image.width - image.height) / 2).floor();
+      stepLength = (image.height / 4).floor().toDouble();
+    } else {
+      yStart = ((image.height - image.width) / 2).floor();
+      stepLength = (image.width / 4).floor().toDouble();
+    }
 
     canvas.drawImageRect(
       image,
       Rect.fromLTWH(
-        (position.x - 1) * xLength,
-        (position.y - 1) * yLength,
-        xLength,
-        yLength,
+        xStart + ((position.x - 1) * stepLength),
+        yStart + ((position.y - 1) * stepLength),
+        stepLength,
+        stepLength,
       ),
       Rect.fromLTWH(0, 0, size.width, size.height),
       Paint()..filterQuality = ui.FilterQuality.high,

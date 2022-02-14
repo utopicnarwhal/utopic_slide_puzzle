@@ -8,6 +8,7 @@ import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:gap/gap.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/buttons.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_page_bloc.dart';
@@ -16,9 +17,9 @@ import 'package:utopic_slide_puzzle/src/models/position.dart';
 import 'package:utopic_slide_puzzle/src/models/tile.dart';
 import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 
+part 'widgets/keyboard_and_swipe_control.dart';
 part 'widgets/propose_to_solve_dialog.dart';
 part 'widgets/puzzle_tile.dart';
-part 'widgets/slide_action_detector.dart';
 part 'widgets/tile_content/tile_content_0.dart';
 part 'widgets/tile_content/tile_content_1.dart';
 part 'widgets/tile_content/tile_content_2.dart';
@@ -76,7 +77,7 @@ class PuzzleBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     final puzzleBloc = BlocProvider.of<PuzzleBloc>(context);
 
-    return _SlideActionDetector(
+    return _KeyboardAndSwipeControl(
       puzzleBloc: puzzleBloc,
       child: BlocConsumer<PuzzleBloc, PuzzleState>(
         bloc: puzzleBloc,

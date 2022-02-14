@@ -22,15 +22,26 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "additionalControlOptionsTitle":
+            MessageLookupByLibrary.simpleMessage("You can use also:"),
+        "imageReference":
+            MessageLookupByLibrary.simpleMessage("Image reference"),
         "nextLevelButtonLabel":
             MessageLookupByLibrary.simpleMessage("Next level"),
+        "no": MessageLookupByLibrary.simpleMessage("No"),
+        "or": MessageLookupByLibrary.simpleMessage("Or"),
         "pageNotFound": MessageLookupByLibrary.simpleMessage("Page not found"),
+        "proposeToSolveDialogBody": MessageLookupByLibrary.simpleMessage(
+            "Seems like you are in rage. Do you want I\'ll solve this puzzle for you?"),
+        "proposeToSolveDialogTitle":
+            MessageLookupByLibrary.simpleMessage("Hm..."),
         "puzzleChallengeTitle":
             MessageLookupByLibrary.simpleMessage("Utopic Slide Puzzle"),
         "puzzleNumberOfMoves": MessageLookupByLibrary.simpleMessage("Moves"),
         "puzzleNumberOfTilesLeft":
             MessageLookupByLibrary.simpleMessage("Tiles left"),
         "puzzleSolved": MessageLookupByLibrary.simpleMessage("Puzzle Solved"),
-        "shuffleButtonText": MessageLookupByLibrary.simpleMessage("Shuffle")
+        "shuffleButtonText": MessageLookupByLibrary.simpleMessage("Shuffle"),
+        "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }

@@ -5,5 +5,12 @@
   "puzzleChallengeTitle": "Utopic Slide Puzzle",
   "puzzleNumberOfMoves": "Moves",
   "puzzleNumberOfTilesLeft": "Tiles left",
-  "nextLevelButtonLabel": "Next level"
+  "nextLevelButtonLabel": "Next level",
+  "imageReference": "Image reference",
+  "additionalControlOptionsTitle": "You can use also:",
+  "or": "Or",
+  "proposeToSolveDialogTitle": "Hm...",
+  "proposeToSolveDialogBody": "Seems like you are in rage. Do you want I'll solve this puzzle for you?",
+  "no": "No",
+  "yes": "Yes"
 }

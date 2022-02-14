@@ -6,32 +6,37 @@ class _ProposeToSolveDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: const Text('Hm...'), // TODO(sergei): add to dictums
+      title: Text(Dictums.of(context).proposeToSolveDialogTitle),
       children: [
         Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
-                "Seems like you are in rage. Do you want I'll solve this puzzle for you?", // TODO(sergei): add to dictums
+                Dictums.of(context).proposeToSolveDialogBody,
+                style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
             const Gap(16),
             Wrap(
               alignment: WrapAlignment.end,
+              spacing: 12,
+              runSpacing: 8,
               children: [
                 UtopicButton(
+                  size: UtopicButtonSize.large,
                   type: UtopicButtonType.text,
                   onPressed: () {
-                    Navigator.of(context).pop(true);
+                    Navigator.of(context).pop(false);
                   },
-                  text: 'No', // TODO(sergei): add to dictums
+                  text: Dictums.of(context).no,
                 ),
                 UtopicButton(
+                  size: UtopicButtonSize.large,
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
-                  text: 'Yes', // TODO(sergei): add to dictums
+                  text: Dictums.of(context).yes, // TODO(sergei): add to dictums
                 ),
               ],
             ),
