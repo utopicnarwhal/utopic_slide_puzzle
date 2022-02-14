@@ -1,4 +1,4 @@
-part of '../puzzle_page.dart';
+part of '../../../puzzle_page.dart';
 
 /// {@template number_of_moves_and_tiles_left}
 /// Displays how many moves have been made on the current puzzle

@@ -1,4 +1,4 @@
-part of '../puzzle_page.dart';
+part of '../../../puzzle_page.dart';
 
 /// {@template puzzle_title}
 /// Displays the title of the puzzle in the given color.

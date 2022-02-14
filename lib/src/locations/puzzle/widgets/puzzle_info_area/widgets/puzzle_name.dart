@@ -1,4 +1,4 @@
-part of '../puzzle_page.dart';
+part of '../../../puzzle_page.dart';
 
 /// {@template puzzle_name}
 /// Displays the name of the current puzzle theme.
