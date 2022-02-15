@@ -57,25 +57,21 @@ class _KeyboardAndSwipeControl extends StatelessWidget {
       focusNode: FocusNode(),
       autofocus: true,
       onKeyEvent: _handleKeyEvent,
-      child: RawKeyboardListener(
-        autofocus: true,
-        focusNode: _focusNode,
-        child: SwipeDetector(
-          behavior: HitTestBehavior.opaque,
-          onSwipeLeft: (offset) {
-            puzzleBloc.moveLeft();
-          },
-          onSwipeUp: (offset) {
-            puzzleBloc.moveUp();
-          },
-          onSwipeRight: (offset) {
-            puzzleBloc.moveRight();
-          },
-          onSwipeDown: (offset) {
-            puzzleBloc.moveDown();
-          },
-          child: child,
-        ),
+      child: SwipeDetector(
+        behavior: HitTestBehavior.translucent,
+        onSwipeLeft: (offset) {
+          puzzleBloc.moveLeft();
+        },
+        onSwipeUp: (offset) {
+          puzzleBloc.moveUp();
+        },
+        onSwipeRight: (offset) {
+          puzzleBloc.moveRight();
+        },
+        onSwipeDown: (offset) {
+          puzzleBloc.moveDown();
+        },
+        child: child,
       ),
     );
   }

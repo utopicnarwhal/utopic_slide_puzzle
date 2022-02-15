@@ -21,7 +21,10 @@ class _LevelHintsArea extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: SvgPicture.asset('assets/images/swipe_control_available.svg'),
+                          child: SvgPicture.asset(
+                            'assets/images/swipe_control_available.svg',
+                            height: 156,
+                          ),
                         ),
                       ),
                       const Gap(20),
@@ -30,6 +33,7 @@ class _LevelHintsArea extends StatelessWidget {
                       Expanded(
                         child: SvgPicture.asset(
                           'assets/images/keyboard_control_available.svg',
+                          height: 156,
                         ),
                       ),
                     ],

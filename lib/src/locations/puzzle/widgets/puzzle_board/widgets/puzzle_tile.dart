@@ -12,9 +12,6 @@ class _PuzzleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (tile.isWhitespace) {
-      return const SizedBox();
-    }
     return Padding(
       padding: EdgeInsets.all(padding),
       child: LayoutBuilder(
@@ -35,62 +32,130 @@ class _PuzzleTile extends StatelessWidget {
           return BlocBuilder<PuzzleBloc, PuzzleState>(
             bloc: puzzleBloc,
             builder: (context, puzzleState) {
-              return ElevatedButton(
-                clipBehavior: clipBehavior,
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  padding: EdgeInsets.zero,
-                  primary: Theme.of(context).primaryColor,
-                  textStyle: textStyle,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(constraints.maxHeight / 6),
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  if (puzzleState.puzzleStatus == PuzzleStatus.incomplete) {
-                    puzzleBloc.tileTapped(tile);
-                  }
-                },
-                child: Builder(
-                  builder: (context) {
-                    late Widget tileContentWidget;
-                    switch (puzzleBloc.level) {
-                      case PuzzleLevels.number:
-                        tileContentWidget = _TileContent0(tile: tile);
-                        break;
-                      case PuzzleLevels.image:
-                        tileContentWidget = _TileContent1(
-                          tile: tile,
-                          constraints: constraints,
-                          tilePadding: padding,
-                        );
-                        break;
-                      case PuzzleLevels.swaps:
-                        tileContentWidget = _TileContent2(
-                          tile: tile,
-                          numberOfMoves: puzzleState.numberOfMoves,
-                        );
-                        break;
-                      case PuzzleLevels.remember:
-                        tileContentWidget = _TileContent3(
-                          tile: tile,
-                        );
-                        break;
-                      case PuzzleLevels.pianoNotes:
-                        break;
-                      case PuzzleLevels.trafficLight:
-                        break;
-                      case PuzzleLevels.rythm:
-                        break;
-                    }
-                    return tileContentWidget;
+              if (tile.isWhitespace) {
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 700),
+                  switchInCurve: Curves.easeInCubic,
+                  switchOutCurve: Curves.easeOutCubic,
+                  transitionBuilder: (child, animation) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: animation.status == AnimationStatus.forward
+                          ? SlideTransition(
+                              position: Tween(begin: const Offset(5, 5), end: Offset.zero).animate(animation),
+                              child: child,
+                            )
+                          : child,
+                    );
                   },
-                ),
+                  child: puzzleState.puzzleStatus == PuzzleStatus.incomplete
+                      ? const SizedBox(key: Key('whitespaceTile'))
+                      : SizedBox.expand(
+                          key: const Key('tile16'),
+                          child: _TileButton(
+                            clipBehavior: clipBehavior,
+                            textStyle: textStyle,
+                            puzzleBloc: puzzleBloc,
+                            puzzleState: puzzleState,
+                            constraints: constraints,
+                            tile: tile,
+                            padding: padding,
+                          ),
+                        ),
+                );
+              }
+              final tileButton = _TileButton(
+                clipBehavior: clipBehavior,
+                textStyle: textStyle,
+                puzzleBloc: puzzleBloc,
+                tile: tile,
+                constraints: constraints,
+                puzzleState: puzzleState,
+                padding: padding,
               );
+
+              return tileButton;
             },
           );
+        },
+      ),
+    );
+  }
+}
+
+class _TileButton extends StatelessWidget {
+  const _TileButton({
+    Key? key,
+    required this.clipBehavior,
+    required this.textStyle,
+    required this.puzzleBloc,
+    required this.puzzleState,
+    required this.constraints,
+    required this.tile,
+    required this.padding,
+  }) : super(key: key);
+
+  final ui.Clip clipBehavior;
+  final TextStyle? textStyle;
+  final PuzzleBloc puzzleBloc;
+  final PuzzleState puzzleState;
+  final BoxConstraints constraints;
+  final Tile tile;
+  final double padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      clipBehavior: clipBehavior,
+      style: ElevatedButton.styleFrom(
+        elevation: 0,
+        padding: EdgeInsets.zero,
+        primary: Theme.of(context).primaryColor,
+        textStyle: textStyle,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(constraints.maxHeight / 6),
+          ),
+        ),
+      ),
+      onPressed: () {
+        if (puzzleState.puzzleStatus == PuzzleStatus.incomplete) {
+          puzzleBloc.tileTapped(tile);
+        }
+      },
+      child: Builder(
+        builder: (context) {
+          late Widget tileContentWidget;
+          switch (puzzleBloc.level) {
+            case PuzzleLevels.number:
+              tileContentWidget = _TileContent0(tile: tile);
+              break;
+            case PuzzleLevels.image:
+              tileContentWidget = _TileContent1(
+                tile: tile,
+                constraints: constraints,
+                tilePadding: padding,
+              );
+              break;
+            case PuzzleLevels.swaps:
+              tileContentWidget = _TileContent2(
+                tile: tile,
+                numberOfMoves: puzzleState.numberOfMoves,
+              );
+              break;
+            case PuzzleLevels.remember:
+              tileContentWidget = _TileContent3(
+                tile: tile,
+              );
+              break;
+            case PuzzleLevels.pianoNotes:
+              break;
+            case PuzzleLevels.trafficLight:
+              break;
+            case PuzzleLevels.rythm:
+              break;
+          }
+          return tileContentWidget;
         },
       ),
     );
