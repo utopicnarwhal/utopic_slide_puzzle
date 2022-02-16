@@ -42,7 +42,7 @@ class _PuzzleTile extends StatelessWidget {
                       opacity: animation,
                       child: animation.status == AnimationStatus.forward
                           ? SlideTransition(
-                              position: Tween(begin: const Offset(5, 5), end: Offset.zero).animate(animation),
+                              position: Tween(begin: const Offset(2, 2), end: Offset.zero).animate(animation),
                               child: child,
                             )
                           : child,

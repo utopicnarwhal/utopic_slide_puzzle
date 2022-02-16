@@ -1,3 +1,6 @@
+// TODO(sergei): Add api docs
+// ignore_for_file: public_member_api_docs
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageService {

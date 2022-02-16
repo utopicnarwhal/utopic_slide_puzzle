@@ -1,15 +1,13 @@
 part of '../puzzle_board.dart';
 
 class _KeyboardAndSwipeControl extends StatelessWidget {
-  _KeyboardAndSwipeControl({
+  const _KeyboardAndSwipeControl({
     required this.puzzleBloc,
     required this.child,
     Key? key,
   }) : super(key: key);
 
   final Widget child;
-
-  final _focusNode = FocusNode();
 
   final PuzzleBloc puzzleBloc;
 
