@@ -29,7 +29,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "nextLevelButtonLabel":
             MessageLookupByLibrary.simpleMessage("Next level"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
-        "or": MessageLookupByLibrary.simpleMessage("Or"),
         "pageNotFound": MessageLookupByLibrary.simpleMessage("Page not found"),
         "proposeToSolveDialogBody": MessageLookupByLibrary.simpleMessage(
             "Seems like you are in rage. Do you want I\'ll solve this puzzle for you?"),

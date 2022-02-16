@@ -147,12 +147,13 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
               tileMovementStatus: TileMovementStatus.moved,
               numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
               numberOfMoves: state.numberOfMoves + 1,
-              lastTappedTile: tappedTile,
+              tappedTilesHistory: [...state.tappedTilesHistory, tappedTile],
             ),
           );
         } else {
           bool? proposeToSolve;
-          if (tappedTile.correctPosition == state.lastTappedTile?.correctPosition) {
+          if (state.tappedTilesHistory.isNotEmpty &&
+              tappedTile.correctPosition == state.tappedTilesHistory.last.correctPosition) {
             _theSameTileTapCounter += 1;
           } else {
             _theSameTileTapCounter = 0;
@@ -167,7 +168,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
               tileMovementStatus: TileMovementStatus.moved,
               numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
               numberOfMoves: state.numberOfMoves + 1,
-              lastTappedTile: tappedTile,
+              tappedTilesHistory: [...state.tappedTilesHistory, tappedTile],
               proposeToSolve: proposeToSolve,
             ),
           );

@@ -2,6 +2,6 @@
   "recommendations": [
     "dart-code.dart-code",
     "dart-code.flutter",
-    "felixangelov.bloc"
+    "localizely.flutter-intl",
   ]
 }

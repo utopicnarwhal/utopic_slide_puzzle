@@ -13,7 +13,7 @@ class PuzzleState extends Equatable {
     this.tileMovementStatus = TileMovementStatus.nothingTapped,
     this.numberOfCorrectTiles = 0,
     this.numberOfMoves = 0,
-    this.lastTappedTile,
+    this.tappedTilesHistory = const <Tile>[],
     this.resizedImage,
     this.proposeToSolve = false,
   });
@@ -27,11 +27,11 @@ class PuzzleState extends Equatable {
   /// Status indicating if a [Tile] was moved or why a [Tile] was not moved.
   final TileMovementStatus tileMovementStatus;
 
-  /// Represents the last tapped tile of the puzzle.
+  /// Represents the history of tapped tiles of the puzzle.
   ///
-  /// The value is `null` if the user has not interacted with
+  /// The value is empty list if the user has not interacted with
   /// the puzzle yet.
-  final Tile? lastTappedTile;
+  final List<Tile> tappedTilesHistory;
 
   /// Number of tiles currently in their correct position.
   final int numberOfCorrectTiles;
@@ -59,7 +59,7 @@ class PuzzleState extends Equatable {
     TileMovementStatus? tileMovementStatus,
     int? numberOfCorrectTiles,
     int? numberOfMoves,
-    Tile? lastTappedTile,
+    List<Tile>? tappedTilesHistory,
     ui.Image? resizedImage,
     bool? proposeToSolve,
   }) {
@@ -69,7 +69,7 @@ class PuzzleState extends Equatable {
       tileMovementStatus: tileMovementStatus ?? this.tileMovementStatus,
       numberOfCorrectTiles: numberOfCorrectTiles ?? this.numberOfCorrectTiles,
       numberOfMoves: numberOfMoves ?? this.numberOfMoves,
-      lastTappedTile: lastTappedTile ?? this.lastTappedTile,
+      tappedTilesHistory: tappedTilesHistory ?? this.tappedTilesHistory,
       resizedImage: resizedImage ?? this.resizedImage,
       proposeToSolve: proposeToSolve ?? false,
     );
@@ -82,7 +82,7 @@ class PuzzleState extends Equatable {
         tileMovementStatus,
         numberOfCorrectTiles,
         numberOfMoves,
-        lastTappedTile,
+        tappedTilesHistory,
         resizedImage,
         proposeToSolve,
       ];

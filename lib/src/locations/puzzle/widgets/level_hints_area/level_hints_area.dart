@@ -15,28 +15,10 @@ class _LevelHintsArea extends StatelessWidget {
               children: [
                 Text(Dictums.of(context).additionalControlOptionsTitle, style: Theme.of(context).textTheme.headline5),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: SvgPicture.asset(
-                            'assets/images/swipe_control_available.svg',
-                            height: 156,
-                          ),
-                        ),
-                      ),
-                      const Gap(20),
-                      Text(Dictums.of(context).or.toUpperCase(), style: Theme.of(context).textTheme.headline3),
-                      const Gap(20),
-                      Expanded(
-                        child: SvgPicture.asset(
-                          'assets/images/keyboard_control_available.svg',
-                          height: 156,
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.all(16),
+                  child: SvgPicture.asset(
+                    'assets/images/keyboard_control_available.svg',
+                    height: 156,
                   ),
                 ),
               ],

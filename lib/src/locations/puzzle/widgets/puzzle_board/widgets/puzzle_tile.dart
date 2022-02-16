@@ -40,12 +40,7 @@ class _PuzzleTile extends StatelessWidget {
                   transitionBuilder: (child, animation) {
                     return FadeTransition(
                       opacity: animation,
-                      child: animation.status == AnimationStatus.forward
-                          ? SlideTransition(
-                              position: Tween(begin: const Offset(2, 2), end: Offset.zero).animate(animation),
-                              child: child,
-                            )
-                          : child,
+                      child: child,
                     );
                   },
                   child: puzzleState.puzzleStatus == PuzzleStatus.incomplete
@@ -146,9 +141,11 @@ class _TileButton extends StatelessWidget {
             case PuzzleLevels.remember:
               tileContentWidget = _TileContent3(
                 tile: tile,
+                tappedTilesHistory: puzzleState.tappedTilesHistory,
               );
               break;
             case PuzzleLevels.pianoNotes:
+              tileContentWidget = _TileContent4(tile: tile);
               break;
             case PuzzleLevels.trafficLight:
               break;

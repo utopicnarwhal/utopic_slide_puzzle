@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:gap/gap.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:shimmer/shimmer.dart';
@@ -17,13 +16,14 @@ import 'package:utopic_slide_puzzle/src/models/position.dart';
 import 'package:utopic_slide_puzzle/src/models/tile.dart';
 import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 
-part 'widgets/keyboard_and_swipe_control.dart';
+part 'widgets/keyboard_control.dart';
 part 'widgets/propose_to_solve_dialog.dart';
 part 'widgets/puzzle_tile.dart';
 part 'widgets/tile_content/tile_content_0.dart';
 part 'widgets/tile_content/tile_content_1.dart';
 part 'widgets/tile_content/tile_content_2.dart';
 part 'widgets/tile_content/tile_content_3.dart';
+part 'widgets/tile_content/tile_content_4.dart';
 
 const _kSlideTileDuration = Duration(milliseconds: 700);
 
@@ -77,7 +77,7 @@ class PuzzleBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     final puzzleBloc = BlocProvider.of<PuzzleBloc>(context);
 
-    return _KeyboardAndSwipeControl(
+    return _KeyboardControl(
       puzzleBloc: puzzleBloc,
       child: BlocConsumer<PuzzleBloc, PuzzleState>(
         bloc: puzzleBloc,
@@ -117,7 +117,7 @@ class PuzzleBoard extends StatelessWidget {
                           height: aspect,
                           width: aspect,
                           // Change movement animation on shuffle
-                          curve: puzzleState.lastTappedTile == null ? Curves.easeInOutBack : Curves.bounceOut,
+                          curve: puzzleState.tappedTilesHistory.isEmpty ? Curves.easeInOutBack : Curves.bounceOut,
                           child: AnimationConfiguration.staggeredGrid(
                             columnCount: puzzleState.puzzle.getDimension(),
                             position: index,

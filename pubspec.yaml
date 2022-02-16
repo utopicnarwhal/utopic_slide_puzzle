@@ -57,9 +57,6 @@ dependencies:
   # For tests
   fake_async: ^1.2.0
 
-  # Unsorted
-  flutter_swipe_detector: ^2.0.0
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -69,6 +66,13 @@ dev_dependencies:
   bloc_test: ^9.0.2
   mocktail: ^0.2.0
   very_good_analysis: ^2.4.0
+
+  flutter_launcher_icons: "0.9.2"
+
+flutter_icons:
+  android: false
+  ios: true
+  image_path: "assets/icon/icon.png"
 
 # https://marketplace.visualstudio.com/items?itemName=localizely.flutter-intl
 flutter_intl:
@@ -84,7 +88,6 @@ flutter:
     - .env
     - assets/images/utopic_narwhal.png
     - assets/images/keyboard_control_available.svg
-    - assets/images/swipe_control_available.svg
     - assets/animations/confetti-landscape.json
     - assets/animations/confetti-portrait.json
     - assets/animations/confetti-square.json

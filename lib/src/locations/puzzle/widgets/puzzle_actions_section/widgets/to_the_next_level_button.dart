@@ -6,7 +6,7 @@ class _ToTheNextLevelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final puzzlePageBlocState = context.select<PuzzlePageBloc, PuzzlePageBlocState>((value) => value.state);
-    if (puzzlePageBlocState is! PuzzlePageBlocLevelState) {
+    if (puzzlePageBlocState is! PuzzlePageBlocLevelState || puzzlePageBlocState.level == PuzzleLevels.values.last) {
       return const SizedBox();
     }
 
@@ -22,6 +22,10 @@ class _ToTheNextLevelButton extends StatelessWidget {
           backgroundColor: Theme.of(context).primaryColor,
           icon: const Icon(Icons.arrow_forward_rounded),
           onPressed: () {
+            if (puzzlePageBlocState.level.index + 1 == PuzzleLevels.values.last.index) {
+              return;
+            }
+
             BlocProvider.of<PuzzlePageBloc>(context).changeLevelTo(
               PuzzleLevels.values[puzzlePageBlocState.level.index + 1],
             );

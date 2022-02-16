@@ -140,16 +140,6 @@ class Dictums {
     );
   }
 
-  /// `Or`
-  String get or {
-    return Intl.message(
-      'Or',
-      name: 'or',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Hm...`
   String get proposeToSolveDialogTitle {
     return Intl.message(
