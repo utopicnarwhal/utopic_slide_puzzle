@@ -12,12 +12,13 @@ class _TileContent3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var opacity = 0.0;
+    var opacity = tile.value == 16 ? 1.0 : 0.0;
 
     const traceLength = 4;
     for (var i = tappedTilesHistory.length - 1; i >= 0 && i >= tappedTilesHistory.length - traceLength; --i) {
       if (tappedTilesHistory[i].value == tile.value) {
         opacity = (1 / traceLength) * (i - tappedTilesHistory.length + 1 + traceLength);
+        break;
       }
     }
 
