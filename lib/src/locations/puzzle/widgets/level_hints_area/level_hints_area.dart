@@ -85,9 +85,6 @@ class _LevelHintsArea extends StatelessWidget {
             case PuzzleLevels.trafficLight:
               result = const SizedBox();
               break;
-            case PuzzleLevels.rythm:
-              result = const SizedBox();
-              break;
           }
 
           return AnimatedSwitcher(

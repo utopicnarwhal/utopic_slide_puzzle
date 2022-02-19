@@ -49,7 +49,7 @@ jobs:
         run: flutter pub get
 
       - name: Build web
-        run: flutter build web
+        run: flutter build web --base-href "/"
 
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master

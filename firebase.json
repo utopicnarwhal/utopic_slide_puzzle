@@ -1,9 +1,19 @@
 {
-  "hosting": {
-    "public": "build/web",
-    "site": "utopic-slide-puzzle",
-    "cleanUrls": true,
-    "trailingSlash": false,
-    "ignore": [".firebase", "firebase.json", "__/**"]
-  }
+    "hosting": {
+        "public": "build/web",
+        "site": "utopic-slide-puzzle",
+        "cleanUrls": true,
+        "trailingSlash": false,
+        "ignore": [
+            ".firebase",
+            "firebase.json",
+            "__/**"
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
+    }
 }

@@ -18,7 +18,6 @@ enum PuzzleLevels {
   remember,
   pianoNotes,
   trafficLight,
-  rythm,
 }
 
 class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {

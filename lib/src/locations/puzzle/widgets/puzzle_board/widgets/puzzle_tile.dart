@@ -145,11 +145,17 @@ class _TileButton extends StatelessWidget {
               );
               break;
             case PuzzleLevels.pianoNotes:
-              tileContentWidget = _TileContent4(tile: tile);
+              final isTileMoved = puzzleState.tileMovementStatus == TileMovementStatus.moved &&
+                  puzzleState.tappedTilesHistory.isNotEmpty &&
+                  puzzleState.tappedTilesHistory.last.value == tile.value;
+
+              tileContentWidget = _TileContent4(
+                tile: tile,
+                isTileMoved: isTileMoved,
+              );
               break;
             case PuzzleLevels.trafficLight:
-              break;
-            case PuzzleLevels.rythm:
+              tileContentWidget = _TileContent5(tile: tile);
               break;
           }
           return tileContentWidget;

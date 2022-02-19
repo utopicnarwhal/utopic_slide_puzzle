@@ -86,10 +86,11 @@ flutter:
     - .env
     - assets/images/utopic_narwhal.png
     - assets/images/keyboard_control_available.svg
+    - assets/images/music_notes_and_staffs/
     - assets/animations/confetti-landscape.json
     - assets/animations/confetti-portrait.json
     - assets/animations/confetti-square.json
-    - assets/sound_fx/tile_move_sound.mp3
+    - assets/sound_fx/
 
   fonts:
     - family: YujiSyuku

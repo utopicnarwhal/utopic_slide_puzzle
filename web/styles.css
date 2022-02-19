@@ -1,0 +1,31 @@
+@media (prefers-color-scheme: dark) {
+	.splash-screen-logo {
+		background: url(icons/16-dark.svg);
+	}
+	.splash-screen-background {
+		background: #212121;
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.splash-screen-logo {
+		background: url(icons/16-light.svg);
+	}
+	.splash-screen-background {
+		background: #FFF;
+	}
+}
+
+.splash-screen-logo {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	height: 40%;
+	width: 40%;
+	transform: translate(-50%, -50%);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
