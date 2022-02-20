@@ -18,7 +18,7 @@ Map<int, String> _tileValueTileAssetImageFileMap = {
   15: 'B5.svg',
 };
 
-class _TileContent4 extends StatelessWidget {
+class _TileContent4 extends StatefulWidget {
   const _TileContent4({
     required this.tile,
     required this.isTileMoved,
@@ -29,23 +29,74 @@ class _TileContent4 extends StatelessWidget {
   final bool isTileMoved;
 
   @override
+  State<_TileContent4> createState() => _TileContent4State();
+}
+
+class _TileContent4State extends State<_TileContent4> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late _BounceHitFadeCurve _bounceHitFadeCurve;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      reverseDuration: _kSlideTileDuration * 4,
+    );
+    _bounceHitFadeCurve = _BounceHitFadeCurve(
+      originalBounceDuration: _kSlideTileDuration,
+      realDuration: _animationController.reverseDuration!,
+      delayBeforeFirstBounce: _kSlideTileDuration * _kFirstBounceHitRatio,
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (_tileValueTileAssetImageFileMap[tile.value] == null || !isTileMoved) {
+    if (_tileValueTileAssetImageFileMap[widget.tile.value] == null) {
       return const SizedBox();
     }
-    return FutureBuilder<dynamic>(
-      future: Future<dynamic>.delayed(_kSlideTileDuration * 0.38),
-      builder: (context, snapshot) {
-        return AnimatedOpacity(
-          opacity: snapshot.connectionState != ConnectionState.done ? 1 : 0,
-          duration: snapshot.connectionState == ConnectionState.done ? const Duration(seconds: 3) : Duration.zero,
-          curve: Curves.easeOutCubic,
-          child: SvgPicture.asset(
-            'assets/images/music_notes_and_staffs/${_tileValueTileAssetImageFileMap[tile.value]}',
-            color: Theme.of(context).primaryTextTheme.bodyText1?.color,
-          ),
-        );
-      },
+    if (widget.isTileMoved) {
+      _animationController.reverse(from: 0.999).onError((error, _) {
+        debugPrint(error.toString());
+      });
+    }
+    return FadeTransition(
+      opacity: CurveTween(curve: _bounceHitFadeCurve).animate(_animationController),
+      child: SvgPicture.asset(
+        'assets/images/music_notes_and_staffs/${_tileValueTileAssetImageFileMap[widget.tile.value]}',
+        color: Theme.of(context).primaryTextTheme.bodyText1?.color,
+      ),
     );
+  }
+}
+
+class _BounceHitFadeCurve extends Curve {
+  const _BounceHitFadeCurve({
+    required this.originalBounceDuration,
+    required this.realDuration,
+    required this.delayBeforeFirstBounce,
+  });
+
+  final Duration originalBounceDuration;
+  final Duration realDuration;
+  final Duration delayBeforeFirstBounce;
+
+  @override
+  double transformInternal(double t) {
+    final flippedT = 1 - t;
+    if (flippedT < delayBeforeFirstBounce.inMilliseconds / realDuration.inMilliseconds || flippedT > 1) {
+      return 0;
+    } else if (flippedT < originalBounceDuration.inMilliseconds / realDuration.inMilliseconds) {
+      return 1;
+    }
+    final offset = originalBounceDuration.inMilliseconds / realDuration.inMilliseconds;
+
+    return 1 - Curves.easeOutCubic.transform((flippedT - offset) / (1 - offset));
   }
 }

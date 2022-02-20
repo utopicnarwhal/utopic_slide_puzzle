@@ -31,6 +31,7 @@ part 'widgets/tile_content/tile_content_4.dart';
 part 'widgets/tile_content/tile_content_5.dart';
 
 const _kSlideTileDuration = Duration(milliseconds: 700);
+const _kFirstBounceHitRatio = 0.38;
 
 /// {@template simple_puzzle_board}
 /// Display the board of the puzzle
@@ -55,13 +56,13 @@ class PuzzleBoard extends StatefulWidget {
 
 class _PuzzleBoardState extends State<PuzzleBoard> {
   void _puzzleBlocListener(BuildContext context, PuzzleBloc puzzleBloc, PuzzleState puzzleState) {
-    if (puzzleState.puzzleStatus == PuzzleStatus.complete) {
+    if (puzzleState.puzzleStatus == PuzzleStatus.complete && puzzleState.tileMovementStatus != TileMovementStatus.cannotBeMoved) {
       context.read<PuzzlePageBloc>().puzzleSolved();
     }
     if (puzzleState.tileMovementStatus == TileMovementStatus.moved && puzzleState.tappedTilesHistory.isNotEmpty) {
       AudioService.instance.playTileMoveSound(
         puzzleState.tappedTilesHistory.last,
-        _kSlideTileDuration * 0.38,
+        _kSlideTileDuration * _kFirstBounceHitRatio,
         isPianoLevel: puzzleBloc.level == PuzzleLevels.pianoNotes,
       );
     }

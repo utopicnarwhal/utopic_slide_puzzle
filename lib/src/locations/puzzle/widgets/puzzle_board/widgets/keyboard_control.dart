@@ -12,7 +12,9 @@ class _KeyboardControl extends StatelessWidget {
   final PuzzleBloc puzzleBloc;
 
   void _handleKeyEvent(KeyEvent event) {
-    if (event is! KeyDownEvent) {}
+    if (event is! KeyDownEvent) {
+      return;
+    }
 
     if (event.logicalKey == LogicalKeyboardKey.arrowLeft || event.physicalKey == PhysicalKeyboardKey.arrowLeft) {
       puzzleBloc.moveLeft();
