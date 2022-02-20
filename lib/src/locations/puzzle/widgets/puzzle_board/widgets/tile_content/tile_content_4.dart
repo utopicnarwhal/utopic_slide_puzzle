@@ -16,6 +16,7 @@ Map<int, String> _tileValueTileAssetImageFileMap = {
   13: 'G5.svg',
   14: 'A5.svg',
   15: 'B5.svg',
+  16: 'C6.svg',
 };
 
 class _TileContent4 extends StatefulWidget {
@@ -58,20 +59,35 @@ class _TileContent4State extends State<_TileContent4> with SingleTickerProviderS
 
   @override
   Widget build(BuildContext context) {
-    if (_tileValueTileAssetImageFileMap[widget.tile.value] == null) {
-      return const SizedBox();
-    }
-    if (widget.isTileMoved) {
-      _animationController.reverse(from: 0.999).onError((error, _) {
-        debugPrint(error.toString());
-      });
-    }
-    return FadeTransition(
-      opacity: CurveTween(curve: _bounceHitFadeCurve).animate(_animationController),
-      child: SvgPicture.asset(
-        'assets/images/music_notes_and_staffs/${_tileValueTileAssetImageFileMap[widget.tile.value]}',
-        color: Theme.of(context).primaryTextTheme.bodyText1?.color,
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (_tileValueTileAssetImageFileMap[widget.tile.value] == null) {
+          return const SizedBox();
+        }
+
+        final child = SvgPicture.asset(
+          'assets/images/music_notes_and_staffs/${_tileValueTileAssetImageFileMap[widget.tile.value]}',
+          color: Theme.of(context).primaryTextTheme.bodyText1?.color,
+          fit: BoxFit.cover,
+          height: constraints.maxHeight,
+          width: constraints.maxWidth,
+        );
+
+        if (widget.tile.value == 16) {
+          return child;
+        }
+
+        if (widget.isTileMoved) {
+          _animationController.reverse(from: 0.999).onError((error, _) {
+            debugPrint(error.toString());
+          });
+        }
+
+        return FadeTransition(
+          opacity: CurveTween(curve: _bounceHitFadeCurve).animate(_animationController),
+          child: child,
+        );
+      },
     );
   }
 }
