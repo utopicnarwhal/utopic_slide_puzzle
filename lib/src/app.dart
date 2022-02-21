@@ -47,6 +47,10 @@ class _UtopicSlidePuzzleAppState extends State<UtopicSlidePuzzleApp> {
     return DevicePreview(
       // ignore: avoid_redundant_argument_values
       enabled: kDebugMode,
+      availableLocales: const [
+        Locale('en'),
+        Locale('ru'),
+      ],
       builder: (context) => DynamicThemeMode(
         builder: (context, themeMode) {
           return MaterialApp.router(

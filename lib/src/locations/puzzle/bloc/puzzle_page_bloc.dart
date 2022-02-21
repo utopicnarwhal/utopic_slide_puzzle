@@ -7,6 +7,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
+import 'package:utopic_slide_puzzle/src/services/local_storage.dart';
 
 part 'puzzle_page_event.dart';
 part 'puzzle_page_state.dart';
@@ -15,17 +16,17 @@ enum PuzzleLevels {
   number,
   image,
   swaps,
+  trafficLight,
   remember,
   pianoNotes,
-  trafficLight,
 }
 
 class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
   PuzzlePageBloc({
-    required this.initialLevel,
     required this.confettiAnimationController,
   }) : super(PuzzlePageBlocInitState()) {
-    on<_ChangeLevelPuzzlePageEvent>((event, emit) {
+    on<_ChangeLevelPuzzlePageEvent>((event, emit) async {
+      await LocalStorageService.writeCurrentPuzzleLevel(event.level.index);
       emit(
         PuzzlePageBlocLevelState(
           level: event.level,
@@ -49,7 +50,6 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
     });
   }
 
-  final int initialLevel;
   final Map<PuzzleLevels, PuzzleBloc> puzzleBlocsMap = {};
   final AnimationController confettiAnimationController;
 

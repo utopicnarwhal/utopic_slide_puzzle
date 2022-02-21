@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 // TODO(sergei): add docs
 
+import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -28,6 +29,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     on<_PuzzleResetEvent>(_onPuzzleReset);
     on<_PuzzleSolveEvent>(_onPuzzleSolve);
     on<_PuzzleAddImageEvent>(_onAddImage);
+    on<_PuzzleSetTrafficLightEvent>(_onSetTrafficLight);
   }
 
   final int size;
@@ -37,6 +39,8 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   final PuzzleLevels level;
 
   int _theSameTileTapCounter = 0;
+
+  Timer? _trafficLightTimer;
 
   void initialize({bool shufflePuzzle = true, Uint8List? imageData}) {
     add(
@@ -122,6 +126,10 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
         resizedImage: resizedImage,
       ),
     );
+
+    if (level == PuzzleLevels.trafficLight) {
+      _startTrafficLightTimer();
+    }
   }
 
   Future _onAddImage(
@@ -133,8 +141,42 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     emit(state.copyWith(resizedImage: resizedImage));
   }
 
-  void _onTileTapped(_PuzzleTileTappedEvent event, Emitter<PuzzleState> emit) {
+  /// Starts a recursive timer that switches state's traffic light
+  void _startTrafficLightTimer() {
+    _trafficLightTimer = Timer(
+      randomDurationBetween(2, 4),
+      () {
+        add(const _PuzzleSetTrafficLightEvent(TrafficLight.yellow));
+
+        _trafficLightTimer = Timer(const Duration(seconds: 1), () {
+          add(const _PuzzleSetTrafficLightEvent(TrafficLight.red));
+
+          _trafficLightTimer = Timer(
+            randomDurationBetween(2, 4),
+            () {
+              add(const _PuzzleSetTrafficLightEvent(TrafficLight.green));
+              _startTrafficLightTimer();
+            },
+          );
+        });
+      },
+    );
+  }
+
+  Duration randomDurationBetween(int min, int max) {
+    return const Duration(seconds: 1) * ((Random().nextDouble() * (max - min)) + min);
+  }
+
+  void _onTileTapped(
+    _PuzzleTileTappedEvent event,
+    Emitter<PuzzleState> emit,
+  ) {
     final tappedTile = event.tile;
+    if (state.trafficLight == TrafficLight.red) {
+      reset();
+      return;
+    }
+
     if (state.puzzleStatus == PuzzleStatus.incomplete) {
       if (state.puzzle.isTileMovable(tappedTile)) {
         final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
@@ -194,6 +236,12 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
         resizedImage: state.resizedImage,
       ),
     );
+
+    if (level == PuzzleLevels.trafficLight) {
+      _trafficLightTimer?.cancel();
+      _trafficLightTimer = null;
+      _startTrafficLightTimer();
+    }
   }
 
   void _onPuzzleSolve(_PuzzleSolveEvent event, Emitter<PuzzleState> emit) {
@@ -207,6 +255,16 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
         numberOfMoves: state.numberOfMoves,
       ),
     );
+
+    _trafficLightTimer?.cancel();
+    _trafficLightTimer = null;
+  }
+
+  void _onSetTrafficLight(_PuzzleSetTrafficLightEvent event, Emitter<PuzzleState> emit) {
+    emit(state.copyWith(
+      trafficLight: event.trafficLight,
+      tileMovementStatus: TileMovementStatus.cannotBeMoved,
+    ));
   }
 
   /// Build a randomized, solvable puzzle of the given size.

@@ -5,12 +5,16 @@ class _TileContent1 extends StatelessWidget {
     required this.tile,
     required this.constraints,
     required this.tilePadding,
+    required this.buttonStyle,
+    required this.onPressed,
     Key? key,
   }) : super(key: key);
 
   final Tile tile;
   final BoxConstraints constraints;
   final double tilePadding;
+  final ButtonStyle buttonStyle;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +31,19 @@ class _TileContent1 extends StatelessWidget {
       );
     }
 
-    return OverflowBox(
-      maxHeight: maxHeight,
-      maxWidth: maxWidth,
-      child: CustomPaint(
-        size: Size(maxWidth, maxHeight),
-        painter: _ImageDrawer(
-          image: resizedImage,
-          position: tile.correctPosition,
+    return ElevatedButton(
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      style: buttonStyle,
+      onPressed: onPressed,
+      child: OverflowBox(
+        maxHeight: maxHeight,
+        maxWidth: maxWidth,
+        child: CustomPaint(
+          size: Size(maxWidth, maxHeight),
+          painter: _ImageDrawer(
+            image: resizedImage,
+            position: tile.correctPosition,
+          ),
         ),
       ),
     );

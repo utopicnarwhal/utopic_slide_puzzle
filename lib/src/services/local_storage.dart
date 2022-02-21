@@ -9,9 +9,9 @@ abstract class LocalStorageService {
     await _sharedPrefsStorage.setInt('currentPuzzleLevelIndex', puzzleLevelIndex);
   }
 
-  static Future readCurrentPuzzleLevel() async {
+  static Future<int> readCurrentPuzzleLevel() async {
     final _sharedPrefsStorage = await SharedPreferences.getInstance();
-    return _sharedPrefsStorage.getInt('currentPuzzleLevelIndex');
+    return _sharedPrefsStorage.getInt('currentPuzzleLevelIndex') ?? 0;
   }
 
   static Future writeCurrentSoundFXVolume(double soundFXVolume) async {

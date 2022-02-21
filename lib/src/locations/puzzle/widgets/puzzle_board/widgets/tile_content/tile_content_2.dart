@@ -4,11 +4,15 @@ class _TileContent2 extends StatelessWidget {
   _TileContent2({
     required this.tile,
     required this.numberOfMoves,
+    required this.buttonStyle,
+    required this.onPressed,
     Key? key,
   }) : super(key: key);
 
   final Tile tile;
   final int numberOfMoves;
+  final ButtonStyle buttonStyle;
+  final VoidCallback onPressed;
 
   final _kanjiNumbersMap = {
     1: '一',
@@ -114,11 +118,16 @@ class _TileContent2 extends StatelessWidget {
       }
     }
 
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
-      switchInCurve: Curves.easeInCubic,
-      switchOutCurve: Curves.easeOutCubic,
-      child: child,
+    return ElevatedButton(
+      clipBehavior: Clip.hardEdge,
+      style: buttonStyle,
+      onPressed: onPressed,
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        switchInCurve: Curves.easeInCubic,
+        switchOutCurve: Curves.easeOutCubic,
+        child: child,
+      ),
     );
   }
 }

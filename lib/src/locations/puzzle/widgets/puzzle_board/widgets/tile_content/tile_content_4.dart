@@ -23,11 +23,17 @@ class _TileContent4 extends StatefulWidget {
   const _TileContent4({
     required this.tile,
     required this.isTileMoved,
+    required this.isPuzzleSolved,
+    required this.buttonStyle,
+    required this.onPressed,
     Key? key,
   }) : super(key: key);
 
   final Tile tile;
   final bool isTileMoved;
+  final bool isPuzzleSolved;
+  final ButtonStyle buttonStyle;
+  final VoidCallback onPressed;
 
   @override
   State<_TileContent4> createState() => _TileContent4State();
@@ -59,35 +65,40 @@ class _TileContent4State extends State<_TileContent4> with SingleTickerProviderS
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (_tileValueTileAssetImageFileMap[widget.tile.value] == null) {
-          return const SizedBox();
-        }
+    return ElevatedButton(
+      clipBehavior: Clip.hardEdge,
+      style: widget.buttonStyle,
+      onPressed: widget.onPressed,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (_tileValueTileAssetImageFileMap[widget.tile.value] == null) {
+            return const SizedBox();
+          }
 
-        final child = SvgPicture.asset(
-          'assets/images/music_notes_and_staffs/${_tileValueTileAssetImageFileMap[widget.tile.value]}',
-          color: Theme.of(context).primaryTextTheme.bodyText1?.color,
-          fit: BoxFit.cover,
-          height: constraints.maxHeight,
-          width: constraints.maxWidth,
-        );
+          final child = SvgPicture.asset(
+            'assets/images/music_notes_and_staffs/${_tileValueTileAssetImageFileMap[widget.tile.value]}',
+            color: Theme.of(context).primaryTextTheme.bodyText1?.color,
+            fit: BoxFit.cover,
+            height: constraints.maxHeight,
+            width: constraints.maxWidth,
+          );
 
-        if (widget.tile.value == 16) {
-          return child;
-        }
+          if (widget.tile.value == 16 || widget.isPuzzleSolved) {
+            return child;
+          }
 
-        if (widget.isTileMoved) {
-          _animationController.reverse(from: 0.999).onError((error, _) {
-            debugPrint(error.toString());
-          });
-        }
+          if (widget.isTileMoved) {
+            _animationController.reverse(from: 0.999).onError((error, _) {
+              debugPrint(error.toString());
+            });
+          }
 
-        return FadeTransition(
-          opacity: CurveTween(curve: _bounceHitFadeCurve).animate(_animationController),
-          child: child,
-        );
-      },
+          return FadeTransition(
+            opacity: CurveTween(curve: _bounceHitFadeCurve).animate(_animationController),
+            child: child,
+          );
+        },
+      ),
     );
   }
 }

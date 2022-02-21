@@ -13,6 +13,7 @@ import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_page_bloc.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/puzzle_board.dart';
+import 'package:utopic_slide_puzzle/src/services/local_storage.dart';
 import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 
 part 'widgets/fullscreen_confetti.dart';
@@ -71,31 +72,13 @@ class _PuzzlePageState extends State<PuzzlePage> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    _levelScrollPageController = PageController();
+    LocalStorageService.readCurrentPuzzleLevel().then((initialLevel) {
+      _puzzlePageBloc.changeLevelTo(PuzzleLevels.values[initialLevel]);
+    });
     _levelScrollGlobalKey = GlobalKey();
     _confettiAnimationController = AnimationController(vsync: this);
-    _puzzlePageBloc = PuzzlePageBloc(
-      initialLevel: 0,
-      confettiAnimationController: _confettiAnimationController,
-    )..changeLevelTo(PuzzleLevels.number);
-
-    _puzzlePageBloc.stream.listen((state) {
-      if (state is PuzzlePageBlocLevelState) {
-        if (state.level == PuzzleLevels.image) {
-          rootBundle.load('assets/images/utopic_narwhal.png').then((byteData) {
-            _puzzlePageBloc.addImageToPuzzleWithImageBloc(byteData.buffer.asUint8List());
-          });
-        }
-
-        if (_levelScrollPageController.hasClients) {
-          _levelScrollPageController.animateToPage(
-            state.level.index,
-            duration: const Duration(milliseconds: 1000),
-            curve: Curves.easeInOutCubic,
-          );
-        }
-      }
-    });
+    _puzzlePageBloc = PuzzlePageBloc(confettiAnimationController: _confettiAnimationController);
+    _levelScrollPageController = PageController();
   }
 
   @override
@@ -108,56 +91,101 @@ class _PuzzlePageState extends State<PuzzlePage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-          body: BlocProvider.value(
-            value: _puzzlePageBloc,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                    ),
-                    child: SafeArea(
-                      child: ResponsiveLayoutBuilder(
-                        medium: (_, __) => Column(
-                          children: [
-                            const _StartSection(),
-                            CenterSection(
-                              levelScrollPageController: _levelScrollPageController,
-                              levelScrollGlobalKey: _levelScrollGlobalKey,
-                            ),
-                            const _EndSection(),
-                          ],
-                        ),
-                        extraLarge: (_, __) => Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Expanded(child: _StartSection()),
-                            Flexible(
-                              flex: 2,
-                              child: CenterSection(
-                                levelScrollPageController: _levelScrollPageController,
-                                levelScrollGlobalKey: _levelScrollGlobalKey,
+    return BlocListener<PuzzlePageBloc, PuzzlePageBlocState>(
+      bloc: _puzzlePageBloc,
+      listener: (context, state) {
+        if (state is PuzzlePageBlocLevelState) {
+          if (state.level == PuzzleLevels.image) {
+            rootBundle.load('assets/images/utopic_narwhal.png').then((byteData) {
+              _puzzlePageBloc.addImageToPuzzleWithImageBloc(byteData.buffer.asUint8List());
+            });
+          }
+
+          if (_levelScrollPageController.hasClients) {
+            _levelScrollPageController.animateToPage(
+              state.level.index,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.easeInOutCubic,
+            );
+          } else {
+            _levelScrollPageController = PageController(initialPage: state.level.index);
+          }
+        }
+      },
+      child: Stack(
+        children: [
+          Scaffold(
+            body: BlocProvider.value(
+              value: _puzzlePageBloc,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                          ),
+                          child: SafeArea(
+                            child: ResponsiveLayoutBuilder(
+                              medium: (_, __) => Column(
+                                children: [
+                                  const _StartSection(),
+                                  CenterSection(
+                                    levelScrollPageController: _levelScrollPageController,
+                                    levelScrollGlobalKey: _levelScrollGlobalKey,
+                                  ),
+                                  const _EndSection(),
+                                ],
+                              ),
+                              extraLarge: (_, __) => Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Expanded(child: _StartSection()),
+                                  Flexible(
+                                    flex: 2,
+                                    child: CenterSection(
+                                      levelScrollPageController: _levelScrollPageController,
+                                      levelScrollGlobalKey: _levelScrollGlobalKey,
+                                    ),
+                                  ),
+                                  const Flexible(child: _EndSection()),
+                                ],
                               ),
                             ),
-                            const Flexible(child: _EndSection()),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              },
+                      SafeArea(
+                        bottom: false,
+                        left: false,
+                        child: FloatingActionButton(
+                          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                          child: const Icon(Icons.menu),
+                          onPressed: () async {
+                            await showDialog<dynamic>(
+                              context: context,
+                              builder: (context) {
+                                return const SimpleDialog(
+                                  children: [Text('lkl')],
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
-        ),
-        _FullScreenConfetti(
-          confettiAnimationController: _confettiAnimationController,
-        ),
-      ],
+          _FullScreenConfetti(
+            confettiAnimationController: _confettiAnimationController,
+          ),
+        ],
+      ),
     );
   }
 }

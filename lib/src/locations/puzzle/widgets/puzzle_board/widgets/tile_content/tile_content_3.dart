@@ -4,11 +4,15 @@ class _TileContent3 extends StatelessWidget {
   const _TileContent3({
     required this.tile,
     required this.tappedTilesHistory,
+    required this.buttonStyle,
+    required this.onPressed,
     Key? key,
   }) : super(key: key);
 
   final Tile tile;
   final List<Tile> tappedTilesHistory;
+  final ButtonStyle buttonStyle;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +26,21 @@ class _TileContent3 extends StatelessWidget {
       }
     }
 
-    return AnimatedOpacity(
-      duration: const Duration(milliseconds: 200),
-      opacity: opacity,
-      curve: Curves.easeInOutCubic,
-      child: Text(
-        tile.value.toString(),
-        overflow: TextOverflow.visible,
-        textAlign: TextAlign.center,
-        maxLines: 1,
-        textScaleFactor: 1,
+    return ElevatedButton(
+      clipBehavior: Clip.hardEdge,
+      style: buttonStyle,
+      onPressed: onPressed,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 200),
+        opacity: opacity,
+        curve: Curves.easeInOutCubic,
+        child: Text(
+          tile.value.toString(),
+          overflow: TextOverflow.visible,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          textScaleFactor: 1,
+        ),
       ),
     );
   }

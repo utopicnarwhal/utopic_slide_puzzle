@@ -20,6 +20,7 @@ class _ProposeToSolveDialog extends StatelessWidget {
             const Gap(16),
             Wrap(
               alignment: WrapAlignment.end,
+              runAlignment: WrapAlignment.end,
               spacing: 12,
               runSpacing: 8,
               children: [
@@ -36,7 +37,7 @@ class _ProposeToSolveDialog extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
-                  text: Dictums.of(context).yes, // TODO(sergei): add to dictums
+                  text: Dictums.of(context).yes,
                 ),
               ],
             ),

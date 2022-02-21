@@ -39,6 +39,12 @@ class _PuzzleAddImageEvent extends PuzzleEvent {
   final Uint8List imageData;
 }
 
+class _PuzzleSetTrafficLightEvent extends PuzzleEvent {
+  const _PuzzleSetTrafficLightEvent(this.trafficLight);
+
+  final TrafficLight trafficLight;
+}
+
 class _PuzzleResetEvent extends PuzzleEvent {
   const _PuzzleResetEvent();
 }
