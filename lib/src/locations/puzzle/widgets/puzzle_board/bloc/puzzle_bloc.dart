@@ -261,10 +261,12 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   }
 
   void _onSetTrafficLight(_PuzzleSetTrafficLightEvent event, Emitter<PuzzleState> emit) {
-    emit(state.copyWith(
-      trafficLight: event.trafficLight,
-      tileMovementStatus: TileMovementStatus.cannotBeMoved,
-    ));
+    emit(
+      state.copyWith(
+        trafficLight: event.trafficLight,
+        tileMovementStatus: TileMovementStatus.cannotBeMoved,
+      ),
+    );
   }
 
   /// Build a randomized, solvable puzzle of the given size.
