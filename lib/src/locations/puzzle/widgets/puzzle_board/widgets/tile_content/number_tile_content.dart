@@ -1,7 +1,8 @@
 part of '../../puzzle_board.dart';
 
-class _TileContent0 extends StatelessWidget {
-  const _TileContent0({
+/// Tile content of the [PuzzleLevels.number]
+class _NumberTileContent extends StatelessWidget {
+  const _NumberTileContent({
     required this.tile,
     required this.buttonStyle,
     required this.onPressed,

@@ -23,12 +23,12 @@ import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 part 'widgets/keyboard_control.dart';
 part 'widgets/propose_to_solve_dialog.dart';
 part 'widgets/puzzle_tile.dart';
-part 'widgets/tile_content/tile_content_0.dart';
-part 'widgets/tile_content/tile_content_1.dart';
-part 'widgets/tile_content/tile_content_2.dart';
-part 'widgets/tile_content/tile_content_3.dart';
-part 'widgets/tile_content/tile_content_4.dart';
-part 'widgets/tile_content/tile_content_5.dart';
+part 'widgets/tile_content/number_tile_content.dart';
+part 'widgets/tile_content/image_tile_content.dart';
+part 'widgets/tile_content/swaps_tile_content.dart';
+part 'widgets/tile_content/remember_tile_content.dart';
+part 'widgets/tile_content/piano_notes_tile_content.dart';
+part 'widgets/tile_content/traffic_light_tile_content.dart';
 
 const _kSlideTileDuration = Duration(milliseconds: 700);
 const _kFirstBounceHitRatio = 0.38;

@@ -1,7 +1,8 @@
 part of '../../puzzle_board.dart';
 
-class _TileContent1 extends StatelessWidget {
-  const _TileContent1({
+/// Tile content of the [PuzzleLevels.image]
+class _ImageTileContent extends StatelessWidget {
+  const _ImageTileContent({
     required this.tile,
     required this.constraints,
     required this.tilePadding,

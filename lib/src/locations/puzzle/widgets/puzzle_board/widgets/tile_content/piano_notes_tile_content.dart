@@ -19,8 +19,9 @@ Map<int, String> _tileValueTileAssetImageFileMap = {
   16: 'C6.svg',
 };
 
-class _TileContent4 extends StatefulWidget {
-  const _TileContent4({
+/// Tile content of the [PuzzleLevels.pianoNotes]
+class _PianoNotesTileContent extends StatefulWidget {
+  const _PianoNotesTileContent({
     required this.tile,
     required this.isTileMoved,
     required this.isPuzzleSolved,
@@ -36,10 +37,10 @@ class _TileContent4 extends StatefulWidget {
   final VoidCallback onPressed;
 
   @override
-  State<_TileContent4> createState() => _TileContent4State();
+  State<_PianoNotesTileContent> createState() => _PianoNotesTileContentState();
 }
 
-class _TileContent4State extends State<_TileContent4> with SingleTickerProviderStateMixin {
+class _PianoNotesTileContentState extends State<_PianoNotesTileContent> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late _BounceHitFadeCurve _bounceHitFadeCurve;
 

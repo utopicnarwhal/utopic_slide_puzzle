@@ -1,7 +1,8 @@
 part of '../../puzzle_board.dart';
 
-class _TileContent3 extends StatelessWidget {
-  const _TileContent3({
+/// Tile content of the [PuzzleLevels.remember]
+class _RememberTileContent extends StatelessWidget {
+  const _RememberTileContent({
     required this.tile,
     required this.tappedTilesHistory,
     required this.buttonStyle,

@@ -116,14 +116,14 @@ class _TileButton extends StatelessWidget {
     late Widget tileContentWidget;
     switch (puzzleBloc.level) {
       case PuzzleLevels.number:
-        tileContentWidget = _TileContent0(
+        tileContentWidget = _NumberTileContent(
           tile: tile,
           buttonStyle: buttonStyle,
           onPressed: onPressed,
         );
         break;
       case PuzzleLevels.image:
-        tileContentWidget = _TileContent1(
+        tileContentWidget = _ImageTileContent(
           tile: tile,
           constraints: constraints,
           tilePadding: padding,
@@ -132,7 +132,7 @@ class _TileButton extends StatelessWidget {
         );
         break;
       case PuzzleLevels.swaps:
-        tileContentWidget = _TileContent2(
+        tileContentWidget = _SwapsTileContent(
           tile: tile,
           numberOfMoves: puzzleState.numberOfMoves,
           buttonStyle: buttonStyle,
@@ -140,7 +140,7 @@ class _TileButton extends StatelessWidget {
         );
         break;
       case PuzzleLevels.remember:
-        tileContentWidget = _TileContent3(
+        tileContentWidget = _RememberTileContent(
           tile: tile,
           tappedTilesHistory: puzzleState.tappedTilesHistory,
           buttonStyle: buttonStyle,
@@ -152,7 +152,7 @@ class _TileButton extends StatelessWidget {
             puzzleState.tappedTilesHistory.isNotEmpty &&
             puzzleState.tappedTilesHistory.last.value == tile.value;
 
-        tileContentWidget = _TileContent4(
+        tileContentWidget = _PianoNotesTileContent(
           tile: tile,
           isTileMoved: isTileMoved,
           isPuzzleSolved: puzzleState.puzzleStatus == PuzzleStatus.complete,
@@ -161,7 +161,7 @@ class _TileButton extends StatelessWidget {
         );
         break;
       case PuzzleLevels.trafficLight:
-        tileContentWidget = _TileContent5(
+        tileContentWidget = _TrafficLightTileContent(
           tile: tile,
           buttonStyle: buttonStyle,
           onPressed: onPressed,
