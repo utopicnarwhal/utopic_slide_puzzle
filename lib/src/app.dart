@@ -83,7 +83,7 @@ class _UtopicSlidePuzzleAppState extends State<UtopicSlidePuzzleApp> {
             builder: (context, child) {
               SystemChrome.setSystemUIOverlayStyle(UtopicTheme.getSystemUiOverlayStyle(context));
 
-              return KeyboardControl(
+              return GlobalKeyboardListener(
                 builder: (context) => child ?? const SizedBox(),
               );
             },

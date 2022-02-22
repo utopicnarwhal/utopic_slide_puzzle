@@ -22,7 +22,7 @@ class _KeyboardControlState extends State<_KeyboardControl> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _keyboardEventStreamListener?.cancel();
-    _keyboardEventStreamListener = KeyboardControl.of(context)?.keyboardEventStream.listen(_handleKeyEvent);
+    _keyboardEventStreamListener = GlobalKeyboardListener.of(context)?.keyboardEventStream.listen(_handleKeyEvent);
   }
 
   @override
