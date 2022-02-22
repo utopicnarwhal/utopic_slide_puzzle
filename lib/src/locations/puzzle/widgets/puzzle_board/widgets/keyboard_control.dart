@@ -16,20 +16,18 @@ class _KeyboardControl extends StatefulWidget {
 }
 
 class _KeyboardControlState extends State<_KeyboardControl> {
-  late FocusScopeNode _focusScopeNode;
-  late FocusNode _focusNode;
+  StreamSubscription<KeyEvent>? _keyboardEventStreamListener;
 
   @override
-  void initState() {
-    super.initState();
-    _focusScopeNode = FocusScopeNode(skipTraversal: true);
-    _focusNode = FocusNode(descendantsAreFocusable: false);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _keyboardEventStreamListener?.cancel();
+    _keyboardEventStreamListener = KeyboardControl.of(context)?.keyboardEventStream.listen(_handleKeyEvent);
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
-    _focusScopeNode.dispose();
+    _keyboardEventStreamListener?.cancel();
     super.dispose();
   }
 
@@ -60,14 +58,6 @@ class _KeyboardControlState extends State<_KeyboardControl> {
 
   @override
   Widget build(BuildContext context) {
-    return FocusScope(
-      node: _focusScopeNode,
-      child: KeyboardListener(
-        focusNode: _focusNode,
-        autofocus: true,
-        onKeyEvent: _handleKeyEvent,
-        child: widget.child,
-      ),
-    );
+    return widget.child;
   }
 }

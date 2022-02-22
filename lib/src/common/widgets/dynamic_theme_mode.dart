@@ -18,7 +18,9 @@ class DynamicThemeMode extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  ///
+  /// The child builder widget.
+  /// 
+  /// It is common to give the root [MaterialApp] to pass the themeMode into it
   final Widget Function(BuildContext context, ThemeMode themeMode) builder;
 
   /// Default [ThemeMode] to use at first time the app starts
