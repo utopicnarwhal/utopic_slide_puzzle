@@ -9,6 +9,7 @@ import 'dart:ui' as ui;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:pausable_timer/pausable_timer.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_page_bloc.dart';
 import 'package:utopic_slide_puzzle/src/models/models.dart';
 import 'package:utopic_slide_puzzle/src/utils/image_file_utils.dart';
@@ -40,7 +41,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   int _theSameTileTapCounter = 0;
 
-  Timer? _trafficLightTimer;
+  PausableTimer? _trafficLightTimer;
 
   void initialize({bool shufflePuzzle = true, Uint8List? imageData}) {
     add(
@@ -126,10 +127,6 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
         resizedImage: resizedImage,
       ),
     );
-
-    if (level == PuzzleLevels.trafficLight) {
-      _startTrafficLightTimer();
-    }
   }
 
   Future _onAddImage(
@@ -141,26 +138,38 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     emit(state.copyWith(resizedImage: resizedImage));
   }
 
+  void pause() {
+    _trafficLightTimer?.pause();
+  }
+
+  void resume() {
+    if (level == PuzzleLevels.trafficLight && _trafficLightTimer == null) {
+      _startTrafficLightTimer();
+    }
+    _trafficLightTimer?.start();
+  }
+
   /// Starts a recursive timer that switches state's traffic light
   void _startTrafficLightTimer() {
-    _trafficLightTimer = Timer(
+    _trafficLightTimer = PausableTimer(
       randomDurationBetween(2, 4),
       () {
         add(const _PuzzleSetTrafficLightEvent(TrafficLight.yellow));
 
-        _trafficLightTimer = Timer(const Duration(seconds: 1), () {
+        _trafficLightTimer = PausableTimer(const Duration(seconds: 1), () {
           add(const _PuzzleSetTrafficLightEvent(TrafficLight.red));
 
-          _trafficLightTimer = Timer(
+          _trafficLightTimer = PausableTimer(
             randomDurationBetween(2, 4),
             () {
               add(const _PuzzleSetTrafficLightEvent(TrafficLight.green));
               _startTrafficLightTimer();
             },
-          );
-        });
+          )..start();
+        })
+          ..start();
       },
-    );
+    )..start();
   }
 
   Duration randomDurationBetween(int min, int max) {

@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/dynamic_theme_mode.dart';
-import 'package:utopic_slide_puzzle/src/common/widgets/global_keyboard_listener.dart';
 import 'package:utopic_slide_puzzle/src/locations/page_not_found/page_not_found.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/puzzle_page.dart';
 import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
@@ -83,9 +82,7 @@ class _UtopicSlidePuzzleAppState extends State<UtopicSlidePuzzleApp> {
             builder: (context, child) {
               SystemChrome.setSystemUIOverlayStyle(UtopicTheme.getSystemUiOverlayStyle(context));
 
-              return GlobalKeyboardListener(
-                builder: (context) => child ?? const SizedBox(),
-              );
+              return child ?? const SizedBox();
             },
           );
         },

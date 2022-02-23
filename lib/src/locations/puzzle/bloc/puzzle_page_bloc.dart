@@ -33,6 +33,9 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
           puzzleBloc: getPuzzleBlocForLevel(event.level)..initialize(shufflePuzzle: !kDebugMode),
         ),
       );
+      stopwatch
+        ..stop()
+        ..reset();
     });
     on<_AddImageToPuzzleWithImageBlocEvent>((event, emit) async {
       if (state is! PuzzlePageBlocLevelState) {
@@ -46,12 +49,16 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
             puzzleBloc: getPuzzleBlocForLevel(PuzzleLevels.image)..addImage(event.imageData),
           ),
         );
+        stopwatch
+          ..stop()
+          ..reset();
       }
     });
   }
 
   final Map<PuzzleLevels, PuzzleBloc> puzzleBlocsMap = {};
   final AnimationController confettiAnimationController;
+  final stopwatch = Stopwatch();
 
   PuzzleBloc getPuzzleBlocForLevel(PuzzleLevels level) {
     if (puzzleBlocsMap[level] == null) {
@@ -69,9 +76,34 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
   }
 
   void puzzleSolved() {
+    if (state is PuzzlePageBlocLevelState) {
+      (state as PuzzlePageBlocLevelState).puzzleBloc.pause();
+    }
+    stopwatch.stop();
     confettiAnimationController
       ..reset()
       ..forward();
+  }
+
+  void pause() {
+    if (state is PuzzlePageBlocLevelState) {
+      (state as PuzzlePageBlocLevelState).puzzleBloc.pause();
+    }
+    stopwatch.stop();
+  }
+
+  void resume() {
+    if (state is! PuzzlePageBlocLevelState) {
+      return;
+    }
+    final puzzlePageBlocLevelState = state as PuzzlePageBlocLevelState;
+    if (puzzlePageBlocLevelState.puzzleBloc.isClosed ||
+        puzzlePageBlocLevelState.puzzleBloc.state.puzzleStatus == PuzzleStatus.complete ||
+        puzzlePageBlocLevelState.puzzleBloc.state.tappedTilesHistory.isEmpty) {
+      return;
+    }
+    puzzlePageBlocLevelState.puzzleBloc.resume();
+    stopwatch.start();
   }
 
   @override

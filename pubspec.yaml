@@ -29,6 +29,7 @@ dependencies:
   # Data types and utils 
   rxdart: ^0.27.3
   intl: ^0.17.0
+  pausable_timer: ^1.0.0+4
 
   # State management
   flutter_bloc: ^8.0.1

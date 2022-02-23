@@ -58,10 +58,12 @@ class PuzzleBoard extends StatefulWidget {
 
 class _PuzzleBoardState extends State<PuzzleBoard> {
   void _puzzleBlocListener(BuildContext context, PuzzleBloc puzzleBloc, PuzzleState puzzleState) {
-    if (puzzleState.puzzleStatus == PuzzleStatus.complete && puzzleState.tileMovementStatus != TileMovementStatus.cannotBeMoved) {
+    if (puzzleState.puzzleStatus == PuzzleStatus.complete &&
+        puzzleState.tileMovementStatus != TileMovementStatus.cannotBeMoved) {
       context.read<PuzzlePageBloc>().puzzleSolved();
     }
     if (puzzleState.tileMovementStatus == TileMovementStatus.moved && puzzleState.tappedTilesHistory.isNotEmpty) {
+      context.read<PuzzlePageBloc>().resume();
       AudioService.instance.playTileMoveSound(
         puzzleState.tappedTilesHistory.last,
         _kSlideTileDuration * _kFirstBounceHitRatio,

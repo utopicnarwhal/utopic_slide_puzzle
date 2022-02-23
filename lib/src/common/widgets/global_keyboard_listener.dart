@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 /// Handle keyboard events.
 ///
 /// Usually this widget should be in a [MaterialApp]'s builder method
+/// or only where you need to listen keyboard events
 /// {@endtemplate}
 class GlobalKeyboardListener extends StatefulWidget {
   /// {@macro global_keyboard_listener}
   const GlobalKeyboardListener({
     required this.builder,
+    this.onKeyEvent,
     Key? key,
   }) : super(key: key);
 
@@ -18,6 +20,11 @@ class GlobalKeyboardListener extends StatefulWidget {
   ///
   /// It is common to give the root [MaterialApp] to pass the themeMode into it
   final Widget Function(BuildContext context) builder;
+
+  /// Main key event listener
+  ///
+  /// return false to prevent passing key event to the [GlobalKeyboardListenerState.keyboardEventStream]
+  final bool? Function(KeyEvent)? onKeyEvent;
 
   @override
   State<GlobalKeyboardListener> createState() => GlobalKeyboardListenerState();
@@ -52,7 +59,10 @@ class GlobalKeyboardListenerState extends State<GlobalKeyboardListener> {
   }
 
   void _handleKeyEvent(KeyEvent event) {
-    _keyboardEventStreamController.add(event);
+    final passToStream = widget.onKeyEvent?.call(event);
+    if (passToStream != false) {
+      _keyboardEventStreamController.add(event);
+    }
   }
 
   @override

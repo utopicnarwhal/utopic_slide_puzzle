@@ -36,7 +36,7 @@ class _PuzzleInfoArea extends StatelessWidget {
                   previous.numberOfMoves != current.numberOfMoves ||
                   previous.numberOfCorrectTiles != current.numberOfCorrectTiles,
               builder: (context, puzzleState) {
-                return _NumberOfMovesAndTilesLeft(
+                return _StopwatchAndNumberOfMovesAndTilesLeft(
                   numberOfMoves: puzzleState.numberOfMoves,
                   numberOfTilesLeft: puzzleState.numberOfTilesLeft,
                 );

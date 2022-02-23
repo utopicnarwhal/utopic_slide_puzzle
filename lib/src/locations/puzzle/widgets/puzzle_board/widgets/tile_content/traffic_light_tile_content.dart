@@ -80,6 +80,13 @@ class _TrafficLightTileContentState extends State<_TrafficLightTileContent> with
             shape: widget.buttonStyle.shape?.resolve({}),
             padding: EdgeInsets.zero,
             primary: buttonColor ?? _colorFromTrafficLight(widget.trafficLight),
+          ).copyWith(
+            elevation: MaterialStateProperty.resolveWith(
+              (states) => [MaterialState.focused, MaterialState.hovered, MaterialState.selected]
+                      .any((element) => states.contains(element))
+                  ? 8
+                  : 0,
+            ),
           ),
           onPressed: widget.onPressed,
           child: child,

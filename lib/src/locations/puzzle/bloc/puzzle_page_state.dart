@@ -21,6 +21,7 @@ class PuzzlePageBlocLevelState extends PuzzlePageBlocState {
   PuzzlePageBlocState copyWith({
     PuzzleLevels? level,
     PuzzleBloc? puzzleBloc,
+    Stopwatch? stopwatch,
   }) {
     return PuzzlePageBlocLevelState(
       level: level ?? this.level,
