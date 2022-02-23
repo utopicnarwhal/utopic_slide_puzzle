@@ -1,35 +1,64 @@
-// TODO(sergei): Add api docs
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
 import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 
+/// Type of [UtopicButton]
 enum UtopicButtonType {
+  /// https://material.io/components/buttons/flutter#contained-button
   contained,
+
+  /// https://material.io/components/buttons/flutter#outlined-button
+  ///
+  /// Looks like this but with with wider border sides
   outlined,
+
+  /// https://material.io/components/buttons/flutter#text-button
   text,
 }
 
+/// Size of [UtopicButton]
 enum UtopicButtonSize {
+  /// Has height = 56
   large,
+
+  /// Has height = 40
   regular,
+
+  /// Has height = 24
   small,
 }
 
+/// Color of [UtopicButton]
 enum UtopicButtonColor {
+  /// Uses primary color of [ThemeData]
   primary,
+
+  /// Uses [UtopicPalette.red] as primary
   red,
+
+  /// Uses [UtopicPalette.green] as primary
   green,
+
+  /// Uses [UtopicPalette.blue] as primary
   blue,
+
+  /// Uses [UtopicPalette.yellow] as primary
   yellow,
+
+  /// Uses [UtopicPalette.peach] as primary
   peach,
+
+  /// Uses [ThemeData].cardColor as primary
   card,
 }
 
 const _buttonSwitchingAnimationDuration = Duration(milliseconds: 150);
 
+/// {@template utopic_button}
+/// Material type button but with custom properties and styles
+/// {@endtemplate}
 class UtopicButton extends StatelessWidget {
+  /// {@macro utopic_button}
   const UtopicButton({
     required this.onPressed,
     required this.text,
@@ -45,18 +74,39 @@ class UtopicButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  /// Text string to show inside the button
   final String text;
+
+  /// Method to call when the button is pressed
+  ///
+  /// Isn't called when [isLoading] == true
   final VoidCallback? onPressed;
+
+  /// Widget to place before [text]
   final Widget? leading;
+
+  /// Widget to place after [text]
   final Widget? trailing;
+
+  /// Color of the button
   final UtopicButtonColor color;
+
+  /// Should the button show loading widget and prevent [onPressed] to be called
   final bool isLoading;
+
+  /// Type of the button
   final UtopicButtonType type;
+
+  /// Size of the button
   final UtopicButtonSize size;
+
+  /// Should the button fill all available width
   final bool fullWidth;
 
   /// Only works with Contained type of button
   final double elevation;
+
+  /// Padding outside the button
   final EdgeInsets? margin;
 
   @override

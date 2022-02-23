@@ -1,12 +1,13 @@
-// TODO(sergei): Add api docs
-// ignore_for_file: public_member_api_docs
-
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/// {@template loading_indicator}
+/// Rounded circular indeterminate indicator
+/// {@endtemplate}
 class LoadingIndicator extends StatelessWidget {
+  /// {@macros loading_indicator}
   const LoadingIndicator({
     Key? key,
     this.visible = true,
@@ -18,12 +19,25 @@ class LoadingIndicator extends StatelessWidget {
     this.strokeWidth = 5,
   }) : super(key: key);
 
+  /// Show/hide the indicator
   final bool visible;
+
+  /// Color of the indicator
   final Color? color;
+
+  /// Switching animation duration between visible and hidden state by changing [visible] param
   final Duration duration;
+
+  /// Alignment of the indicator inside the space provided by [size]
   final AlignmentGeometry? alignment;
+
+  /// External padding of the indicator
   final EdgeInsetsGeometry? margin;
+
+  /// Size padding of the available space
   final double? size;
+
+  /// Width of the indicator circle's stroke
   final double strokeWidth;
 
   @override

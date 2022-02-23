@@ -50,7 +50,7 @@ dependencies:
   gap: ^2.0.0
 
   # Native intents
-  file_picker: ^4.3.3
+  file_picker: ^4.4.0
 
   # Firebase
   # firebase_core: "1.11.0"
