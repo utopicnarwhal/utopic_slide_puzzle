@@ -33,8 +33,8 @@ class _ImageTileContent extends StatelessWidget {
     }
 
     return ElevatedButton(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      style: buttonStyle,
+      clipBehavior: Clip.antiAlias,
+      style: buttonStyle.copyWith(backgroundColor: MaterialStateProperty.all(Colors.transparent)),
       onPressed: onPressed,
       child: OverflowBox(
         maxHeight: maxHeight,

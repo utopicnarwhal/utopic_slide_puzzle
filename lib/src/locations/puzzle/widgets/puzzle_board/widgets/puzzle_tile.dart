@@ -38,8 +38,12 @@ class _PuzzleTile extends StatelessWidget {
                 padding: EdgeInsets.zero,
               ).copyWith(
                 elevation: MaterialStateProperty.resolveWith(
-                  (states) => [MaterialState.focused, MaterialState.hovered, MaterialState.selected]
-                          .any((element) => states.contains(element))
+                  (states) => [
+                    MaterialState.focused,
+                    MaterialState.hovered,
+                    MaterialState.selected,
+                    MaterialState.pressed,
+                  ].any((element) => states.contains(element))
                       ? 8
                       : 0,
                 ),

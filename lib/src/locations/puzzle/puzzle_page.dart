@@ -79,6 +79,9 @@ class _PuzzlePageState extends State<PuzzlePage> with SingleTickerProviderStateM
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
     LocalStorageService.readCurrentPuzzleLevel().then((initialLevel) {
+      if (!_levelScrollPageController.hasClients) {
+        _levelScrollPageController = PageController(initialPage: initialLevel);
+      }
       _puzzlePageBloc.changeLevelTo(PuzzleLevels.values[initialLevel]);
     });
     _levelScrollGlobalKey = GlobalKey();
@@ -199,21 +202,62 @@ class _PuzzlePageState extends State<PuzzlePage> with SingleTickerProviderStateM
                             ),
                           ),
                         ),
-                        FloatingActionButton.extended(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          icon: const Icon(Icons.menu),
-                          label: const SafeArea(
-                            top: false,
-                            bottom: false,
-                            left: false,
-                            child: Text('Menu'),
-                          ),
-                          onPressed: _openMenu,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                            ),
-                          ),
+                        ResponsiveLayoutBuilder(
+                          extraLarge: (context, child) => child!,
+                          child: (breakpoint) {
+                            double padding;
+                            double fontSize;
+                            if (breakpoint.index >= Breakpoint.md.index) {
+                              fontSize = 36;
+                              padding = 22;
+                            } else if (breakpoint.index >= Breakpoint.sm.index) {
+                              fontSize = 28;
+                              padding = 18;
+                            } else {
+                              fontSize = 18;
+                              padding = 14;
+                            }
+                            return Transform.translate(
+                              offset: const Offset(2, 2),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Theme.of(context).primaryColor,
+                                  elevation: 4,
+                                  padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).viewPadding.bottom,
+                                    right: MediaQuery.of(context).viewPadding.right,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      width: 2,
+                                      color: Theme.of(context).textTheme.bodyText1?.color ?? Colors.transparent,
+                                    ),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(16),
+                                    ),
+                                  ),
+                                ),
+                                onPressed: _openMenu,
+                                child: Padding(
+                                  padding: EdgeInsets.all(padding),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.menu,
+                                        size: fontSize + 2,
+                                      ),
+                                      Gap(padding),
+                                      Text(
+                                        'Menu',
+                                        style: TextStyle(fontSize: fontSize),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     );

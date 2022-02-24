@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 /// Rounded circular indeterminate indicator
 /// {@endtemplate}
 class LoadingIndicator extends StatelessWidget {
-  /// {@macros loading_indicator}
+  /// {@macro loading_indicator}
   const LoadingIndicator({
     Key? key,
     this.visible = true,

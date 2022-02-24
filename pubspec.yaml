@@ -51,9 +51,6 @@ dependencies:
 
   # Native intents
   file_picker: ^4.4.0
-
-  # Firebase
-  # firebase_core: "1.11.0"
   
   # For tests
   fake_async: ^1.2.0

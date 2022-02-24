@@ -1,17 +1,14 @@
-// TODO(sergei): Add api docs
-// ignore_for_file: public_member_api_docs
-
 part of 'flutter_app_theme.dart';
 
 InputDecorationTheme _inputDecorationTheme(Brightness brightness) {
   return InputDecorationTheme(
-    border: const UnderlineInputBorder(
+    border: const _UtopicInputBorder(
       borderSide: BorderSide.none,
       borderRadius: BorderRadius.all(
         Radius.circular(7),
       ),
     ),
-    errorBorder: const OutlineInputBorder(
+    errorBorder: const _UtopicInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(7)),
     ),
     isDense: true,
@@ -21,8 +18,12 @@ InputDecorationTheme _inputDecorationTheme(Brightness brightness) {
   );
 }
 
-class UtopicInputBorder extends InputBorder {
-  const UtopicInputBorder({
+/// {@template utopic_input_border}
+/// Basically [OutlineInputBorder] but with [UnderlineInputBorder] effects
+/// {@endtemplate}
+class _UtopicInputBorder extends InputBorder {
+  /// {@macro utopic_input_border}
+  const _UtopicInputBorder({
     BorderSide borderSide = const BorderSide(),
     this.borderRadius = const BorderRadius.all(Radius.circular(6)),
   }) : super(borderSide: borderSide);
@@ -40,12 +41,12 @@ class UtopicInputBorder extends InputBorder {
   bool get isOutline => false;
 
   @override
-  UtopicInputBorder copyWith({
+  _UtopicInputBorder copyWith({
     BorderSide? borderSide,
     BorderRadius? borderRadius,
     double? gapPadding,
   }) {
-    return UtopicInputBorder(
+    return _UtopicInputBorder(
       borderSide: borderSide ?? this.borderSide,
       borderRadius: borderRadius ?? this.borderRadius,
     );
@@ -57,8 +58,8 @@ class UtopicInputBorder extends InputBorder {
   }
 
   @override
-  UtopicInputBorder scale(double t) {
-    return UtopicInputBorder(
+  _UtopicInputBorder scale(double t) {
+    return _UtopicInputBorder(
       borderSide: borderSide.scale(t),
       borderRadius: borderRadius * t,
     );
@@ -66,9 +67,9 @@ class UtopicInputBorder extends InputBorder {
 
   @override
   ShapeBorder? lerpFrom(ShapeBorder? a, double t) {
-    if (a is UtopicInputBorder) {
+    if (a is _UtopicInputBorder) {
       final outline = a;
-      return UtopicInputBorder(
+      return _UtopicInputBorder(
         borderRadius: BorderRadius.lerp(outline.borderRadius, borderRadius, t)!,
         borderSide: BorderSide.lerp(outline.borderSide, borderSide, t),
       );
@@ -78,9 +79,9 @@ class UtopicInputBorder extends InputBorder {
 
   @override
   ShapeBorder? lerpTo(ShapeBorder? b, double t) {
-    if (b is UtopicInputBorder) {
+    if (b is _UtopicInputBorder) {
       final outline = b;
-      return UtopicInputBorder(
+      return _UtopicInputBorder(
         borderRadius: BorderRadius.lerp(borderRadius, outline.borderRadius, t)!,
         borderSide: BorderSide.lerp(borderSide, outline.borderSide, t),
       );

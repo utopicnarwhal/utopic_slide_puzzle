@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs
-// TODO(sergei): add api docs
-
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:utopic_slide_puzzle/src/models/tile.dart';
@@ -23,6 +20,7 @@ Map<int, String> _tileValueAssetSoundFileMap = {
   15: 'B5.mp3',
 };
 
+/// Audio service of the app that handles all the audio output
 class AudioService {
   AudioService._();
 
@@ -31,11 +29,16 @@ class AudioService {
 
   final _tileMoveAudioPlayer = AudioPlayer();
 
+  /// Sets sound volume for the all available SoundFX audio players
   Future setVolumeForFx(double volume) {
     return _tileMoveAudioPlayer.setVolume(volume);
   }
 
+  /// Plays the sound of moving tile
   Future playTileMoveSound(Tile tile, Duration delay, {bool isPianoLevel = false}) async {
+    if (_tileMoveAudioPlayer.volume == 0) {
+      return;
+    }
     await _tileMoveAudioPlayer.pause();
 
     Future setAssetFuture;

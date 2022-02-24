@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs
-// TODO(sergei): add docs
-
 import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
@@ -19,7 +16,11 @@ part 'puzzle_state.dart';
 
 int _kRageClicksLimit = 5;
 
+/// {@template puzzle_bloc}
+/// BLoC that handles and manages state changes in one particular slide puzzle
+/// {@endtemplate}
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
+  /// {@macro puzzle_bloc}
   PuzzleBloc({
     this.size = 4,
     this.random,
@@ -33,16 +34,20 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     on<_PuzzleSetTrafficLightEvent>(_onSetTrafficLight);
   }
 
+  /// Number os tiles to build in horizontal and vertical axes (3x3, 4x4, etc.)
   final int size;
 
+  /// Generator for puzzle shuffling
   final Random? random;
 
+  /// Game level of the slide puzzle bloc
   final PuzzleLevels level;
 
   int _theSameTileTapCounter = 0;
 
   PausableTimer? _trafficLightTimer;
 
+  /// Inits the puzzle bloc
   void initialize({bool shufflePuzzle = true, Uint8List? imageData}) {
     add(
       _PuzzleInitializedEvent(
@@ -52,10 +57,12 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     );
   }
 
+  /// Handle tap on certain tile
   void tileTapped(Tile tile) {
     add(_PuzzleTileTappedEvent(tile));
   }
 
+  /// Try to move a tile from the right of the white space tile to the left if possible
   void moveLeft() {
     final whitespaceTilePosition = state.puzzle.getWhitespaceTile().currentPosition;
     if (whitespaceTilePosition.x >= state.puzzle.getDimension()) {
@@ -66,6 +73,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     add(_PuzzleTileTappedEvent(tileToMove));
   }
 
+  /// Try to move a tile from the bottom of the white space tile to the top if possible
   void moveUp() {
     final whitespaceTilePosition = state.puzzle.getWhitespaceTile().currentPosition;
     if (whitespaceTilePosition.y >= state.puzzle.getDimension()) {
@@ -76,6 +84,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     add(_PuzzleTileTappedEvent(tileToMove));
   }
 
+  /// Try to move a tile from the left of the white space tile to the right if possible
   void moveRight() {
     final whitespaceTilePosition = state.puzzle.getWhitespaceTile().currentPosition;
     if (whitespaceTilePosition.x <= 1) {
@@ -86,6 +95,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     add(_PuzzleTileTappedEvent(tileToMove));
   }
 
+  /// Try to move a tile from the top of the white space tile to the bottom if possible
   void moveDown() {
     final whitespaceTilePosition = state.puzzle.getWhitespaceTile().currentPosition;
     if (whitespaceTilePosition.y <= 1) {
@@ -96,14 +106,20 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     add(_PuzzleTileTappedEvent(tileToMove));
   }
 
+  /// Adds an image data to the image level puzzle
   void addImage(Uint8List imageData) {
+    if (level != PuzzleLevels.image) {
+      return;
+    }
     add(_PuzzleAddImageEvent(imageData));
   }
 
+  /// Shuffles the tiles of the slide puzzle
   void reset() {
     add(const _PuzzleResetEvent());
   }
 
+  /// Moves the bloc to the solved puzzle state
   void solve() {
     add(const _PuzzleSolveEvent());
   }
@@ -138,21 +154,28 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     emit(state.copyWith(resizedImage: resizedImage));
   }
 
+  /// Pauses the [_trafficLightTimer] if it's the [PuzzleLevels.trafficLight] level
   void pause() {
-    _trafficLightTimer?.pause();
+    if (level == PuzzleLevels.trafficLight) {
+      _trafficLightTimer?.pause();
+    }
   }
 
+  /// Resumes/starts the [_trafficLightTimer] if it's the [PuzzleLevels.trafficLight] level
   void resume() {
-    if (level == PuzzleLevels.trafficLight && _trafficLightTimer == null) {
-      _startTrafficLightTimer();
+    if (level == PuzzleLevels.trafficLight) {
+      if (_trafficLightTimer == null) {
+        _startTrafficLightTimer();
+      } else {
+        _trafficLightTimer!.start();
+      }
     }
-    _trafficLightTimer?.start();
   }
 
   /// Starts a recursive timer that switches state's traffic light
   void _startTrafficLightTimer() {
     _trafficLightTimer = PausableTimer(
-      randomDurationBetween(2, 4),
+      _randomDurationBetween(2, 4),
       () {
         add(const _PuzzleSetTrafficLightEvent(TrafficLight.yellow));
 
@@ -160,7 +183,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
           add(const _PuzzleSetTrafficLightEvent(TrafficLight.red));
 
           _trafficLightTimer = PausableTimer(
-            randomDurationBetween(2, 4),
+            _randomDurationBetween(2, 4),
             () {
               add(const _PuzzleSetTrafficLightEvent(TrafficLight.green));
               _startTrafficLightTimer();
@@ -172,7 +195,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     )..start();
   }
 
-  Duration randomDurationBetween(int min, int max) {
+  Duration _randomDurationBetween(int min, int max) {
     return const Duration(seconds: 1) * ((Random().nextDouble() * (max - min)) + min);
   }
 
