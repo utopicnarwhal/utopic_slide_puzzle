@@ -5,6 +5,7 @@ import 'package:beamer/beamer.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:utopic_slide_puzzle/src/services/audio_service.dart';
 
 /// Custom instance of [BlocObserver] which logs
 /// any state changes and errors.
@@ -36,7 +37,10 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   await BlocOverrides.runZoned(
     () async => await runZonedGuarded(
-      () async => runApp(await builder()),
+      () async {
+        await AudioService.instance.init();
+        runApp(await builder());
+      },
       (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
     ),
     blocObserver: AppBlocObserver(),

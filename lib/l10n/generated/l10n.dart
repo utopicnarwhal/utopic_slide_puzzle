@@ -179,6 +179,66 @@ class Dictums {
       args: [],
     );
   }
+
+  /// `Resume`
+  String get mainMenuResumeButton {
+    return Intl.message(
+      'Resume',
+      name: 'mainMenuResumeButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Licenses`
+  String get mainMenuLicensesButton {
+    return Intl.message(
+      'Licenses',
+      name: 'mainMenuLicensesButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About the app`
+  String get mainMenuAboutTheAppButton {
+    return Intl.message(
+      'About the app',
+      name: 'mainMenuAboutTheAppButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sound volume`
+  String get mainMenuSoundVolumeSliderLabel {
+    return Intl.message(
+      'Sound volume',
+      name: 'mainMenuSoundVolumeSliderLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select level`
+  String get mainMenuSelectLevelButton {
+    return Intl.message(
+      'Select level',
+      name: 'mainMenuSelectLevelButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paused`
+  String get mainMenuDialogTitle {
+    return Intl.message(
+      'Paused',
+      name: 'mainMenuDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Dictums> {

@@ -19,8 +19,8 @@ abstract class LocalStorageService {
     await _sharedPrefsStorage.setDouble('currentSoundFXVolume', soundFXVolume);
   }
 
-  static Future<double?> readCurrentSoundFXVolume() async {
+  static Future<double> readCurrentSoundFXVolume() async {
     final _sharedPrefsStorage = await SharedPreferences.getInstance();
-    return _sharedPrefsStorage.getDouble('currentSoundFXVolume');
+    return _sharedPrefsStorage.getDouble('currentSoundFXVolume') ?? 1;
   }
 }

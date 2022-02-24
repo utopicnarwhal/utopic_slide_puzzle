@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:utopic_slide_puzzle/src/models/tile.dart';
+import 'package:utopic_slide_puzzle/src/services/local_storage.dart';
 
 Map<int, String> _tileValueAssetSoundFileMap = {
   1: 'B3.mp3',
@@ -28,6 +29,11 @@ class AudioService {
   static final AudioService instance = AudioService._();
 
   final _tileMoveAudioPlayer = AudioPlayer();
+
+  /// Loads the saved volume from the [LocalStorageService]
+  Future init() {
+    return LocalStorageService.readCurrentSoundFXVolume().then<dynamic>(setVolumeForFx);
+  }
 
   /// Sets sound volume for the all available SoundFX audio players
   Future setVolumeForFx(double volume) {

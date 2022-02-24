@@ -26,6 +26,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("You can use also:"),
         "imageReference":
             MessageLookupByLibrary.simpleMessage("Image reference"),
+        "mainMenuAboutTheAppButton":
+            MessageLookupByLibrary.simpleMessage("About the app"),
+        "mainMenuDialogTitle": MessageLookupByLibrary.simpleMessage("Paused"),
+        "mainMenuLicensesButton":
+            MessageLookupByLibrary.simpleMessage("Licenses"),
+        "mainMenuResumeButton": MessageLookupByLibrary.simpleMessage("Resume"),
+        "mainMenuSelectLevelButton":
+            MessageLookupByLibrary.simpleMessage("Select level"),
+        "mainMenuSoundVolumeSliderLabel":
+            MessageLookupByLibrary.simpleMessage("Sound volume"),
         "nextLevelButtonLabel":
             MessageLookupByLibrary.simpleMessage("Next level"),
         "no": MessageLookupByLibrary.simpleMessage("No"),

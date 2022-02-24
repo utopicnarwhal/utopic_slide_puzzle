@@ -16,6 +16,7 @@ import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_page_bloc.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/puzzle_board.dart';
+import 'package:utopic_slide_puzzle/src/services/audio_service.dart';
 import 'package:utopic_slide_puzzle/src/services/local_storage.dart';
 import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 
