@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(levelNumber) => "Level ${levelNumber}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "aboutTheAppDialogTitle":
@@ -27,11 +29,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "additionalControlOptionsTitle":
             MessageLookupByLibrary.simpleMessage("You can use also:"),
         "appVersionTitle": MessageLookupByLibrary.simpleMessage("Version"),
+        "cannotOpenUrl":
+            MessageLookupByLibrary.simpleMessage("Cannot open url"),
         "darkThemeMode": MessageLookupByLibrary.simpleMessage("Dark"),
         "developerNameHeadline":
             MessageLookupByLibrary.simpleMessage("Developer"),
         "imageReference":
             MessageLookupByLibrary.simpleMessage("Image reference"),
+        "levelNumberIndicator": m0,
         "levelSelectionDialogTitle":
             MessageLookupByLibrary.simpleMessage("Level selection"),
         "lightThemeMode": MessageLookupByLibrary.simpleMessage("Light"),
@@ -45,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select level"),
         "mainMenuSoundVolumeSliderLabel":
             MessageLookupByLibrary.simpleMessage("Sound volume"),
+        "menuButtonLabel": MessageLookupByLibrary.simpleMessage("Menu"),
         "nextLevelButtonLabel":
             MessageLookupByLibrary.simpleMessage("Next level"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
@@ -60,10 +66,20 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Tiles left"),
         "puzzleSolved": MessageLookupByLibrary.simpleMessage("Puzzle Solved"),
         "shuffleButtonText": MessageLookupByLibrary.simpleMessage("Shuffle"),
+        "sourceCodeRepository":
+            MessageLookupByLibrary.simpleMessage("Source code repository"),
         "systemDefaultThemeMode":
             MessageLookupByLibrary.simpleMessage("System default"),
+        "thanksForPlayingDialogTitle":
+            MessageLookupByLibrary.simpleMessage("Thanks for playing!"),
+        "thanksForPlayingMessagePart1": MessageLookupByLibrary.simpleMessage(
+            "Well done! Hopefully you liked it."),
+        "thanksForPlayingMessagePart2": MessageLookupByLibrary.simpleMessage(
+            "If you would like to try to solve some level again — you can select it in the main menu."),
         "themeModeSwitcherTitle":
             MessageLookupByLibrary.simpleMessage("Appearance"),
+        "uploadCustomImageButtonLabel":
+            MessageLookupByLibrary.simpleMessage("Upload custom image"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }

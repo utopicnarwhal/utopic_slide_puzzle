@@ -6,8 +6,14 @@ A slide puzzle built for [Flutter Challenge](https://flutterhack.devpost.com/).
         <td>
         <img src="android\app\src\main\ic_launcher-playstore.png" width ="128"/>
         </td>
+        <td>
+        <a href="https://utopic-slide-puzzle.web.app/">Web version</a>
+        </td>
     </td>
 </table>
+
+## Features ✨
+* Six levels of the puzzle
 
 ---
 
@@ -18,7 +24,7 @@ A slide puzzle built for [Flutter Challenge](https://flutterhack.devpost.com/).
 1. Install [Flutter](https://docs.flutter.dev/get-started/install)
 2. [Set up an editor (VSCode)](https://docs.flutter.dev/get-started/editor?tab=vscode)
 3. Create `.env` file in the root of the project and copy secrets into it
-4. Launch from VSCode `Freska-Development` option from `.vscode/launch.json` by pressing `F5` or from your command line by `flutter run -d chrome`
+4. Launch from VSCode `Launch` option from `.vscode/launch.json` by pressing `F5` or from your command line by `flutter run -d chrome`
 
 ---
 

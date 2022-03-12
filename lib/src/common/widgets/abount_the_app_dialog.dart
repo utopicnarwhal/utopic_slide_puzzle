@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 
 /// {@template about_the_app_dialog}
@@ -14,23 +15,39 @@ class AboutTheAppDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: Text(
-        Dictums.of(context).aboutTheAppDialogTitle,
-        textAlign: TextAlign.center,
+      title: Stack(
+        alignment: Alignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 60),
+            child: Text(
+              Dictums.of(context).aboutTheAppDialogTitle,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.close_rounded),
+            ),
+          ),
+        ],
       ),
       children: [
         Center(
           child: Padding(
             padding: const EdgeInsets.all(8),
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Card(
-                elevation: 12,
-                child: SvgPicture.asset(
-                  Theme.of(context).brightness == Brightness.light
-                      ? 'assets/images/app_icon_light.svg'
-                      : 'assets/images/app_icon_dark.svg',
-                ),
+            child: Card(
+              elevation: 12,
+              child: SvgPicture.asset(
+                Theme.of(context).brightness == Brightness.light
+                    ? 'assets/images/app_icon_light.svg'
+                    : 'assets/images/app_icon_dark.svg',
+                width: 128,
+                height: 128,
               ),
             ),
           ),
@@ -56,8 +73,33 @@ class AboutTheAppDialog extends StatelessWidget {
           ),
           title: Text(Dictums.of(context).developerNameHeadline),
           subtitle: const Text('Sergei Danilov'),
-          onTap: () {
-            showLicensePage(context: context);
+          onTap: () async {
+            const url = 'https://github.com/utopicnarwhal';
+            if (await canLaunch(url)) {
+              await launch(url);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(Dictums.of(context).cannotOpenUrl),
+                ),
+              );
+            }
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.source_rounded),
+          title: Text(Dictums.of(context).sourceCodeRepository),
+          onTap: () async {
+            const sourceCodeRepositoryUrl = 'https://github.com/utopicnarwhal/utopic_slide_puzzle';
+            if (await canLaunch(sourceCodeRepositoryUrl)) {
+              await launch(sourceCodeRepositoryUrl);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(Dictums.of(context).cannotOpenUrl),
+                ),
+              );
+            }
           },
         ),
         ListTile(
@@ -65,14 +107,6 @@ class AboutTheAppDialog extends StatelessWidget {
           title: Text(Dictums.of(context).mainMenuLicensesButton),
           onTap: () {
             showLicensePage(context: context);
-          },
-        ),
-        const Divider(height: 12),
-        ListTile(
-          leading: const Icon(Icons.arrow_back_rounded),
-          title: Text(MaterialLocalizations.of(context).backButtonTooltip),
-          onTap: () {
-            Navigator.of(context).pop();
           },
         ),
       ],

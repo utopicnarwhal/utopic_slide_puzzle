@@ -25,7 +25,7 @@ class _PuzzleInfoArea extends StatelessWidget {
                 return _PuzzleTitle(
                   title: puzzleState.puzzleStatus == PuzzleStatus.complete
                       ? Dictums.of(context).puzzleSolved
-                      : 'Level $levelNumber',
+                      : Dictums.of(context).levelNumberIndicator(levelNumber),
                 );
               },
             ),

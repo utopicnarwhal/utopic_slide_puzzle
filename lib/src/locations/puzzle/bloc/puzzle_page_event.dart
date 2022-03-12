@@ -1,16 +1,14 @@
-// ignore_for_file: public_member_api_docs
 
 part of 'puzzle_page_bloc.dart';
 
-@visibleForTesting
-abstract class PuzzlePageEvent extends Equatable {
-  const PuzzlePageEvent();
+abstract class _PuzzlePageEvent extends Equatable {
+  const _PuzzlePageEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class _ChangeLevelPuzzlePageEvent extends PuzzlePageEvent {
+class _ChangeLevelPuzzlePageEvent extends _PuzzlePageEvent {
   const _ChangeLevelPuzzlePageEvent({required this.level});
 
   final PuzzleLevels level;
@@ -19,7 +17,7 @@ class _ChangeLevelPuzzlePageEvent extends PuzzlePageEvent {
   List<Object> get props => [];
 }
 
-class _AddImageToPuzzleWithImageBlocEvent extends PuzzlePageEvent {
+class _AddImageToPuzzleWithImageBlocEvent extends _PuzzlePageEvent {
   const _AddImageToPuzzleWithImageBlocEvent({required this.imageData});
 
   final Uint8List imageData;

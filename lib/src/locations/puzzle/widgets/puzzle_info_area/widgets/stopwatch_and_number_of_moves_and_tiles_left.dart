@@ -35,23 +35,35 @@ class _StopwatchAndNumberOfMovesAndTilesLeft extends StatelessWidget {
 
         final crossAxisAlignment =
             currentSize.index <= Breakpoint.md.index ? CrossAxisAlignment.center : CrossAxisAlignment.stretch;
+        final stopWatchMainAxisAlignment =
+            currentSize.index <= Breakpoint.md.index ? MainAxisAlignment.center : MainAxisAlignment.start;
 
         return Column(
           key: const Key('stopwatchAndNumberOfMovesAndTilesLeft'),
           crossAxisAlignment: crossAxisAlignment,
           children: [
-            StreamBuilder<dynamic>(
-              key: const Key('puzzleStapwatch'),
-              stream: Stream<dynamic>.periodic(
-                const Duration(milliseconds: 100),
-              ),
-              builder: (context, _) {
-                final elapsed = context.read<PuzzlePageBloc>().stopwatch.elapsed;
-                return Text(
-                  '${elapsed.inMinutes.toString().padLeft(2, '0')}:${elapsed.inSeconds.remainder(60).toString().padLeft(2, '0')}',
-                  style: Theme.of(context).textTheme.headline4,
-                );
-              },
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: stopWatchMainAxisAlignment,
+              children: [
+                Flexible(
+                  child: StreamBuilder<dynamic>(
+                    key: const Key('puzzleStapwatch'),
+                    stream: Stream<dynamic>.periodic(
+                      const Duration(milliseconds: 100),
+                    ),
+                    builder: (context, _) {
+                      final elapsed = context.read<PuzzlePageBloc>().stopwatch.elapsed;
+                      return Text(
+                        '${elapsed.inMinutes.toString().padLeft(2, '0')}:${elapsed.inSeconds.remainder(60).toString().padLeft(2, '0')}',
+                        style: Theme.of(context).textTheme.headline4,
+                      );
+                    },
+                  ),
+                ),
+                const Gap(4),
+                const Icon(Icons.timer_rounded),
+              ],
             ),
             const Gap(8),
             RichText(

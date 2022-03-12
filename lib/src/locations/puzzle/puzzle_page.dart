@@ -24,6 +24,7 @@ import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 
 part 'widgets/dialogs/main_menu_dialog.dart';
 part 'widgets/dialogs/select_level_dialog.dart';
+part 'widgets/dialogs/thanks_for_playing_dialog.dart';
 part 'widgets/fullscreen_confetti.dart';
 part 'widgets/level_hints_area/level_hints_area.dart';
 part 'widgets/puzzle_actions_section/puzzle_actions_sections.dart';
@@ -90,7 +91,24 @@ class _PuzzlePageState extends State<PuzzlePage> with SingleTickerProviderStateM
     });
     _levelScrollGlobalKey = GlobalKey();
     _confettiAnimationController = AnimationController(vsync: this);
-    _puzzlePageBloc = PuzzlePageBloc(confettiAnimationController: _confettiAnimationController);
+    _puzzlePageBloc = PuzzlePageBloc(
+      onLevelSolved: (level) {
+        _confettiAnimationController
+          ..reset()
+          ..forward();
+
+        LocalStorageService.readThanksWereGiven().then((value) {
+          if (!value && level == PuzzleLevels.pianoNotes) {
+            LocalStorageService.writeThanksWereGiven(true);
+            showDialog<dynamic>(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => const _ThanksForPlayingDialog(),
+            );
+          }
+        });
+      },
+    );
     _levelScrollPageController = PageController();
   }
 
@@ -257,7 +275,7 @@ class _PuzzlePageState extends State<PuzzlePage> with SingleTickerProviderStateM
                                       ),
                                       Gap(padding),
                                       Text(
-                                        'Menu',
+                                        Dictums.of(context).menuButtonLabel,
                                         style: TextStyle(fontSize: fontSize),
                                       ),
                                     ],

@@ -23,4 +23,15 @@ abstract class LocalStorageService {
     final _sharedPrefsStorage = await SharedPreferences.getInstance();
     return _sharedPrefsStorage.getDouble('currentSoundFXVolume') ?? 1;
   }
+
+  // ignore: avoid_positional_boolean_parameters
+  static Future writeThanksWereGiven(bool value) async {
+    final _sharedPrefsStorage = await SharedPreferences.getInstance();
+    await _sharedPrefsStorage.setBool('thanksWereGiven', value);
+  }
+
+  static Future<bool> readThanksWereGiven() async {
+    final _sharedPrefsStorage = await SharedPreferences.getInstance();
+    return _sharedPrefsStorage.getBool('thanksWereGiven') ?? false;
+  }
 }

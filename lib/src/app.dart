@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs
+
 
 import 'package:beamer/beamer.dart';
 import 'package:device_preview/device_preview.dart';
@@ -18,7 +18,11 @@ final _beamLocations = [
   PageNotFoundLocation(),
 ];
 
+/// {@template utopic_slide_puzzle_app}
+/// Root widget of the whole app
+/// {@endtemplate}
 class UtopicSlidePuzzleApp extends StatefulWidget {
+  /// {@macro utopic_slide_puzzle_app}
   const UtopicSlidePuzzleApp({Key? key}) : super(key: key);
 
   @override
@@ -26,13 +30,6 @@ class UtopicSlidePuzzleApp extends StatefulWidget {
 }
 
 class _UtopicSlidePuzzleAppState extends State<UtopicSlidePuzzleApp> {
-  @override
-  void initState() {
-    super.initState();
-
-    Future<void>.delayed(const Duration(milliseconds: 20), () {});
-  }
-
   final _routerDelegate = BeamerDelegate(
     setBrowserTabTitle: false,
     initialPath: PuzzleLocation.path,
@@ -47,10 +44,7 @@ class _UtopicSlidePuzzleAppState extends State<UtopicSlidePuzzleApp> {
     return DevicePreview(
       // ignore: avoid_redundant_argument_values
       enabled: kDebugMode,
-      availableLocales: const [
-        Locale('en'),
-        Locale('ru'),
-      ],
+      availableLocales: Dictums.delegate.supportedLocales,
       builder: (context) => DynamicThemeMode(
         builder: (context, themeMode) {
           return MaterialApp.router(
@@ -67,6 +61,7 @@ class _UtopicSlidePuzzleAppState extends State<UtopicSlidePuzzleApp> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
+            locale: DevicePreview.locale(context),
             supportedLocales: Dictums.delegate.supportedLocales,
             theme: UtopicTheme.getAppTheme(Brightness.light).copyWith(
               bottomNavigationBarTheme: BottomNavigationBarThemeData(

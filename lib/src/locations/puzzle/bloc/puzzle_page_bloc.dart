@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 import 'package:utopic_slide_puzzle/src/services/local_storage.dart';
@@ -12,19 +11,29 @@ import 'package:utopic_slide_puzzle/src/services/local_storage.dart';
 part 'puzzle_page_event.dart';
 part 'puzzle_page_state.dart';
 
+/// Enum with all the puzzle levels
 enum PuzzleLevels {
+  /// Just numbers
   number,
+
+  /// Level with parts of an image instead of numbers
   image,
+
+  /// Every move the numbers changes to something different
   swaps,
+
+  /// Tiles can be moved only when they are green or yellow. Otherwise, puzzle shuffles
   trafficLight,
+
+  /// All numbers on tiles are invisible at start. A player can see only numbers on last 4 moved tiles
   remember,
+
+  /// All numbers on tiles are invisible at start. Every move makes piano note sound and makes tile value visible for a small time gap.
   pianoNotes,
 }
 
-class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
-  PuzzlePageBloc({
-    required this.confettiAnimationController,
-  }) : super(PuzzlePageBlocInitState()) {
+class PuzzlePageBloc extends Bloc<_PuzzlePageEvent, PuzzlePageBlocState> {
+  PuzzlePageBloc({this.onLevelSolved}) : super(PuzzlePageBlocInitState()) {
     on<_ChangeLevelPuzzlePageEvent>((event, emit) async {
       await LocalStorageService.writeCurrentPuzzleLevel(event.level.index);
       emit(
@@ -57,8 +66,8 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
   }
 
   final Map<PuzzleLevels, PuzzleBloc> puzzleBlocsMap = {};
-  final AnimationController confettiAnimationController;
   final stopwatch = Stopwatch();
+  final void Function(PuzzleLevels)? onLevelSolved;
 
   PuzzleBloc getPuzzleBlocForLevel(PuzzleLevels level) {
     if (puzzleBlocsMap[level] == null) {
@@ -78,11 +87,11 @@ class PuzzlePageBloc extends Bloc<PuzzlePageEvent, PuzzlePageBlocState> {
   void puzzleSolved() {
     if (state is PuzzlePageBlocLevelState) {
       (state as PuzzlePageBlocLevelState).puzzleBloc.pause();
+      if (onLevelSolved != null) {
+        onLevelSolved!((state as PuzzlePageBlocLevelState).level);
+      }
     }
     stopwatch.stop();
-    confettiAnimationController
-      ..reset()
-      ..forward();
   }
 
   void pause() {

@@ -5,7 +5,6 @@ import 'dart:ui' as ui;
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:pausable_timer/pausable_timer.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_page_bloc.dart';
 import 'package:utopic_slide_puzzle/src/models/models.dart';
@@ -19,7 +18,7 @@ int _kRageClicksLimit = 5;
 /// {@template puzzle_bloc}
 /// BLoC that handles and manages state changes in one particular slide puzzle
 /// {@endtemplate}
-class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
+class PuzzleBloc extends Bloc<_PuzzleEvent, PuzzleState> {
   /// {@macro puzzle_bloc}
   PuzzleBloc({
     this.size = 4,

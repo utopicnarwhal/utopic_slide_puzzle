@@ -28,7 +28,7 @@ class _UploadCustomImageButtonState extends State<_UploadCustomImageButton> {
       stream: _loadingController,
       builder: (context, loadingSnapshot) {
         return FloatingActionButton.extended(
-          label: const Text('Upload custom image'),
+          label: Text(Dictums.of(context).uploadCustomImageButtonLabel),
           backgroundColor: Theme.of(context).primaryColor,
           icon: loadingSnapshot.data == true
               ? LoadingIndicator(

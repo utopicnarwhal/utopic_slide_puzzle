@@ -25,5 +25,13 @@
   "levelSelectionDialogTitle": "Level selection",
   "appVersionTitle": "Version",
   "aboutTheAppDialogTitle": "About the app",
-  "developerNameHeadline": "Developer"
+  "developerNameHeadline": "Developer",
+  "cannotOpenUrl": "Cannot open url",
+  "sourceCodeRepository": "Source code repository",
+  "thanksForPlayingDialogTitle": "Thanks for playing!",
+  "thanksForPlayingMessagePart1": "Well done! Hopefully you liked it.",
+  "thanksForPlayingMessagePart2": "If you would like to try to solve some level again — you can select it in the main menu.",
+  "menuButtonLabel": "Menu",
+  "levelNumberIndicator": "Level {levelNumber}",
+  "uploadCustomImageButtonLabel": "Upload custom image"
 }

@@ -319,6 +319,86 @@ class Dictums {
       args: [],
     );
   }
+
+  /// `Cannot open url`
+  String get cannotOpenUrl {
+    return Intl.message(
+      'Cannot open url',
+      name: 'cannotOpenUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Source code repository`
+  String get sourceCodeRepository {
+    return Intl.message(
+      'Source code repository',
+      name: 'sourceCodeRepository',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thanks for playing!`
+  String get thanksForPlayingDialogTitle {
+    return Intl.message(
+      'Thanks for playing!',
+      name: 'thanksForPlayingDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Well done! Hopefully you liked it.`
+  String get thanksForPlayingMessagePart1 {
+    return Intl.message(
+      'Well done! Hopefully you liked it.',
+      name: 'thanksForPlayingMessagePart1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you would like to try to solve some level again — you can select it in the main menu.`
+  String get thanksForPlayingMessagePart2 {
+    return Intl.message(
+      'If you would like to try to solve some level again — you can select it in the main menu.',
+      name: 'thanksForPlayingMessagePart2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Menu`
+  String get menuButtonLabel {
+    return Intl.message(
+      'Menu',
+      name: 'menuButtonLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Level {levelNumber}`
+  String levelNumberIndicator(Object levelNumber) {
+    return Intl.message(
+      'Level $levelNumber',
+      name: 'levelNumberIndicator',
+      desc: '',
+      args: [levelNumber],
+    );
+  }
+
+  /// `Upload custom image`
+  String get uploadCustomImageButtonLabel {
+    return Intl.message(
+      'Upload custom image',
+      name: 'uploadCustomImageButtonLabel',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Dictums> {
@@ -327,6 +407,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<Dictums> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'ru'),
     ];
   }
 

@@ -13,3 +13,4 @@ linter:
     cancel_subscriptions: true
     sort_pub_dependencies: false
     lines_longer_than_80_chars: false # I prefer 120 chars per line
+    prefer_null_aware_method_calls: false # I want to be notified if arguments of a method have been changed

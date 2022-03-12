@@ -1,16 +1,13 @@
-// ignore_for_file: public_member_api_docs
-
 part of 'puzzle_bloc.dart';
 
-@visibleForTesting
-abstract class PuzzleEvent extends Equatable {
-  const PuzzleEvent();
+abstract class _PuzzleEvent extends Equatable {
+  const _PuzzleEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class _PuzzleInitializedEvent extends PuzzleEvent {
+class _PuzzleInitializedEvent extends _PuzzleEvent {
   const _PuzzleInitializedEvent({required this.shufflePuzzle, this.imageData});
 
   final bool shufflePuzzle;
@@ -24,7 +21,7 @@ class _PuzzleInitializedEvent extends PuzzleEvent {
       ];
 }
 
-class _PuzzleTileTappedEvent extends PuzzleEvent {
+class _PuzzleTileTappedEvent extends _PuzzleEvent {
   const _PuzzleTileTappedEvent(this.tile);
 
   final Tile tile;
@@ -33,22 +30,22 @@ class _PuzzleTileTappedEvent extends PuzzleEvent {
   List<Object> get props => [tile];
 }
 
-class _PuzzleAddImageEvent extends PuzzleEvent {
+class _PuzzleAddImageEvent extends _PuzzleEvent {
   const _PuzzleAddImageEvent(this.imageData);
 
   final Uint8List imageData;
 }
 
-class _PuzzleSetTrafficLightEvent extends PuzzleEvent {
+class _PuzzleSetTrafficLightEvent extends _PuzzleEvent {
   const _PuzzleSetTrafficLightEvent(this.trafficLight);
 
   final TrafficLight trafficLight;
 }
 
-class _PuzzleResetEvent extends PuzzleEvent {
+class _PuzzleResetEvent extends _PuzzleEvent {
   const _PuzzleResetEvent();
 }
 
-class _PuzzleSolveEvent extends PuzzleEvent {
+class _PuzzleSolveEvent extends  _PuzzleEvent {
   const _PuzzleSolveEvent();
 }
