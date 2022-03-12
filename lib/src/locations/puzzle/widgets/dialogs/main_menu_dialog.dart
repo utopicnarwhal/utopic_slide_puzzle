@@ -1,4 +1,4 @@
-part of '../puzzle_page.dart';
+part of '../../puzzle_page.dart';
 
 class _MainMenuDialog extends StatefulWidget {
   const _MainMenuDialog({Key? key}) : super(key: key);
@@ -39,7 +39,17 @@ class __MainMenuDialogState extends State<_MainMenuDialog> {
         ListTile(
           leading: const Icon(Icons.grid_view_rounded),
           title: Text(Dictums.of(context).mainMenuSelectLevelButton),
-          onTap: () {},
+          iconColor: Theme.of(context).iconTheme.color,
+          onTap: () {
+            showDialog<PuzzleLevels>(
+              context: context,
+              builder: (context) => const _SelectLevelDialog(),
+            ).then((result) {
+              if (result != null) {
+                Navigator.of(context).pop(result);
+              }
+            });
+          },
         ),
         const Divider(height: 12),
         const SizedBox(height: 8),
@@ -75,22 +85,22 @@ class __MainMenuDialogState extends State<_MainMenuDialog> {
             ],
           ),
         ),
-        const Divider(height: 12),
+        const ThemeModeSwitcher(),
         ListTile(
           leading: const Icon(Icons.info_outline),
+          iconColor: Theme.of(context).iconTheme.color,
           title: Text(Dictums.of(context).mainMenuAboutTheAppButton),
-          onTap: () {},
-        ),
-        ListTile(
-          leading: const Icon(Icons.local_police_rounded),
-          title: Text(Dictums.of(context).mainMenuLicensesButton),
           onTap: () {
-            showLicensePage(context: context);
+            showDialog<PuzzleLevels>(
+              context: context,
+              builder: (context) => const AboutTheAppDialog(),
+            );
           },
         ),
         const Divider(height: 12),
         ListTile(
           leading: const Icon(Icons.done),
+          iconColor: Theme.of(context).iconTheme.color,
           title: Text(Dictums.of(context).mainMenuResumeButton),
           onTap: () {
             Navigator.of(context).pop();

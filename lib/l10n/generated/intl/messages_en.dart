@@ -22,10 +22,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "aboutTheAppDialogTitle":
+            MessageLookupByLibrary.simpleMessage("About the app"),
         "additionalControlOptionsTitle":
             MessageLookupByLibrary.simpleMessage("You can use also:"),
+        "appVersionTitle": MessageLookupByLibrary.simpleMessage("Version"),
+        "darkThemeMode": MessageLookupByLibrary.simpleMessage("Dark"),
+        "developerNameHeadline":
+            MessageLookupByLibrary.simpleMessage("Developer"),
         "imageReference":
             MessageLookupByLibrary.simpleMessage("Image reference"),
+        "levelSelectionDialogTitle":
+            MessageLookupByLibrary.simpleMessage("Level selection"),
+        "lightThemeMode": MessageLookupByLibrary.simpleMessage("Light"),
         "mainMenuAboutTheAppButton":
             MessageLookupByLibrary.simpleMessage("About the app"),
         "mainMenuDialogTitle": MessageLookupByLibrary.simpleMessage("Paused"),
@@ -51,6 +60,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Tiles left"),
         "puzzleSolved": MessageLookupByLibrary.simpleMessage("Puzzle Solved"),
         "shuffleButtonText": MessageLookupByLibrary.simpleMessage("Shuffle"),
+        "systemDefaultThemeMode":
+            MessageLookupByLibrary.simpleMessage("System default"),
+        "themeModeSwitcherTitle":
+            MessageLookupByLibrary.simpleMessage("Appearance"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }

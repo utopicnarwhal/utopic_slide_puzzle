@@ -239,6 +239,86 @@ class Dictums {
       args: [],
     );
   }
+
+  /// `System default`
+  String get systemDefaultThemeMode {
+    return Intl.message(
+      'System default',
+      name: 'systemDefaultThemeMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Light`
+  String get lightThemeMode {
+    return Intl.message(
+      'Light',
+      name: 'lightThemeMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dark`
+  String get darkThemeMode {
+    return Intl.message(
+      'Dark',
+      name: 'darkThemeMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Appearance`
+  String get themeModeSwitcherTitle {
+    return Intl.message(
+      'Appearance',
+      name: 'themeModeSwitcherTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Level selection`
+  String get levelSelectionDialogTitle {
+    return Intl.message(
+      'Level selection',
+      name: 'levelSelectionDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Version`
+  String get appVersionTitle {
+    return Intl.message(
+      'Version',
+      name: 'appVersionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About the app`
+  String get aboutTheAppDialogTitle {
+    return Intl.message(
+      'About the app',
+      name: 'aboutTheAppDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Developer`
+  String get developerNameHeadline {
+    return Intl.message(
+      'Developer',
+      name: 'developerNameHeadline',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Dictums> {

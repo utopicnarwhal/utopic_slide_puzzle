@@ -5,7 +5,7 @@ publish_to: none
 
 environment:
   sdk: ">=2.13.0 <3.0.0"
-  flutter: 2.10.1
+  flutter: 2.10.3
 
 dependencies:
   flutter:
@@ -14,12 +14,13 @@ dependencies:
     sdk: flutter
 
   # Navigation
-  beamer: ^1.3.0
+  beamer: ^1.4.0+1
 
   # Storages
   shared_preferences: ^2.0.13
 
-  # Get device, package and secrets info
+  # Get package and secrets info
+  package_info_plus: ^1.4.0
   flutter_dotenv: ^5.0.2
 
   # Types annotations
@@ -33,7 +34,7 @@ dependencies:
 
   # State management
   flutter_bloc: ^8.0.1
-  bloc: ^8.0.2
+  bloc: ^8.0.3
   provider: ^6.0.2
 
   # Animations and image related
@@ -50,7 +51,7 @@ dependencies:
   gap: ^2.0.0
 
   # Native intents
-  file_picker: ^4.4.0
+  file_picker: ^4.5.1
   
   # For tests
   fake_async: ^1.2.0
@@ -84,6 +85,8 @@ flutter:
     - .env
     - assets/images/utopic_narwhal.png
     - assets/images/keyboard_control_available.svg
+    - assets/images/app_icon_light.svg
+    - assets/images/app_icon_dark.svg
     - assets/images/music_notes_and_staffs/
     - assets/animations/confetti-landscape.json
     - assets/animations/confetti-portrait.json

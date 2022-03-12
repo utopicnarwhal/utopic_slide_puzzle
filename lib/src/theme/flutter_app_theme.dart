@@ -20,7 +20,7 @@ const kDefaultScrollPhysics = BouncingScrollPhysics(
   parent: AlwaysScrollableScrollPhysics(),
 );
 
-/// Flutter app theme 
+/// Flutter app theme
 class UtopicTheme {
   /// Returns app's theme for passed [brightness]
   static ThemeData getAppTheme(Brightness brightness) {
@@ -38,7 +38,7 @@ class UtopicTheme {
         cardColor: isDark ? UtopicPalette.veryDarkGray : null,
       ),
       applyElevationOverlayColor: isDark,
-      scaffoldBackgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
+      scaffoldBackgroundColor: isDark ? Colors.grey.shade900 : const Color(0xFFF1FDF9),
       cardColor: isDark ? UtopicPalette.veryDarkGray : Colors.white,
       canvasColor: _getCanvasColor(brightness),
       textSelectionTheme: _textSelectionTheme(brightness),
@@ -201,6 +201,7 @@ const _snackBarTheme = SnackBarThemeData(
 );
 
 final _popupMenuTheme = PopupMenuThemeData(
+  elevation: 12,
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(kPopupBorderRadius),
   ),

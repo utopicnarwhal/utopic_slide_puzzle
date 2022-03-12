@@ -25,7 +25,6 @@ class _ProposeToSolveDialog extends StatelessWidget {
               runSpacing: 8,
               children: [
                 UtopicButton(
-                  size: UtopicButtonSize.large,
                   type: UtopicButtonType.text,
                   onPressed: () {
                     Navigator.of(context).pop(false);
@@ -33,7 +32,6 @@ class _ProposeToSolveDialog extends StatelessWidget {
                   text: Dictums.of(context).no,
                 ),
                 UtopicButton(
-                  size: UtopicButtonSize.large,
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },

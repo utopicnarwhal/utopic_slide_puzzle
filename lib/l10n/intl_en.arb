@@ -17,5 +17,13 @@
   "mainMenuAboutTheAppButton": "About the app",
   "mainMenuSoundVolumeSliderLabel": "Sound volume",
   "mainMenuSelectLevelButton": "Select level",
-  "mainMenuDialogTitle": "Paused"
+  "mainMenuDialogTitle": "Paused",
+  "systemDefaultThemeMode": "System default",
+  "lightThemeMode": "Light",
+  "darkThemeMode": "Dark",
+  "themeModeSwitcherTitle": "Appearance",
+  "levelSelectionDialogTitle": "Level selection",
+  "appVersionTitle": "Version",
+  "aboutTheAppDialogTitle": "About the app",
+  "developerNameHeadline": "Developer"
 }

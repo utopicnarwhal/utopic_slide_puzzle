@@ -6,9 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// {@template dynamic_theme_mode}
 /// Manages current app's [ThemeMode] with [SharedPreferences].
-/// 
-/// Usually this widget should be upper then [MaterialApp] in a widget tree so 
-/// the `themeMode` value can be passed into it
+///
+/// Usually this widget should be upper then [MaterialApp] in a widget tree so
+/// the `themeMode` value can be passed into it.
+///
+/// Use [DynamicThemeModeState.setThemeMode] to set new theme mode.
+/// Listen to [DynamicThemeModeState.themeModeController] to get current theme mode and updates
 /// {@endtemplate}
 class DynamicThemeMode extends StatefulWidget {
   /// {@macro dynamic_theme_mode}
@@ -19,7 +22,7 @@ class DynamicThemeMode extends StatefulWidget {
   }) : super(key: key);
 
   /// The child builder widget.
-  /// 
+  ///
   /// It is common to give the root [MaterialApp] to pass the themeMode into it
   final Widget Function(BuildContext context, ThemeMode themeMode) builder;
 

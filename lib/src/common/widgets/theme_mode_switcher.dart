@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/dynamic_theme_mode.dart';
 
 /// {@template theme_mode_switcher}
@@ -7,6 +8,17 @@ import 'package:utopic_slide_puzzle/src/common/widgets/dynamic_theme_mode.dart';
 class ThemeModeSwitcher extends StatelessWidget {
   /// {@macro theme_mode_switcher}
   const ThemeModeSwitcher({Key? key}) : super(key: key);
+
+  String _translateThemeMode(BuildContext context, ThemeMode themeMode) {
+    switch (themeMode) {
+      case ThemeMode.system:
+        return Dictums.of(context).systemDefaultThemeMode;
+      case ThemeMode.light:
+        return Dictums.of(context).lightThemeMode;
+      case ThemeMode.dark:
+        return Dictums.of(context).darkThemeMode;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,33 +31,29 @@ class ThemeModeSwitcher extends StatelessWidget {
           return Container();
         }
 
-        IconData icon;
-        switch (themeMode) {
-          case ThemeMode.system:
-            icon = Icons.brightness_auto;
-            break;
-          case ThemeMode.light:
-            icon = Icons.brightness_high;
-            break;
-          case ThemeMode.dark:
-            icon = Icons.brightness_low;
-            break;
-        }
-        return IconButton(
-          icon: Icon(icon),
-          onPressed: () {
-            switch (themeMode) {
-              case ThemeMode.system:
-                DynamicThemeMode.of(context)?.setThemeMode(ThemeMode.light);
-                break;
-              case ThemeMode.light:
-                DynamicThemeMode.of(context)?.setThemeMode(ThemeMode.dark);
-                break;
-              case ThemeMode.dark:
-                DynamicThemeMode.of(context)?.setThemeMode(ThemeMode.system);
-                break;
-            }
-          },
+        return TooltipVisibility(
+          visible: false,
+          child: PopupMenuButton<ThemeMode>(
+            initialValue: themeMode,
+            itemBuilder: (context) => [
+              for (var themeModeValue in ThemeMode.values)
+                PopupMenuItem<ThemeMode>(
+                  value: themeModeValue,
+                  child: ListTile(
+                    title: Text(_translateThemeMode(context, themeModeValue)),
+                  ),
+                ),
+            ],
+            onSelected: (newThemeMode) {
+              DynamicThemeMode.of(context)?.setThemeMode(newThemeMode);
+            },
+            child: ListTile(
+              iconColor: Theme.of(context).iconTheme.color,
+              leading: const Icon(Icons.color_lens_rounded),
+              title: Text(Dictums.of(context).themeModeSwitcherTitle),
+              subtitle: Text(_translateThemeMode(context, themeMode)),
+            ),
+          ),
         );
       },
     );

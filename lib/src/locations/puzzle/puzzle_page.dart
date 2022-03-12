@@ -11,8 +11,10 @@ import 'package:lottie/lottie.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
+import 'package:utopic_slide_puzzle/src/common/widgets/abount_the_app_dialog.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/global_keyboard_listener.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
+import 'package:utopic_slide_puzzle/src/common/widgets/theme_mode_switcher.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_page_bloc.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/puzzle_board.dart';
@@ -20,9 +22,10 @@ import 'package:utopic_slide_puzzle/src/services/audio_service.dart';
 import 'package:utopic_slide_puzzle/src/services/local_storage.dart';
 import 'package:utopic_slide_puzzle/src/theme/flutter_app_theme.dart';
 
+part 'widgets/dialogs/main_menu_dialog.dart';
+part 'widgets/dialogs/select_level_dialog.dart';
 part 'widgets/fullscreen_confetti.dart';
 part 'widgets/level_hints_area/level_hints_area.dart';
-part 'widgets/main_menu_dialog.dart';
 part 'widgets/puzzle_actions_section/puzzle_actions_sections.dart';
 part 'widgets/puzzle_actions_section/widgets/shuffle_button.dart';
 part 'widgets/puzzle_actions_section/widgets/to_the_next_level_button.dart';
@@ -104,12 +107,16 @@ class _PuzzlePageState extends State<PuzzlePage> with SingleTickerProviderStateM
     }
     _puzzlePageBloc.pause();
     _mainMenuDialogCompleter = Completer<dynamic>();
-    await showDialog<dynamic>(
+    final result = await showDialog<PuzzleLevels>(
       context: context,
       builder: (context) => const _MainMenuDialog(),
     );
     _puzzlePageBloc.resume();
     _mainMenuDialogCompleter?.complete();
+
+    if (result != null) {
+      _puzzlePageBloc.changeLevelTo(result);
+    }
   }
 
   @override
