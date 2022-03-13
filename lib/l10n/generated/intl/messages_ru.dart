@@ -54,6 +54,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "nextLevelButtonLabel":
             MessageLookupByLibrary.simpleMessage("Следующий уровень"),
         "no": MessageLookupByLibrary.simpleMessage("Нет"),
+        "onlyPngAndJpgFormatsSupported": MessageLookupByLibrary.simpleMessage(
+            "Только .png и .jpg форматы файлов поддерживаются"),
         "pageNotFound":
             MessageLookupByLibrary.simpleMessage("Страница не найдена"),
         "proposeToSolveDialogBody": MessageLookupByLibrary.simpleMessage(

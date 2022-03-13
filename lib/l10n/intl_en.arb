@@ -33,5 +33,6 @@
   "thanksForPlayingMessagePart2": "If you would like to try to solve some level again — you can select it in the main menu.",
   "menuButtonLabel": "Menu",
   "levelNumberIndicator": "Level {levelNumber}",
-  "uploadCustomImageButtonLabel": "Upload custom image"
+  "uploadCustomImageButtonLabel": "Upload custom image",
+  "onlyPngAndJpgFormatsSupported": "Only .png and .jpg formats supported"
 }

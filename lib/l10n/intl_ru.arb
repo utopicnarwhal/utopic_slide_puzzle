@@ -33,5 +33,6 @@
   "thanksForPlayingMessagePart2": "Если тебе захочется перепройти какой-то из уровней, то ты можешь выбрать его в главном меню.",
   "menuButtonLabel": "Меню",
   "levelNumberIndicator": "Уровень {levelNumber}",
-  "uploadCustomImageButtonLabel": "Загрузить своё изображение"
+  "uploadCustomImageButtonLabel": "Загрузить своё изображение",
+  "onlyPngAndJpgFormatsSupported": "Только .png и .jpg форматы файлов поддерживаются"
 }

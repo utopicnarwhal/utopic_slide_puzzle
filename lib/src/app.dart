@@ -3,9 +3,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/dynamic_theme_mode.dart';
@@ -42,8 +40,7 @@ class _UtopicSlidePuzzleAppState extends State<UtopicSlidePuzzleApp> {
   @override
   Widget build(BuildContext context) {
     return DevicePreview(
-      // ignore: avoid_redundant_argument_values
-      enabled: kDebugMode,
+      enabled: false,
       availableLocales: Dictums.delegate.supportedLocales,
       builder: (context) => DynamicThemeMode(
         builder: (context, themeMode) {
@@ -74,11 +71,6 @@ class _UtopicSlidePuzzleAppState extends State<UtopicSlidePuzzleApp> {
               androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
               scrollbars: false,
             ),
-            builder: (context, child) {
-              SystemChrome.setSystemUIOverlayStyle(UtopicTheme.getSystemUiOverlayStyle(context));
-
-              return child ?? const SizedBox();
-            },
           );
         },
       ),

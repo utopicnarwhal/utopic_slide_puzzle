@@ -57,6 +57,7 @@ class _StopwatchAndNumberOfMovesAndTilesLeft extends StatelessWidget {
                       return Text(
                         '${elapsed.inMinutes.toString().padLeft(2, '0')}:${elapsed.inSeconds.remainder(60).toString().padLeft(2, '0')}',
                         style: Theme.of(context).textTheme.headline4,
+                        textScaleFactor: 1,
                       );
                     },
                   ),

@@ -17,10 +17,9 @@ class _ToTheNextLevelButton extends StatelessWidget {
         if (puzzleBlocState.puzzleStatus != PuzzleStatus.complete) {
           return const SizedBox();
         }
-        return FloatingActionButton.extended(
-          label: Text(Dictums.of(context).nextLevelButtonLabel),
-          backgroundColor: Theme.of(context).primaryColor,
-          icon: const Icon(Icons.arrow_forward_rounded),
+        return UtopicButton(
+          text: Dictums.of(context).nextLevelButtonLabel,
+          leading: const Icon(Icons.arrow_forward_rounded),
           onPressed: () {
             if (puzzlePageBlocState.level.index == PuzzleLevels.values.last.index) {
               return;

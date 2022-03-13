@@ -399,6 +399,16 @@ class Dictums {
       args: [],
     );
   }
+
+  /// `Only .png and .jpg formats supported`
+  String get onlyPngAndJpgFormatsSupported {
+    return Intl.message(
+      'Only .png and .jpg formats supported',
+      name: 'onlyPngAndJpgFormatsSupported',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Dictums> {

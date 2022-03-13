@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:beamer/beamer.dart';
 import 'package:file_picker/file_picker.dart';
@@ -12,8 +14,8 @@ import 'package:rxdart/subjects.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
 import 'package:utopic_slide_puzzle/src/common/layout/responsive_layout.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/abount_the_app_dialog.dart';
+import 'package:utopic_slide_puzzle/src/common/widgets/buttons.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/global_keyboard_listener.dart';
-import 'package:utopic_slide_puzzle/src/common/widgets/indicators.dart';
 import 'package:utopic_slide_puzzle/src/common/widgets/theme_mode_switcher.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/bloc/puzzle_page_bloc.dart';
 import 'package:utopic_slide_puzzle/src/locations/puzzle/widgets/puzzle_board/bloc/puzzle_bloc.dart';
@@ -185,109 +187,112 @@ class _PuzzlePageState extends State<PuzzlePage> with SingleTickerProviderStateM
         },
         child: Stack(
           children: [
-            Scaffold(
-              body: BlocProvider.value(
-                value: _puzzlePageBloc,
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        SingleChildScrollView(
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              minHeight: constraints.maxHeight,
-                            ),
-                            child: SafeArea(
-                              child: ResponsiveLayoutBuilder(
-                                medium: (_, __) => Column(
-                                  children: [
-                                    const _StartSection(),
-                                    CenterSection(
-                                      levelScrollPageController: _levelScrollPageController,
-                                      levelScrollGlobalKey: _levelScrollGlobalKey,
-                                    ),
-                                    const _EndSection(),
-                                  ],
-                                ),
-                                extraLarge: (_, __) => Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Expanded(child: _StartSection()),
-                                    Flexible(
-                                      flex: 2,
-                                      child: CenterSection(
+            AnnotatedRegion(
+              value: UtopicTheme.getSystemUiOverlayStyle(context),
+              child: Scaffold(
+                body: BlocProvider.value(
+                  value: _puzzlePageBloc,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          SingleChildScrollView(
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minHeight: constraints.maxHeight,
+                              ),
+                              child: SafeArea(
+                                child: ResponsiveLayoutBuilder(
+                                  medium: (_, __) => Column(
+                                    children: [
+                                      const _StartSection(),
+                                      CenterSection(
                                         levelScrollPageController: _levelScrollPageController,
                                         levelScrollGlobalKey: _levelScrollGlobalKey,
                                       ),
-                                    ),
-                                    const Flexible(child: _EndSection()),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        ResponsiveLayoutBuilder(
-                          extraLarge: (context, child) => child!,
-                          child: (breakpoint) {
-                            double padding;
-                            double fontSize;
-                            if (breakpoint.index >= Breakpoint.md.index) {
-                              fontSize = 36;
-                              padding = 22;
-                            } else if (breakpoint.index >= Breakpoint.sm.index) {
-                              fontSize = 28;
-                              padding = 18;
-                            } else {
-                              fontSize = 18;
-                              padding = 14;
-                            }
-                            return Transform.translate(
-                              offset: const Offset(2, 2),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Theme.of(context).primaryColor,
-                                  elevation: 4,
-                                  padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context).viewPadding.bottom,
-                                    right: MediaQuery.of(context).viewPadding.right,
+                                      const _EndSection(),
+                                    ],
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 2,
-                                      color: Theme.of(context).textTheme.bodyText1?.color ?? Colors.transparent,
-                                    ),
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(16),
-                                    ),
-                                  ),
-                                ),
-                                onPressed: _openMenu,
-                                child: Padding(
-                                  padding: EdgeInsets.all(padding),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
+                                  extraLarge: (_, __) => Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Icon(
-                                        Icons.menu,
-                                        size: fontSize + 2,
+                                      const Expanded(child: _StartSection()),
+                                      Flexible(
+                                        flex: 2,
+                                        child: CenterSection(
+                                          levelScrollPageController: _levelScrollPageController,
+                                          levelScrollGlobalKey: _levelScrollGlobalKey,
+                                        ),
                                       ),
-                                      Gap(padding),
-                                      Text(
-                                        Dictums.of(context).menuButtonLabel,
-                                        style: TextStyle(fontSize: fontSize),
-                                      ),
+                                      const Flexible(child: _EndSection()),
                                     ],
                                   ),
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                      ],
-                    );
-                  },
+                            ),
+                          ),
+                          ResponsiveLayoutBuilder(
+                            extraLarge: (context, child) => child!,
+                            child: (breakpoint) {
+                              double padding;
+                              double fontSize;
+                              if (breakpoint.index >= Breakpoint.md.index) {
+                                fontSize = 36;
+                                padding = 22;
+                              } else if (breakpoint.index >= Breakpoint.sm.index) {
+                                fontSize = 28;
+                                padding = 18;
+                              } else {
+                                fontSize = 18;
+                                padding = 14;
+                              }
+                              return Transform.translate(
+                                offset: const Offset(2, 2),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Theme.of(context).primaryColor,
+                                    elevation: 4,
+                                    padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context).viewPadding.bottom,
+                                      right: MediaQuery.of(context).viewPadding.right,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        width: 2,
+                                        color: Theme.of(context).textTheme.bodyText1?.color ?? Colors.transparent,
+                                      ),
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(16),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: _openMenu,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(padding),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.menu,
+                                          size: fontSize + 2,
+                                        ),
+                                        Gap(padding),
+                                        Text(
+                                          Dictums.of(context).menuButtonLabel,
+                                          style: TextStyle(fontSize: fontSize),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

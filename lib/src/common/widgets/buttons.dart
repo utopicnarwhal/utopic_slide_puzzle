@@ -305,11 +305,10 @@ class UtopicButton extends StatelessWidget {
         );
 
         if (buttonLeading != null) {
-          return ElevatedButton.icon(
-            icon: buttonLeading,
+          return ElevatedButton(
             style: buttonStyle,
             onPressed: buttonOnPressed,
-            label: buttonChild,
+            child: buttonChild,
           );
         }
         return ElevatedButton(
@@ -336,11 +335,10 @@ class UtopicButton extends StatelessWidget {
         );
 
         if (buttonLeading != null) {
-          return OutlinedButton.icon(
-            icon: buttonLeading,
+          return OutlinedButton(
             style: buttonStyle,
             onPressed: buttonOnPressed,
-            label: buttonChild,
+            child: buttonChild,
           );
         }
         return OutlinedButton(
@@ -358,11 +356,10 @@ class UtopicButton extends StatelessWidget {
         );
 
         if (buttonLeading != null) {
-          return TextButton.icon(
-            icon: buttonLeading,
-            label: buttonChild,
+          return TextButton(
             style: buttonStyle,
             onPressed: buttonOnPressed,
+            child: buttonChild,
           );
         }
         return TextButton(

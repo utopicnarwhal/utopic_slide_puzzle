@@ -38,7 +38,7 @@ class UtopicTheme {
         cardColor: isDark ? UtopicPalette.veryDarkGray : null,
       ),
       applyElevationOverlayColor: isDark,
-      scaffoldBackgroundColor: isDark ? Colors.grey.shade900 : const Color(0xFFF1FDF9),
+      scaffoldBackgroundColor: isDark ? Colors.grey.shade900 : const Color(0xFFFFFBFE),
       cardColor: isDark ? UtopicPalette.veryDarkGray : Colors.white,
       canvasColor: _getCanvasColor(brightness),
       textSelectionTheme: _textSelectionTheme(brightness),
@@ -75,21 +75,16 @@ class UtopicTheme {
   static SystemUiOverlayStyle getSystemUiOverlayStyle(BuildContext context) {
     if (Theme.of(context).brightness == Brightness.dark) {
       return SystemUiOverlayStyle(
+        systemNavigationBarIconBrightness: Brightness.light,
         systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
         systemNavigationBarDividerColor: Theme.of(context).dividerColor,
-        statusBarColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
       );
     }
     return SystemUiOverlayStyle(
-      systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-      systemNavigationBarDividerColor: Theme.of(context).dividerColor,
-      statusBarColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarDividerColor: Theme.of(context).dividerColor,
       statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
     );
   }
 }
@@ -128,7 +123,6 @@ AppBarTheme _appBarTheme(bool isDark) {
     color: isDark ? Colors.grey.shade900 : Colors.white,
     elevation: 0,
     foregroundColor: isDark ? null : Colors.black87,
-    systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
   );
 }
 

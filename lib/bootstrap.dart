@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:beamer/beamer.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:utopic_slide_puzzle/src/services/audio_service.dart';
 
@@ -30,6 +31,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   if (kIsWeb) {
     Beamer.setPathUrlStrategy();
   }
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
