@@ -1,8 +1,7 @@
-
-
 import 'package:beamer/beamer.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:utopic_slide_puzzle/l10n/generated/l10n.dart';
@@ -40,7 +39,8 @@ class _UtopicSlidePuzzleAppState extends State<UtopicSlidePuzzleApp> {
   @override
   Widget build(BuildContext context) {
     return DevicePreview(
-      enabled: false,
+      // ignore: avoid_redundant_argument_values
+      enabled: kDebugMode,
       availableLocales: Dictums.delegate.supportedLocales,
       builder: (context) => DynamicThemeMode(
         builder: (context, themeMode) {

@@ -1,6 +1,6 @@
 name: utopic_slide_puzzle
 description: A Flutter app which's created for Flutter Puzzle Hack https://flutterhack.devpost.com/
-version: 0.1.0+1
+version: 1.0.0+1
 publish_to: none
 
 environment:
@@ -21,7 +21,6 @@ dependencies:
 
   # Get package and secrets info
   package_info_plus: ^1.4.0
-  flutter_dotenv: ^5.0.2
 
   # Types annotations
   equatable: ^2.0.3
@@ -53,9 +52,6 @@ dependencies:
   # Native intents
   file_picker: ^4.5.1
   url_launcher: ^6.0.20
-  
-  # For tests
-  fake_async: ^1.2.0
 
 dev_dependencies:
   flutter_test:
@@ -83,7 +79,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - .env
     - assets/images/utopic_narwhal.png
     - assets/images/keyboard_control_available.svg
     - assets/images/app_icon_light.svg

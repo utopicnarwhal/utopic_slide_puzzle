@@ -17,21 +17,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2.2.1
-      - name: Add .env file
-        uses: SpicyPizza/create-envfile@v1.2
-        with:
-          envkey_TEST: ""
-      - name: Import google-services.json from GitHub secrets
-        run: echo ${{ secrets.FIREBASE_ANDROID_BASE64 }} | base64 --decode > "android/app/google-services.json"
+      # - name: Add .env file
+      #   uses: SpicyPizza/create-envfile@v1.2
+      #   with:
+      #     envkey_TEST: ""
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Analyze project source
         run: flutter analyze .
-
-      - name: Run tests
-        run: flutter test
 
   build_web:
     name: Build Flutter (Web)
@@ -40,10 +35,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2.2.1
-      - name: Add .env file
-        uses: SpicyPizza/create-envfile@v1.2
-        with:
-          envkey_TEST: ""
+
+      - name: Import google-services.json from GitHub secrets
+        run: echo ${{ secrets.FIREBASE_ANDROID_BASE64 }} | base64 --decode > "android/app/google-services.json"
 
       - name: Install dependencies
         run: flutter pub get

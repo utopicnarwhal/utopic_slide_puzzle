@@ -23,8 +23,7 @@ A slide puzzle built for [Flutter Challenge](https://flutterhack.devpost.com/).
 
 1. Install [Flutter](https://docs.flutter.dev/get-started/install)
 2. [Set up an editor (VSCode)](https://docs.flutter.dev/get-started/editor?tab=vscode)
-3. Create `.env` file in the root of the project and copy secrets into it
-4. Launch from VSCode `Launch` option from `.vscode/launch.json` by pressing `F5` or from your command line by `flutter run -d chrome`
+3. Launch from VSCode `Launch` option from `.vscode/launch.json` by pressing `F5` or from your command line by `flutter run -d chrome`
 
 ---
 
