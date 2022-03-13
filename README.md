@@ -12,11 +12,6 @@ A slide puzzle built for [Flutter Challenge](https://flutterhack.devpost.com/).
     </td>
 </table>
 
-## Features ✨
-* Six levels of the puzzle
-
----
-
 ## Getting Started 🚀
 
 ## How to run the app locally
